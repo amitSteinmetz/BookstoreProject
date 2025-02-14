@@ -1,0 +1,17 @@
+.search-box {
+    width: 300px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 0.5rem;
+    margin-right: 2.5rem;
+
+    .search-box-input {
+        width: 93%;
+        border: none;
+    }
+
+    i {
+        color: black;
+    }
+}
+
