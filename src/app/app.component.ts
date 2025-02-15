@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./components/header/header.component";
 import { UserEntranceComponent } from "./pages/user-entrance/user-entrance.component";
 import { CommonModule } from '@angular/common';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,12 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'bookstore-project';
   userEntranceIconClicked: boolean = false;
-
+  
   onUserEntranceIconClicked() {
-    this.userEntranceIconClicked = !this.userEntranceIconClicked;
+    this.userEntranceIconClicked = true;
+  }
+
+  onCloseIconClicked() {
+    this.userEntranceIconClicked = false;
   }
 }

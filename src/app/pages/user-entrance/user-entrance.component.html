@@ -1,14 +1,16 @@
 <div class="modal-container">
-    <h3>User Entrance</h3>
-    <form>
-        <div class="form-text-input">
-            <label for="username">Username: </label>
-            <input type="text">
+    <div class="modal-content">
+        <i (click)="onCloseIconClicked()" class="fa-solid fa-xmark"></i>
+        <h3 class="headline">User Entrance</h3>
+
+        <div class="entrance-options">
+            <div (click)="onLoginClicked()" class="sub-headline" [ngClass]="{ 'active-entrance-border' : isLoginEntrance}">login</div>
+            <div class="seperator">|</div>
+            <div (click)="onSignupClicked()" class="sub-headline" [ngClass]="{ 'active-entrance-border' : !isLoginEntrance}">sign-up</div>
         </div>
 
-        <div class="form-text-input">
-            <label for="password">Password: </label>
-            <input type="text">
-        </div>
-    </form>
+        <app-login *ngIf="isLoginEntrance"></app-login>
+
+        <app-sign-up *ngIf="!isLoginEntrance"></app-sign-up>
+    </div>
 </div>

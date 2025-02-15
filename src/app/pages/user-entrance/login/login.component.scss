@@ -1,0 +1,45 @@
+:host {
+    width: 100%;
+}
+
+form {
+    width: 85%;
+    margin: 1.2rem auto;
+
+    .form-text-input {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto 1.2rem;
+
+        label {
+            margin-bottom: 0.5rem;
+        }
+
+        input {
+            background-color: rgb(241, 222, 222);
+            border: 1px solid #493638;
+            border-radius: 10px;
+            padding: 0.35rem 0.7rem;
+            outline: none;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    button {
+        display: block;
+        width: 50%;
+        margin: 2rem auto;
+        padding: 0.5rem;
+        border-radius: 15px;
+        border: none;
+        background-color: #493638;
+        color: rgb(241, 222, 222);
+        font-size: 1.2rem;
+    }
+
+    button:hover {
+        cursor: pointer;
+        background-color: #5f5354;
+    }
+}

@@ -1,3 +1,3 @@
 <app-header (user_icon_clicked)="onUserEntranceIconClicked()"></app-header>
-<app-user-entrance *ngIf="userEntranceIconClicked"></app-user-entrance>
+<app-user-entrance (close_user_entrance)="onCloseIconClicked()" *ngIf="userEntranceIconClicked"></app-user-entrance>
 <router-outlet></router-outlet>
