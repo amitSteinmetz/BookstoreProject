@@ -1,5 +1,4 @@
 .header-container {
-    width: 100vw;
     height: 9rem;
     background-color: #004d40;
     font-family: "Assistant", serif;
@@ -19,6 +18,10 @@
     img {
         width: 180px;
         height: 180px;
+    }
+
+    a {
+        color: white;
     }
 
     i {
@@ -47,13 +50,6 @@
         color: white;
         text-decoration: none;
     }
-
-    // .category::before {
-    //     content: "|";
-    //     margin: 0 3.5vw;
-    //     transform: none;
-    //     font-weight: 700;
-    // }
 
     a:hover {
         font-weight: 700;

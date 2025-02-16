@@ -1,25 +1,42 @@
-<form>
+<form [formGroup]="signupForm">
     <div class="form-text-inputs">
         <div class="form-text-input">
             <label for="username">Username: </label>
-            <input type="text">
+            <input type="text" formControlName="username"
+                [ngClass]="{'error-border' : signupForm.get('username').invalid && signupForm.get('username').touched}">
+            <div *ngIf="signupForm.get('username').invalid && signupForm.get('username').touched" class="error-message">
+                You must enter username
+            </div>
         </div>
 
         <div class="form-text-input">
             <label for="password">Password: </label>
-            <input type="text">
+            <input type="password" formControlName="password"
+            [ngClass]="{'error-border' : signupForm.get('password').invalid && signupForm.get('password').touched}">
+            <div *ngIf="signupForm.get('password').invalid && signupForm.get('password').touched" class="error-message">
+                You must enter password
+            </div>
         </div>
 
         <div class="form-text-input">
-            <label for="username">Email: </label>
-            <input type="text">
+            <label for="email">Email: </label>
+            <input type="text" formControlName="email"
+            [ngClass]="{'error-border' : signupForm.get('email').invalid && signupForm.get('email').touched}">
+            <div *ngIf="signupForm.get('email').invalid && signupForm.get('email').touched" class="error-message">
+                You must enter email
+            </div>
         </div>
 
         <div class="form-text-input">
             <label for="repeat-password">Repeat Password: </label>
-            <input type="text">
+            <input type="password" formControlName="repeatPassword"
+            [ngClass]="{'error-border' : signupForm.get('repeatPassword').invalid && signupForm.get('repeatPassword').touched}">
+            <div *ngIf="signupForm.get('repeatPassword').invalid && signupForm.get('repeatPassword').touched"
+                class="error-message">
+                You must enter password again
+            </div>
         </div>
     </div>
 
-    <button type="submit">login</button>
+    <button [disabled]="signupForm.invalid" type="submit">register</button>
 </form>

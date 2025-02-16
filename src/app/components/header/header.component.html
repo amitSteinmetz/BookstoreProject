@@ -1,15 +1,16 @@
 <div class="header-container">
     <div class="main-bar">
         <img src="../../../assets/logo.png" alt="" class="logo">
-    
+
         <app-search-box></app-search-box>
-    
+
         <div class="icons">
-            <i (click)="onUserIconClicked()" class="fa-regular fa-user"></i>
-            <i class="fa-solid fa-cart-shopping"></i>
+            <i (click)="onUserIconClicked()" class="fa-regular fa-user">
+            </i>
+            <a routerLink="/shopping-cart"><i class="fa-solid fa-cart-shopping"></i></a>
         </div>
     </div>
-    
+
     <div class="books-categories">
         <a href="">Drama</a>
         <a class="category" href="">Action</a>

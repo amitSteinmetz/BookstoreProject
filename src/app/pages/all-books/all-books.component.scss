@@ -1,0 +1,121 @@
+:host {
+    min-height: calc(100vh - 9rem);
+    font-family: "Assistant", serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f3e6ce;
+}
+
+.books-container {
+    min-height: 700px;
+    padding: 2.5rem;
+    width: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 3rem;
+
+    .book {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+
+        .book-image {
+            width: 200px;
+            height: 315px;
+            margin-bottom: 0.4rem;
+        }
+
+        div {
+            margin-top: 0.2rem;
+        }
+
+        .book-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .book-icons {
+            width: 70%;
+            position: absolute;
+            bottom: 6rem;
+            display: flex;
+            justify-content: space-evenly;
+            animation: show 0.3s;
+
+            .icon .icon-info {
+                display: none;
+            }
+
+            i {
+                padding: 0.5rem;
+                border-radius: 50%;
+                font-size: 1.2rem;
+                cursor: pointer;
+            }
+
+            i:hover {
+                color: black;
+            }
+
+            .icon:hover .icon-info {
+                display: block;
+            }
+
+            .fa-shopping-cart {
+                color: white;
+                background-color: #004d40;
+            }
+
+            .fa-heart {
+                color: #004d40;
+                background-color: white;
+            }
+
+            .icon-info {
+                position: absolute;
+                top: 40px;
+                text-wrap: nowrap;
+                padding: 0.3rem;
+                background-color: beige;
+                border-radius: 5px;
+                box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+            }
+        }
+    }
+}
+
+.pagination {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+
+    .current-page-border {
+        border-bottom: 1px solid purple;
+        color: purple;
+    }
+
+    .pages-numbers {
+        display: inline-block;
+        padding: 0 0.3rem;
+        cursor: pointer;
+    }
+
+    .last-page-number {
+        padding: 0 0.3rem;
+        cursor: pointer;
+    }
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

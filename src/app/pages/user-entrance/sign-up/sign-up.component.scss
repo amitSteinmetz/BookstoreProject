@@ -10,13 +10,15 @@ form {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-        height: 150px;
+        height: 180px;
     }
 
     .form-text-input {
+        position: relative;
         width: 45%;
         display: flex;
         flex-direction: column;
+        
 
         label {
             margin-bottom: 0.5rem;
@@ -35,7 +37,7 @@ form {
     button {
         display: block;
         width: 50%;
-        margin: 1.2rem auto 0;
+        margin: 1.5rem auto 0;
         padding: 0.5rem;
         border-radius: 15px;
         border: none;
@@ -48,4 +50,15 @@ form {
         cursor: pointer;
         background-color: #5f5354;
     }
+}
+
+.error-message {
+    position: absolute;
+    bottom: 7px;
+    color: rgb(131, 15, 15);
+    font-weight: 600;
+}
+
+form .form-text-inputs .form-text-input .error-border {
+    border: 2px solid rgb(131, 15, 15);
 }

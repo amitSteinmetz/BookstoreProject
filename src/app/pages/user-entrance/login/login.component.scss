@@ -8,9 +8,10 @@ form {
 
     .form-text-input {
         width: 70%;
+        height: 5rem;
         display: flex;
         flex-direction: column;
-        margin: 0 auto 1.2rem;
+        margin: 0 auto 1rem;
 
         label {
             margin-bottom: 0.5rem;
@@ -29,7 +30,7 @@ form {
     button {
         display: block;
         width: 50%;
-        margin: 2rem auto;
+        margin: 1.5rem auto;
         padding: 0.5rem;
         border-radius: 15px;
         border: none;
@@ -42,4 +43,14 @@ form {
         cursor: pointer;
         background-color: #5f5354;
     }
+}
+
+.error-message {
+    margin-top: 0.2rem;
+    color: rgb(131, 15, 15);
+    font-weight: 600;
+}
+
+form .form-text-input .error-border {
+    border: 2px solid rgb(131, 15, 15);
 }

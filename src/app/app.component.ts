@@ -4,6 +4,7 @@ import { HeaderComponent } from "./components/header/header.component";
 import { UserEntranceComponent } from "./pages/user-entrance/user-entrance.component";
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
+import { ShoppingCartComponent } from "./pages/shopping-cart/shopping-cart.component";
 
 @Component({
   selector: 'app-root',
