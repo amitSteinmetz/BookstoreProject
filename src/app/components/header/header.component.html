@@ -7,7 +7,8 @@
         <div class="icons">
             <i (click)="onUserIconClicked()" class="fa-regular fa-user">
             </i>
-            <a routerLink="/shopping-cart"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a routerLink="/shopping-cart" *ngIf="router.url !== '/shopping-cart'"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a routerLink="" *ngIf="router.url !== '/all-books'"><i class="fa-solid fa-home"></i></a>
         </div>
     </div>
 

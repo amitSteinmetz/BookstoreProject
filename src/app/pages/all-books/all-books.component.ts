@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Book } from '../../models/book.model';
 import { Subscription } from 'rxjs';
 import { BooksService } from '../../services/books-service/books.service';
+import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
 
 @Component({
   selector: 'app-all-books',
@@ -19,7 +20,7 @@ export class AllBooksComponent implements OnInit {
   relevantPagesNumbers: number[] = [1];
   currentPageNumber: number = 1;
 
-  constructor(private booksService: BooksService) { }
+  constructor(private booksService: BooksService, private shoppingCartService: ShoppingCartService) { }
 
   ngOnInit(): void {
     this.booksSub = this.booksService.booksData.subscribe((books) => {
@@ -60,5 +61,9 @@ export class AllBooksComponent implements OnInit {
       if (i >= 1 && i < this.pagesAmount)
         this.relevantPagesNumbers.push(i)
     }
+  }
+
+  onAddToCartIconClicked(book) {
+    this.shoppingCartService.addBookToCart(book);
   }
 }

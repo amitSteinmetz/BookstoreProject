@@ -1,0 +1,33 @@
+:host {
+    display: block;
+    min-height: calc(100vh - 9rem);
+    font-family: "Assistant", serif;
+    background-color: #f3e6ce;
+    padding: 1rem;
+}
+
+.headline {
+    text-align: center;
+    color: #004d40;
+    font-size: 2.5rem;
+}
+
+.cart-container {
+    display: flex;
+    flex-direction: column;
+
+    .book {
+        margin: 2rem;
+        display: flex;
+        justify-content: flex-end;
+
+        img {
+            width: 130px;
+        }
+
+        .book-details {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

@@ -5,7 +5,8 @@ import { AllBooksComponent } from './pages/all-books/all-books.component';
 import { ShoppingCartComponent } from './pages/shopping-cart/shopping-cart.component';
 
 export const routes: Routes = [
-    {path: "", component: AllBooksComponent},
+    { path: "", redirectTo: "all-books", pathMatch: "full" },
+    { path: "all-books", component: AllBooksComponent },
     { path: "user-entrance", component: UserEntranceComponent },
-    {path: "shopping-cart", component: ShoppingCartComponent}
+    { path: "shopping-cart", component: ShoppingCartComponent }
 ];

@@ -1,1 +1,13 @@
-<p>shopping-cart works!</p>
+<h1 class="headline">Shopping cart</h1>
+
+<div class="cart-container">
+    <div class="book" *ngFor="let book of booksInCart">
+        <div class="book-details">
+            <div class="book-name">{{book.name}}</div>
+            <div class="book-author">{{book.author}}</div>
+            <div class="book-price">₪ {{book.price}}</div>
+        </div>
+
+        <img src="{{book.image}}" alt="">
+    </div>
+</div>

@@ -8,7 +8,7 @@
 
         <div *ngIf="showBookIcons[i]" class="book-icons">
             <div class="icon">
-                <i class="fa-solid fa-shopping-cart"></i>
+                <i (click)="onAddToCartIconClicked(book)" class="fa-solid fa-shopping-cart"></i>
                 <span class="icon-info">Add to cart</span>
             </div>
             <div class="icon">
