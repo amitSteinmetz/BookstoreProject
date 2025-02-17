@@ -4,6 +4,7 @@ import { Book } from '../../models/book.model';
 import { Subscription } from 'rxjs';
 import { BooksService } from '../../services/books-service/books.service';
 import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-books',
@@ -21,7 +22,7 @@ export class AllBooksComponent implements OnInit {
   currentPageNumber: number = 1;
   clickedBookExistInCart: boolean[] = [];
 
-  constructor(private booksService: BooksService, private shoppingCartService: ShoppingCartService) { }
+  constructor(private _router: Router, private booksService: BooksService, private shoppingCartService: ShoppingCartService) { }
 
   ngOnInit(): void {
     this.booksSub = this.booksService.booksData.subscribe((books) => {
@@ -74,5 +75,9 @@ export class AllBooksComponent implements OnInit {
 
     else 
       this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true;
+  }
+
+  get router() {
+    return this._router;
   }
 }
