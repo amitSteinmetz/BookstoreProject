@@ -19,6 +19,7 @@ export class AllBooksComponent implements OnInit {
   pagesAmount: number;
   relevantPagesNumbers: number[] = [1];
   currentPageNumber: number = 1;
+  clickedBookExistInCart: boolean[] = [];
 
   constructor(private booksService: BooksService, private shoppingCartService: ShoppingCartService) { }
 
@@ -29,10 +30,13 @@ export class AllBooksComponent implements OnInit {
     })
 
     this.currentPageBooks = this.allBooks.slice(12 * (this.currentPageNumber - 1), 12 * this.currentPageNumber);
-    
+
     if (this.pagesAmount >= 3) {
       this.relevantPagesNumbers.push(2);
     }
+
+    for (let i = 0; i < this.allBooks.length; i++)
+      this.clickedBookExistInCart.push(false);
   }
 
   onMouseEnterBook(index) {
@@ -41,6 +45,7 @@ export class AllBooksComponent implements OnInit {
 
   onMouseLeaveBook(index) {
     this.showBookIcons[index] = false;
+    this.clickedBookExistInCart[index] = false;
   }
 
   showPageNumber(pageNumber) {
@@ -64,6 +69,10 @@ export class AllBooksComponent implements OnInit {
   }
 
   onAddToCartIconClicked(book) {
-    this.shoppingCartService.addBookToCart(book);
+    if (!this.shoppingCartService.booksInCart.includes(book))
+      this.shoppingCartService.addBookToCart(book);
+
+    else 
+      this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true;
   }
 }

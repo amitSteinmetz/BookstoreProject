@@ -3,31 +3,223 @@
     min-height: calc(100vh - 9rem);
     font-family: "Assistant", serif;
     background-color: #f3e6ce;
-    padding: 1rem;
+    padding: 1.5rem 0;
 }
 
 .headline {
     text-align: center;
     color: #004d40;
-    font-size: 2.5rem;
+    font-size: 3rem;
 }
 
 .cart-container {
+    position: relative;
     display: flex;
-    flex-direction: column;
+    justify-content: space-evenly;
 
-    .book {
-        margin: 2rem;
+    .empty-cart-message {
+        position: absolute;
+        top: 100px;
+        font-weight: 600;
+        font-size: 2.5rem;
+        direction: rtl;
+        text-align: center;
+        width: 400px;
+    }
+
+    .chosen-books-container {
         display: flex;
-        justify-content: flex-end;
+        flex-direction: column;
 
-        img {
-            width: 130px;
+        .book {
+            height: 160px;
+            position: relative;
+            margin: 3rem 0;
+            display: flex;
+            justify-content: space-between;
+            column-gap: 2rem;
+            padding-left: 4rem;
+            border-radius: 10px;
+            background-color: #f8f0e1;
+            transition: all 0.4s ease-in-out;
+
+            .fa-xmark {
+                position: absolute;
+                top: 8px;
+                left: 10px;
+                cursor: pointer;
+
+                .remove-book-from-cart-modal {
+                    display: none;
+                    background-color: white;
+                    position: absolute;
+                    bottom: 21px;
+                    width: 140px;
+                    border-radius: 5px;
+                    text-align: center;
+                    font-family: "Assistant", serif;
+                    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+                    font-weight: 400;
+                    padding: 0.3rem 0;
+                }
+            }
+
+            .fa-xmark:hover .remove-book-from-cart-modal {
+                display: block;
+            }
+
+            img {
+                width: 100px;
+            }
+
+            .book-details {
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+
+                .book-name {
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                }
+
+                .book-id {
+                    color: rgb(71, 54, 54);
+                    margin-top: 0.5rem;
+                }
+            }
+
+            .book-quantity {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin-right: 2rem;
+
+                .book-quantity-input {
+                    margin-top: 1rem;
+                    width: 8rem;
+                    border: 1px solid rgb(71, 54, 54);
+                    border-radius: 10px;
+                    padding: 0.5rem;
+                    background-color: white;
+                    display: flex;
+                    justify-content: space-between;
+
+                    .control-quantity-button {
+                        cursor: pointer;
+                        font-size: 1.1rem;
+                        border: none;
+                        border-radius: 50%;
+                        background-color: #f3e6ce;
+                    }
+                }
+            }
         }
 
-        .book-details {
-            display: flex;
-            flex-direction: column;
+        .book:hover {
+            transform: scale(1.1);
         }
     }
+
+    .payment-box {
+        position: sticky;
+        top: 30px;
+        width: 400px;
+        height: 350px;
+        margin: 3rem 0;
+        padding: 1rem 0;
+        border-radius: 5px;
+        background-color: #dad2d8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        .payment-details {
+            width: 75%;
+            margin-top: 2.4rem;
+            display: flex;
+            flex-direction: column;
+            text-align: end;
+
+            .cupon {
+                background-color: white;
+                border-radius: 10px;
+                padding: 0.5rem;
+
+                input {
+                    width: 82%;
+                    direction: rtl;
+                    border: none;
+                    outline: none;
+                }
+
+                .apply-cupon {
+                    border: none;
+                    background: transparent;
+                    font-size: 0.9rem;
+                    font-weight: 700;
+                    color: #004d40;
+                    cursor: pointer;
+                }
+
+                .apply-cupon:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            .temp-payment {
+                margin: 3rem 0 2rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                direction: rtl;
+
+                .temp-payment-text {
+                    font-size: 1.1rem;
+                    font-weight: 500;
+                    margin-left: 1.5rem;
+                }
+            }
+
+            .final-payment {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                direction: rtl;
+
+                .final-payment-text,
+                .final-payment-amount {
+                    font-size: 1.3rem;
+                    font-weight: 700;
+                }
+            }
+        }
+
+        .approve-payment {
+            width: 40%;
+            margin-top: 2.3rem;
+            color: white;
+            background-color: #004d40;
+            border: none;
+            border-radius: 15px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .approve-payment:hover {
+            background-color: rgb(35, 109, 94);
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    
 }

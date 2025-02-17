@@ -51,6 +51,22 @@
                 display: none;
             }
 
+            
+            .book-exist-in-cart-modal {
+                background-color: white;
+                position: absolute;
+                bottom: 35px;
+                width: 210px;
+                border-radius: 5px;
+                text-align: center;
+                font-family: "Assistant", serif;
+                box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+                font-weight: 400;
+                padding: 0.3rem 0;
+                font-size: 1rem;
+                z-index: 10;
+            }
+
             i {
                 padding: 0.5rem;
                 border-radius: 50%;

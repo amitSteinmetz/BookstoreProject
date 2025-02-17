@@ -1,13 +1,58 @@
-<h1 class="headline">Shopping cart</h1>
+<h1 class="headline">סל הקניות</h1>
 
 <div class="cart-container">
-    <div class="book" *ngFor="let book of booksInCart">
-        <div class="book-details">
-            <div class="book-name">{{book.name}}</div>
-            <div class="book-author">{{book.author}}</div>
-            <div class="book-price">₪ {{book.price}}</div>
+    <div class="empty-cart-message" *ngIf="!(booksInCart.length > 0)">
+         אופס, עוד לא קנית כלום... הספרים שלנו מחכים לך, אל תפספס!
+    </div>
+
+    <div class="payment-box" *ngIf="booksInCart.length > 0">
+        <h2>קופה</h2>
+
+        <div class="payment-details">
+            <div class="cupon">
+                <button class="apply-cupon">מימוש</button>
+                <input type="text" placeholder="הזן קוד קופון">
+            </div>
+    
+            <div class="temp-payment">
+                <div class="temp-payment-text"> סכום ביניים:</div>
+                <div class="temp-payment-amount">{{totalPayment | number: '1.0-3'}} ₪</div>
+            </div>
+    
+            <div class="final-payment">
+                <div class="final-payment-text">סה"כ לתשלום: </div>
+                <div class="final-payment-amount">{{totalPayment | number: '1.0-3'}} ₪</div>
+            </div>
         </div>
 
-        <img src="{{book.image}}" alt="">
+        <button class="approve-payment" type="submit">מאשר קנייה</button>
+    </div>
+
+    <div class="chosen-books-container">
+        <div class="book" *ngFor="let book of booksInCart, let i = index">
+            <i (click)="onRemoveBookFromCartIconClicked(i)" class="fa-solid fa-xmark">
+                <div class="remove-book-from-cart-modal">Remove from cart</div>
+            </i>
+
+            <div class="book-quantity">
+                <h3>:בחרו כמות רצויה</h3>
+    
+                <div class="book-quantity-input">
+                    <button (click)="onDecreaseQuantityButtonClicked(i)" class="control-quantity-button">-</button>
+                    <div class="quantity">{{bookQuantity[i]}}</div>
+                    <button (click)="onIncreaseQuantityButtonClicked(i)" class="control-quantity-button">+</button>
+                </div>
+            </div>
+    
+            <div class="book-details">
+                <div class="book-name">{{book.name}}</div>
+                <div class="book-author">{{book.author}}</div>
+                <div class="book-price">₪ {{book.price}} <strong>:מחיר</strong>
+                </div>
+                <div class="book-id">{{book.id}} :מק"ט</div>
+            </div>
+    
+            <img src="{{book.image}}" alt="">
+        </div>
     </div>
 </div>
