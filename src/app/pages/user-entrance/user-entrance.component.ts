@@ -13,11 +13,11 @@ export class UserEntranceComponent {
   @Output() close_user_entrance: EventEmitter<void> = new EventEmitter();
   isLoginEntrance: boolean = true;
 
-  onCloseIconClicked() {
+  closeUserEntrance() {
     this.close_user_entrance.emit();
   }
 
-  onLoginClicked() {
+  showLoginModal() {
     this.isLoginEntrance = true;
   }
 

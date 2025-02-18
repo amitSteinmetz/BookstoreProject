@@ -1,0 +1,85 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Assistant", serif;
+    min-height: calc(100vh - 9rem);
+    background-color: #f3e6ce;
+}
+
+.account-container {
+    margin: 2rem;
+    width: 600px;
+    height: 550px;
+    background-color: #43a090;
+    border-radius: 5px;
+    direction: rtl;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .headline {
+        text-align: center;
+        margin: 1.5rem;
+    }
+
+    .user-field {
+        display: flex;
+        width: 70%;
+        justify-content: space-between;
+        align-items: baseline;
+        margin: 2rem 1rem;
+        border-radius: 5px;
+        background-color: #f3e6ce;
+        padding: 1rem;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+
+        .field-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+
+            .category {
+                font-weight: 700;
+                font-size: 1.1rem;
+                margin-left: 1.5rem;
+            }
+
+            .value {
+                font-size: 1rem;
+                font-weight: 500;
+            }
+
+            .edit-value {
+                padding: 0.3rem;
+                background-color: transparent;
+                outline: auto;
+            }
+        }
+
+        i {
+            cursor: pointer;
+        }
+
+        i:hover {
+            font-weight: 700;
+        }
+    }
+
+    .delete-account {
+        margin: 1.5rem 0;
+        font-size: 1.5rem;
+        background-color: rgb(156, 40, 40);
+        color: black;
+        border: none;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .delete-account:hover {
+        background-color: rgb(122, 8, 8);
+    }
+}

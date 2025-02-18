@@ -8,10 +8,12 @@
     .search-box-input {
         width: 93%;
         border: none;
+        outline: none;
     }
 
     i {
         color: black;
+        cursor: pointer;
     }
 }
 

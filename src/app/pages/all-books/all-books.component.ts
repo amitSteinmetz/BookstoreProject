@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { BooksService } from '../../services/books-service/books.service';
 import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
 import { Router } from '@angular/router';
+import { UsersService } from '../../services/users-service/users.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-all-books',
@@ -21,13 +23,20 @@ export class AllBooksComponent implements OnInit {
   relevantPagesNumbers: number[] = [1];
   currentPageNumber: number = 1;
   clickedBookExistInCart: boolean[] = [];
+  loggedUser: User;
+  loggedUserSub: Subscription;
 
-  constructor(private _router: Router, private booksService: BooksService, private shoppingCartService: ShoppingCartService) { }
+  constructor(private _router: Router, private booksService: BooksService, private shoppingCartService: ShoppingCartService,
+    private usersService: UsersService) { }
 
   ngOnInit(): void {
     this.booksSub = this.booksService.booksData.subscribe((books) => {
       this.allBooks = books;
       this.pagesAmount = Math.ceil(books.length / 12);
+    })
+
+    this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
+      this.loggedUser = loggedUser;
     })
 
     this.currentPageBooks = this.allBooks.slice(12 * (this.currentPageNumber - 1), 12 * this.currentPageNumber);
@@ -74,11 +83,16 @@ export class AllBooksComponent implements OnInit {
   }
 
   onAddToCartIconClicked(book) {
-    if (!this.shoppingCartService.booksInCart.includes(book))
-      this.shoppingCartService.addBookToCart(book);
+    if (!this.loggedUser) {
+      console.log("Please login to continue");
+      return;
+    }
 
-    else
-      this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true;
+    if (!this.shoppingCartService.booksInCart.includes(book))
+        this.shoppingCartService.addBookToCart(book);
+
+      else
+        this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true;
   }
 
   filterBooks(filter: string) {

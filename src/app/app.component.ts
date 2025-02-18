@@ -14,13 +14,13 @@ import { ShoppingCartComponent } from "./pages/shopping-cart/shopping-cart.compo
 })
 export class AppComponent {
   title = 'bookstore-project';
-  userEntranceIconClicked: boolean = false;
+  closeEntranceModal: boolean = false;
   
   onUserEntranceIconClicked() {
-    this.userEntranceIconClicked = true;
+    this.closeEntranceModal = true;
   }
 
-  onCloseIconClicked() {
-    this.userEntranceIconClicked = false;
+  closeUserEntrance() {
+    this.closeEntranceModal = false;
   }
 }

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { UsersService } from '../../../services/users-service/users.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -11,8 +12,9 @@ import { RouterModule } from '@angular/router';
 })
 export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
+  @Output() userSignedup: EventEmitter<void> = new EventEmitter();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private usersService: UsersService) { }
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -21,5 +23,15 @@ export class SignUpComponent implements OnInit {
       password: [, Validators.required],
       repeatPassword: [, Validators.required]
     })
+  }
+
+  handleSubmit() {
+    this.usersService.addUser({
+      name: this.signupForm.get("username").value,
+      email: this.signupForm.get("email").value,
+      password: this.signupForm.get("password").value
+    })
+    
+    this.userSignedup.emit();
   }
 }

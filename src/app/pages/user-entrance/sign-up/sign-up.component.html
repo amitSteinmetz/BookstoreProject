@@ -1,4 +1,4 @@
-<form [formGroup]="signupForm">
+<form [formGroup]="signupForm" (ngSubmit)="handleSubmit()">
     <div class="form-text-inputs">
         <div class="form-text-input">
             <label for="username">Username: </label>

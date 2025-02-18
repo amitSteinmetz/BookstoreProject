@@ -12,7 +12,6 @@ import { ShoppingCartService } from '../../../services/shopping-cart/shopping-ca
   templateUrl: './filtered-books.component.html',
   // styleUrl: './filtered-books.component.scss'
   styleUrl: '../all-books.component.scss'
-
 })
 export class FilteredBooksComponent implements OnInit {
   filteredBooks: Book[] | null;
