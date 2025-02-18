@@ -7,12 +7,19 @@
     background-color: #f3e6ce;
 }
 
+.headline {
+    margin-top: 2rem;
+    font-size: 3rem;
+    color: #004d40;
+}
+
 .books-container {
     min-height: 700px;
     padding: 2.5rem;
     width: 85%;
+    max-width: 1200px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 3rem;
