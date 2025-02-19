@@ -30,7 +30,7 @@ export class BooksService {
     { name: "מוקף באידיוטים", author: "תומס אריקסון", price: 49.90, id: "1128", image: "../../assets/books-images/מוקף באידיוטים.webp" },
     { name: "מעשה בחמישה בלונים", author: "מרים רות", price: 49.90, id: "1129", image: "../../assets/books-images/מעשה בחמישה בלונים.webp" },
     { name: "צללי ברלין", author: "דיוויד גילהם", price: 49.90, id: "1130", image: "../../assets/books-images/צללי ברלין.webp" },
-    
+
   ];
   booksSubject: BehaviorSubject<Book[]> = new BehaviorSubject(this._books);
   booksData: Observable<Book[]> = this.booksSubject.asObservable();
@@ -44,7 +44,21 @@ export class BooksService {
   filterBooks(filter: string) {
     this.filteredBooks = this._books.filter((book) => book.name.includes(filter as string) ||
       book.author.includes(filter as string));
-      
+
     this.filteredBooksSubject.next(this.filteredBooks);
+  }
+
+  addBook(book: Book) {
+
+  }
+
+  deleteBook(bookIndex: number) {
+    this._books.splice(bookIndex, 1);
+    this.booksSubject.next(this._books);
+  }
+
+  editBook(bookIndex: number, category: string, value: any) {
+    this._books.at(bookIndex)[category] = value;
+    this.booksSubject.next(this._books);
   }
 }

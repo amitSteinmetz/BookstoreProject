@@ -7,7 +7,7 @@ import { User } from '../../models/user.model';
 })
 export class UsersService {
   users: User[] = [
-    { name: "amit", email: "amitstein@gmail.coom", password: "199288377" }
+    { name: "amit", email: "amitstein@gmail.com", password: "199288377" }
   ]
 
   usersSub: BehaviorSubject<User[]> = new BehaviorSubject<User[]>(this.users);
@@ -16,6 +16,12 @@ export class UsersService {
   loggedUser: User = null;
   loggedUserSub: BehaviorSubject<User> = new BehaviorSubject<User>(this.loggedUser);
   loggedUserObs: Observable<User> = this.loggedUserSub.asObservable();
+
+  admin: User = {
+    name: "amit", email: "amitstein@gmail.com", password: "199288377"
+  } 
+  adminSubject: BehaviorSubject<User> = new BehaviorSubject<User>(this.admin);
+  adminObs: Observable<User> = this.adminSubject.asObservable();
 
   constructor() { }
 
@@ -45,5 +51,13 @@ export class UsersService {
     this.users.splice(this.users.indexOf(user, 1));
     this.usersSub.next(this.users);
     this.logout();
+  }
+
+  changeAdminDetails() {
+
+  }
+
+  switchAdmin() {
+    
   }
 }

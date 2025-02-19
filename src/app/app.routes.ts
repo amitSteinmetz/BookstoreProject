@@ -6,6 +6,10 @@ import { BookDetailsComponent } from './pages/book-details/book-details.componen
 import { FilteredBooksComponent } from './pages/all-books/filtered-books/filtered-books.component';
 import { UserAcountComponent } from './pages/user-account/user-acount.component';
 import { userGuard } from './guards/user-guard/user.guard';
+import { LoginAdminComponent } from './pages/admin/login-admin/login-admin.component';
+import { ControlCenterComponent } from './pages/admin/control-center/control-center.component';
+import { AdminAccountComponent } from './pages/admin/admin-account/admin-account.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
     { path: "", redirectTo: "all-books", pathMatch: "full" },
@@ -14,5 +18,9 @@ export const routes: Routes = [
     { path: "shopping-cart", component: ShoppingCartComponent },
     { path: "book-details/:id", component: BookDetailsComponent },
     { path: "filtered-books", component: FilteredBooksComponent },
-    { path: "user-account", component: UserAcountComponent, canActivate: [userGuard]}
+    { path: "user-account", component: UserAcountComponent, canActivate: [userGuard]},
+    { path: "admin", component: LoginAdminComponent},
+    { path: "control-center", component: ControlCenterComponent},
+    { path: "admin-account", component: AdminAccountComponent},
+    { path: "**", component: PageNotFoundComponent}
 ];

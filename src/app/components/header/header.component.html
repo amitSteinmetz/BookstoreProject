@@ -14,7 +14,7 @@
             <a routerLink="" *ngIf="router.url !== '/all-books'">
                 <i class="fa-solid fa-home"></i>
             </a>
-            
+
             <i (click)="changeSettingModalDisplay()" class="fa-solid fa-cog" *ngIf="loggedUser"></i>
             <div class="settings-modal" *ngIf="showSettingsModal">
                 <a (click)="changeSettingModalDisplay()" routerLink="/user-account">Your account</a>

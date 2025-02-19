@@ -1,0 +1,23 @@
+<form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+    <h1 class="headline">:כניסת מנהל</h1>
+    
+    <div class="form-text-input">
+        <label for="adminName"> שם משתמש: </label>
+        <input type="text" formControlName="adminName"
+            [ngClass]="{'error-border' : loginForm.get('adminName').invalid && loginForm.get('adminName').touched}">
+        <div class="error-message" *ngIf="loginForm.get('adminName').invalid && loginForm.get('adminName').touched">
+            יש להכניס שם משתמש
+        </div>
+    </div>
+
+    <div class="form-text-input">
+        <label for="password">סיסמא: </label>
+        <input type="text" formControlName="password"
+            [ngClass]="{'error-border' : loginForm.get('password').invalid && loginForm.get('password').touched}">
+        <div class="error-message" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+            יש להכניס סיסמא
+        </div>
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid">כניסה</button>
+</form>

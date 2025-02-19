@@ -1,0 +1,108 @@
+<h1 class="headline">:ספרי החנות</h1>
+
+<button class="add-book-button" (click)="onAddBookButtonClicked()">
+    Add book
+    <i class="fa-solid fa-plus"></i>
+</button>
+
+<div class="add-book-modal-container" *ngIf="showAddBookModal">
+    <div class="add-book-modal">
+        <i (click)="onCloseAddBookButtonClicked()" class="fa-solid fa-xmark"></i>
+
+        <h2 class="add-book-modal-headline">:הוסף ספר</h2>
+
+        <form [formGroup]="addBookForm" (ngSubmit)="onSubmitAddBook()">
+            <div class="add-book-modal-input">
+                <label class="add-book-label" for="name">שם:</label>
+                <input class="add-book-input-content" type="text" formControlName="name">
+                <div class="add-book-error-message"
+                    *ngIf="addBookForm.get('name').invalid && addBookForm.get('name').touched">
+                    יש להכניס את שם הספר</div>
+            </div>
+
+            <div class="add-book-modal-input">
+                <label class="add-book-label" for="author">מחבר:</label>
+                <input class="add-book-input-content" type="text" formControlName="author">
+                <div class="add-book-error-message"
+                    *ngIf="addBookForm.get('author').invalid && addBookForm.get('author').touched">
+                    יש להכניס את שם המחבר</div>
+            </div>
+
+            <div class="add-book-modal-input">
+                <label class="add-book-label" for="price">מחיר:</label>
+                <input class="add-book-input-content" type="text" formControlName="price">
+                <div class="add-book-error-message"
+                    *ngIf="addBookForm.get('price').invalid && addBookForm.get('price').touched">
+                    יש להכניס מחיר
+                </div>
+            </div>
+
+            <div class="add-book-modal-input">
+                <label class="add-book-label" for="id">מק"ט:</label>
+                <input class="add-book-input-content" type="text" formControlName="id">
+                <div class="add-book-error-message"
+                    *ngIf="addBookForm.get('id').invalid && addBookForm.get('id').touched">
+                    {{bookIdErrorMessage()}}</div>
+            </div>
+
+            <div class="add-book-modal-input">
+                <label class="add-book-label" for="image">תמונה:</label>
+                <input class="add-book-input-content" type="text" formControlName="image">
+                <div class="add-book-error-message"
+                    *ngIf="addBookForm.get('image').invalid && addBookForm.get('image').touched">
+                    יש להכניס נתיב</div>
+            </div>
+
+            <button [disabled]="addBookForm.invalid" class="confirm-add-book-button">הוסף</button>
+        </form>
+    </div>
+</div>
+
+<div class="books-container">
+    <div class="book" *ngFor="let book of allBooks, let i = index">
+        <i (click)="onSettingsIconClicked(i)" class="fas fa-ellipsis-v"></i>
+
+        <div class="settings-modal" *ngIf="showSettingsModal[i]">
+            <div (click)="onEditOptionClicked(i)" class="settings-modal-option">עריכה</div>
+            <div (click)="onDeleteOptionClicked(i)" class="settings-modal-option">מחיקה</div>
+        </div>
+
+        <div class="edit-book-modal-container" *ngIf="showEditBookModal[i]">
+            <div class="edit-book-modal">
+                <i class="fa-solid fa-xmark" (click)="onCloseEditBookIconClicked(i)"></i>
+
+                <h3 class="edit-headline">?איזה שדה ברצונך לערוך</h3>
+
+                <div class="edit-categories">
+                    <div class="edit-category" (click)="onChoosingFieldToEdit('price')"
+                        [ngClass]="{'active-category': isActiveField['price']}">
+                        מחיר
+                    </div>
+                    <div class="edit-category" (click)="onChoosingFieldToEdit('id')"
+                        [ngClass]="{'active-category': isActiveField['id']}">
+                        מק"ט
+                    </div>
+                </div>
+
+                <div class="edit-input" *ngIf="editFieldHasChosen">
+                    <button (click)="onConfirmFieldEdit(i, editInput)" class="confirm-edit-button">בצע</button>
+                    <input #editInput class="edit-input-text" type="text" placeholder="הכנס ערך">
+                </div>
+            </div>
+        </div>
+
+        <div class="book-details">
+            <div class="book-name">{{book.name}}</div>
+            <div class="book-author">{{book.author}}</div>
+            <div class="book-preview">
+                <div class="preview-headline"> <strong>תיאור הספר:</strong></div>
+                לא לחינם הלך הזרזיר אצל העורב. דברי חכמים בנחת נשמעים. איזהו גבור? - הכובש את
+                יצרו. לך אל נמלה עצל, ראה דרכיה וחכם.שלח לחמך על-פני המים, כי ברב הימים תמצאנו.
+            </div>
+            <div class="book-price"><strong> מחיר:</strong> {{book.price}} ₪</div>
+            <div class="book-id"><strong>מק"ט:</strong> {{book.id}}</div>
+        </div>
+
+        <img class="book-image" src="{{book.image}}" alt="">
+    </div>
+</div>
