@@ -53,7 +53,7 @@
                     יש להכניס נתיב</div>
             </div>
 
-            <button [disabled]="addBookForm.invalid" class="confirm-add-book-button">הוסף</button>
+            <button (click)="onCloseAddBookButtonClicked()" [disabled]="addBookForm.invalid" class="confirm-add-book-button">הוסף</button>
         </form>
     </div>
 </div>

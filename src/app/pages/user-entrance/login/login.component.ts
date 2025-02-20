@@ -3,6 +3,8 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UsersService } from '../../../services/users-service/users.service';
+import { User } from '../../../models/user.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +14,9 @@ import { UsersService } from '../../../services/users-service/users.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  userExist: boolean = true;
+  admin: User;
+  adminSub: Subscription;
   @Output() userLoggedIn: EventEmitter<void> = new EventEmitter();
 
   constructor(private fb: FormBuilder, private usersService: UsersService) { }
@@ -21,14 +26,29 @@ export class LoginComponent implements OnInit {
       username: [, Validators.required],
       password: [, Validators.required]
     })
+
+    this.adminSub = this.usersService.adminObs.subscribe((admin) => {
+      this.admin = admin;
+    })
+  }
+
+  onCloseNotExistUserModal() {
+    this.userExist = true;
+  }
+
+  isAdmin() {
+    return this.loginForm.get("username").value === this.admin.name;
   }
 
   handleSubmit() {
-    for (let i = 0; i < this.usersService.users.length; i++)
+    this.userExist = false;
+
+    for (let i = 0; i < this.usersService.users.length; i++) 
       if (this.usersService.users[i].name === this.loginForm.get("username").value
-        && this.usersService.users[i].password === this.loginForm.get("password").value) {
-          this.usersService.updateCurrentUser(this.loginForm.get("username").value);
-          this.userLoggedIn.emit();
-        }
+        && this.usersService.users[i].password === this.loginForm.get("password").value && !this.isAdmin()) {
+        this.usersService.updateCurrentUser(this.loginForm.get("username").value);
+        this.userLoggedIn.emit();
+        this.userExist = true;
+      }
   }
 }

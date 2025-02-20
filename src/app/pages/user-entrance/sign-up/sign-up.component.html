@@ -1,39 +1,39 @@
 <form [formGroup]="signupForm" (ngSubmit)="handleSubmit()">
     <div class="form-text-inputs">
         <div class="form-text-input">
-            <label for="username">Username: </label>
+            <label for="username">שם משתמש: </label>
             <input type="text" formControlName="username"
                 [ngClass]="{'error-border' : signupForm.get('username').invalid && signupForm.get('username').touched}">
             <div *ngIf="signupForm.get('username').invalid && signupForm.get('username').touched" class="error-message">
-                You must enter username
+                {{usernameErrorMessage()}}
             </div>
         </div>
 
         <div class="form-text-input">
-            <label for="password">Password: </label>
-            <input type="password" formControlName="password"
-            [ngClass]="{'error-border' : signupForm.get('password').invalid && signupForm.get('password').touched}">
-            <div *ngIf="signupForm.get('password').invalid && signupForm.get('password').touched" class="error-message">
-                You must enter password
-            </div>
-        </div>
-
-        <div class="form-text-input">
-            <label for="email">Email: </label>
+            <label for="email">אימייל: </label>
             <input type="text" formControlName="email"
-            [ngClass]="{'error-border' : signupForm.get('email').invalid && signupForm.get('email').touched}">
+                [ngClass]="{'error-border' : signupForm.get('email').invalid && signupForm.get('email').touched}">
             <div *ngIf="signupForm.get('email').invalid && signupForm.get('email').touched" class="error-message">
-                You must enter email
+                {{emailErrorMessage()}}
             </div>
         </div>
 
         <div class="form-text-input">
-            <label for="repeat-password">Repeat Password: </label>
+            <label for="password">סיסמא: </label>
+            <input type="password" formControlName="password"
+                [ngClass]="{'error-border' : signupForm.get('password').invalid && signupForm.get('password').touched}">
+            <div *ngIf="signupForm.get('password').invalid && signupForm.get('password').touched" class="error-message">
+                יש להכניס סיסמא
+            </div>
+        </div>
+
+        <div class="form-text-input">
+            <label for="repeat-password">סיסמא חוזרת: </label>
             <input type="password" formControlName="repeatPassword"
-            [ngClass]="{'error-border' : signupForm.get('repeatPassword').invalid && signupForm.get('repeatPassword').touched}">
-            <div *ngIf="signupForm.get('repeatPassword').invalid && signupForm.get('repeatPassword').touched"
+                [ngClass]="{'error-border' : (signupForm.get('repeatPassword').invalid || signupForm.invalid) && signupForm.get('repeatPassword').touched}">
+            <div *ngIf="(signupForm.get('repeatPassword').invalid || signupForm.invalid) && signupForm.get('repeatPassword').touched"
                 class="error-message">
-                You must enter password again
+                {{repeatPasswordErrorMessage()}}
             </div>
         </div>
     </div>

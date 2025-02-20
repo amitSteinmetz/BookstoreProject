@@ -49,7 +49,8 @@ export class BooksService {
   }
 
   addBook(book: Book) {
-
+    this._books.push(book);
+    this.booksSubject.next(this._books);
   }
 
   deleteBook(bookIndex: number) {
@@ -62,3 +63,9 @@ export class BooksService {
     this.booksSubject.next(this._books);
   }
 }
+
+// http:\\localhost:4200\src\assets\books-images\עוזרת הבית.webp
+
+// src\assets\books-images\עוזרת הבית.webp
+
+

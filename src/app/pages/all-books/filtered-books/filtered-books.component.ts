@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ShoppingCartService } from '../../../services/shopping-cart/shopping-cart.service';
+import { User } from '../../../models/user.model';
+import { UsersService } from '../../../services/users-service/users.service';
 
 @Component({
   selector: 'app-filtered-books',
@@ -22,8 +24,11 @@ export class FilteredBooksComponent implements OnInit {
   currentPageNumber: number = 1;
   clickedBookExistInCart: boolean[] = [];
   showBookIcons: boolean[] = [];
+  loggedUser: User;
+  loggedUserSub: Subscription;
 
-  constructor(private _router: Router, private booksService: BooksService, private shoppingCartService: ShoppingCartService) { }
+  constructor(private _router: Router, private booksService: BooksService, private shoppingCartService: ShoppingCartService,
+    private usersService: UsersService) { }
 
   ngOnInit(): void {
     this.filteredBooksSubscription = this.booksService.filteredBooksData.subscribe((books) => {
@@ -31,14 +36,18 @@ export class FilteredBooksComponent implements OnInit {
       this.pagesAmount = Math.ceil(books.length / 12);
     })
 
+    this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
+      this.loggedUser = loggedUser;
+    })
+
     this.currentPageBooks = this.filteredBooks.slice(12 * (this.currentPageNumber - 1), 12 * this.currentPageNumber);
-  
-      if (this.pagesAmount >= 3) {
-        this.relevantPagesNumbers.push(2);
-      }
-  
-      for (let i = 0; i < this.filteredBooks.length; i++)
-        this.clickedBookExistInCart.push(false);
+
+    if (this.pagesAmount >= 3) {
+      this.relevantPagesNumbers.push(2);
+    }
+
+    for (let i = 0; i < this.filteredBooks.length; i++)
+      this.clickedBookExistInCart.push(false);
   }
 
   get router() {
@@ -75,6 +84,11 @@ export class FilteredBooksComponent implements OnInit {
   }
 
   onAddToCartIconClicked(book) {
+    if (!this.loggedUser) {
+      console.log("Please login to continue");
+      return;
+    }
+
     if (!this.shoppingCartService.booksInCart.includes(book))
       this.shoppingCartService.addBookToCart(book);
 

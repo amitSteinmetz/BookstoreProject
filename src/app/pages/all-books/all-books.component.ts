@@ -83,16 +83,13 @@ export class AllBooksComponent implements OnInit {
   }
 
   onAddToCartIconClicked(book) {
-    if (!this.loggedUser) {
-      console.log("Please login to continue");
-      return;
-    }
+    if (!this.loggedUser) return;
 
     if (!this.shoppingCartService.booksInCart.includes(book))
-        this.shoppingCartService.addBookToCart(book);
+      this.shoppingCartService.addBookToCart(book);
 
-      else
-        this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true;
+    else
+      this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true;
   }
 
   filterBooks(filter: string) {

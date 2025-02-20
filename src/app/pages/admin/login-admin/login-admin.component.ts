@@ -32,7 +32,9 @@ export class LoginAdminComponent implements OnInit {
 
   handleSubmit() {
     if (this.admin.name === this.loginForm.get("adminName").value &&
-      this.admin.password === this.loginForm.get("password").value)
-      this.router.navigate(["/control-center"]);
+      this.admin.password === this.loginForm.get("password").value) {
+        this.usersService.updateCurrentUser(this.admin.name);
+        this.router.navigate(["/control-center"]);
+      }
   }
 }

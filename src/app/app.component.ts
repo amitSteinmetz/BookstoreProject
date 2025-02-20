@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./components/header/header.component";
 import { UserEntranceComponent } from "./pages/user-entrance/user-entrance.component";
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject } from 'rxjs';
-import { ShoppingCartComponent } from "./pages/shopping-cart/shopping-cart.component";
 
 @Component({
   selector: 'app-root',
@@ -15,6 +13,8 @@ import { ShoppingCartComponent } from "./pages/shopping-cart/shopping-cart.compo
 export class AppComponent {
   title = 'bookstore-project';
   closeEntranceModal: boolean = false;
+
+  constructor(private _router: Router) {}
   
   onUserEntranceIconClicked() {
     this.closeEntranceModal = true;
@@ -22,5 +22,9 @@ export class AppComponent {
 
   closeUserEntrance() {
     this.closeEntranceModal = false;
+  }
+
+  get router() {
+    return this._router;
   }
 }

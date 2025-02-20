@@ -7,7 +7,8 @@ import { User } from '../../models/user.model';
 })
 export class UsersService {
   users: User[] = [
-    { name: "amit", email: "amitstein@gmail.com", password: "199288377" }
+    { name: "amit", email: "amitstein@gmail.com", password: "199288377" },
+    { name: "reut", email: "reuti@gmail.com", password: "12345678" }
   ]
 
   usersSub: BehaviorSubject<User[]> = new BehaviorSubject<User[]>(this.users);
@@ -40,6 +41,11 @@ export class UsersService {
 
     this.loggedUser[category] = newValue;
     this.loggedUserSub.next(this.loggedUser);
+
+    if (this.loggedUser.name === this.admin.name) {
+      this.admin[category] = newValue;
+      this.adminSubject.next(this.admin);
+    }
   }
 
   logout() {
@@ -51,10 +57,6 @@ export class UsersService {
     this.users.splice(this.users.indexOf(user, 1));
     this.usersSub.next(this.users);
     this.logout();
-  }
-
-  changeAdminDetails() {
-
   }
 
   switchAdmin() {

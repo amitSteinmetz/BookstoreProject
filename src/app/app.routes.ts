@@ -20,7 +20,7 @@ export const routes: Routes = [
     { path: "filtered-books", component: FilteredBooksComponent },
     { path: "user-account", component: UserAcountComponent, canActivate: [userGuard]},
     { path: "admin", component: LoginAdminComponent},
-    { path: "control-center", component: ControlCenterComponent},
+    { path: "control-center", component: ControlCenterComponent, canActivate: [userGuard]},
     { path: "admin-account", component: AdminAccountComponent},
     { path: "**", component: PageNotFoundComponent}
 ];

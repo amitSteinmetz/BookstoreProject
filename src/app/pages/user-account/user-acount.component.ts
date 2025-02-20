@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
   styleUrl: './user-acount.component.scss'
 })
 export class UserAcountComponent implements OnInit {
+  admin: User;
+  adminSub: Subscription;
   loggedUser: User;
   loggedUserSub: Subscription;
   editIconClicked = {
@@ -25,6 +27,10 @@ export class UserAcountComponent implements OnInit {
   ngOnInit(): void {
       this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
         this.loggedUser = loggedUser;
+      })
+
+      this.adminSub = this.usersService.adminObs.subscribe((admin) => {
+        this.admin = admin;
       })
   }
 

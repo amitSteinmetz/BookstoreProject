@@ -121,6 +121,13 @@ export class ControlCenterComponent implements OnInit {
   }
 
   onSubmitAddBook() {
+    console.log(this.addBookForm.get("name").value)
+    console.log(this.addBookForm.get("author").value)
+    console.log(this.addBookForm.get("price").value)
+    console.log(this.addBookForm.get("id").value)
+    console.log(this.addBookForm.get("image").value)
+
+
     this.booksService.addBook(
       {
         name: this.addBookForm.get("name").value,

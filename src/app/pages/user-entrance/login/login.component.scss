@@ -43,6 +43,11 @@ form {
         cursor: pointer;
         background-color: #5f5354;
     }
+
+    button:disabled {
+        cursor: not-allowed;
+        background-color: #493638;
+    }
 }
 
 .error-message {
@@ -53,4 +58,35 @@ form {
 
 form .form-text-input .error-border {
     border: 2px solid rgb(131, 15, 15);
+}
+
+.user-not-exit-modal {
+    position: absolute;
+    top: 150px;
+    left: 150px;
+    padding: 2rem 2rem 1.5rem;
+    width: 300px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 700;
+    animation: show 0.3s;
+
+    .fa-xmark {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        cursor: pointer;
+    }
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

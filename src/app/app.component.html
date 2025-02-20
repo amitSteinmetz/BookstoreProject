@@ -1,3 +1,4 @@
-<app-header (user_icon_clicked)="onUserEntranceIconClicked()"></app-header>
+<app-header (user_icon_clicked)="onUserEntranceIconClicked()"
+*ngIf="router.url !== '/admin'"></app-header>
 <app-user-entrance (close_user_entrance)="closeUserEntrance()" *ngIf="closeEntranceModal"></app-user-entrance>
 <router-outlet></router-outlet>

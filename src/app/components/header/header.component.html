@@ -5,17 +5,20 @@
         <app-search-box></app-search-box>
 
         <div class="icons">
-            <i class="fa-regular fa-user" *ngIf="!loggedUser" (click)="onUserIconClicked()"></i>
+            <i class="fa-regular fa-user" *ngIf="!loggedUser && router.url !== '/control-center'"
+                (click)="onUserIconClicked()"></i>
 
-            <a routerLink="/shopping-cart" *ngIf="router.url !== '/shopping-cart'">
+            <a routerLink="/shopping-cart" *ngIf="router.url !== '/shopping-cart' && router.url !== '/control-center'">
                 <i class="fa-solid fa-cart-shopping"></i>
             </a>
 
-            <a routerLink="" *ngIf="router.url !== '/all-books'">
+            <a routerLink="" *ngIf="router.url !== '/all-books' && router.url !== '/control-center'">
                 <i class="fa-solid fa-home"></i>
             </a>
 
-            <i (click)="changeSettingModalDisplay()" class="fa-solid fa-cog" *ngIf="loggedUser"></i>
+            <i (click)="changeSettingModalDisplay()" class="fa-solid fa-cog"
+                *ngIf="(loggedUser &&  router.url !== '/user-account')   || router.url === '/control-center'">
+            </i>
             <div class="settings-modal" *ngIf="showSettingsModal">
                 <a (click)="changeSettingModalDisplay()" routerLink="/user-account">Your account</a>
                 <a (click)="logout()">Logout</a>

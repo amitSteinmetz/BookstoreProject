@@ -3,6 +3,7 @@ import { Book } from '../../models/book.model';
 import { Subscription } from 'rxjs';
 import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -15,8 +16,9 @@ export class ShoppingCartComponent implements OnInit {
   booksInCartSub: Subscription;
   bookQuantity: number[] = [];
   totalPayment: number = 0;
+  paymentApproved: boolean = false;
 
-  constructor(private shoppingCartService: ShoppingCartService) { }
+  constructor(private shoppingCartService: ShoppingCartService, private _router: Router) { }
 
   ngOnInit(): void {
     this.shoppingCartService.booksInCartObservable.subscribe((booksInCart) => {
@@ -41,9 +43,20 @@ export class ShoppingCartComponent implements OnInit {
     this.totalPayment -= this.booksInCart[index].price;
   }
 
-  onRemoveBookFromCartIconClicked(bookIndex: number) {
+  removeBookFromCart(bookIndex: number) {
     this.totalPayment -= (this.booksInCart[bookIndex].price * this.bookQuantity[bookIndex]);
     this.bookQuantity.splice(bookIndex, 1);
     this.shoppingCartService.removeBookFromCart(bookIndex);
+  }
+
+  onApprovePayment() {
+    this.paymentApproved = true;
+  }
+
+  onCloseApprovePaymentModal() {
+    for (let i = this.booksInCart.length - 1; i >= 0; i--) 
+      this.removeBookFromCart(i)
+    
+    this._router.navigate(["/all-books"]); 
   }
 }
