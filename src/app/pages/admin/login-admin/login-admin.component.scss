@@ -17,6 +17,7 @@
 }
 
 form {
+    position: relative;
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
@@ -83,5 +84,41 @@ form {
 
     button:hover {
         background-color: #20657e;
+    }
+
+    button:disabled {
+        cursor: not-allowed;
+        background-color: #168db8;
+    }
+
+    .admin-not-exist-modal {
+        position: absolute;
+        top: 120px;
+        left: 100px;
+        padding: 2rem 2rem 1.5rem;
+        width: 300px;
+        background-color: #f3e6ce;
+        border: 1px solid black;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: 700;
+        animation: show 0.3s;
+
+        .fa-xmark {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+        }
+    }
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
     }
 }

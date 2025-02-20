@@ -16,6 +16,7 @@ export class LoginAdminComponent implements OnInit {
   admin: User;
   adminSub: Subscription;
   loginForm: FormGroup;
+  adminNotExist: boolean = false;
 
   constructor(private fb: FormBuilder, private usersService: UsersService, private router: Router) { }
 
@@ -30,11 +31,17 @@ export class LoginAdminComponent implements OnInit {
     })
   }
 
+  onCloseAdminNotExistModal() {
+    this.adminNotExist = false;
+  }
+
   handleSubmit() {
     if (this.admin.name === this.loginForm.get("adminName").value &&
       this.admin.password === this.loginForm.get("password").value) {
-        this.usersService.updateCurrentUser(this.admin.name);
-        this.router.navigate(["/control-center"]);
-      }
+      this.usersService.updateCurrentUser(this.admin.name);
+      this.router.navigate(["/control-center"]);
+    }
+
+    this.adminNotExist = true;
   }
 }

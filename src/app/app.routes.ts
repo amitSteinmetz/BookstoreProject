@@ -8,7 +8,6 @@ import { UserAcountComponent } from './pages/user-account/user-acount.component'
 import { userGuard } from './guards/user-guard/user.guard';
 import { LoginAdminComponent } from './pages/admin/login-admin/login-admin.component';
 import { ControlCenterComponent } from './pages/admin/control-center/control-center.component';
-import { AdminAccountComponent } from './pages/admin/admin-account/admin-account.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
@@ -21,6 +20,5 @@ export const routes: Routes = [
     { path: "user-account", component: UserAcountComponent, canActivate: [userGuard]},
     { path: "admin", component: LoginAdminComponent},
     { path: "control-center", component: ControlCenterComponent, canActivate: [userGuard]},
-    { path: "admin-account", component: AdminAccountComponent},
     { path: "**", component: PageNotFoundComponent}
 ];

@@ -1,19 +1,20 @@
 <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
     <div class="form-text-input">
-        <label for="username">Username: </label>
+        <label for="username">שם משתמש: </label>
         <input type="text" formControlName="username"
             [ngClass]="{'error-border' : loginForm.get('username').invalid && loginForm.get('username').touched}">
         <div *ngIf="loginForm.get('username').invalid && loginForm.get('username').touched" class="error-message">
-            You must enter username
+            יש להכניס שם משתמש
         </div>
     </div>
 
     <div class="form-text-input">
-        <label for="password">Password: </label>
+        <label for="password">סיסמא: </label>
         <input type="password" formControlName="password"
             [ngClass]="{'error-border' : loginForm.get('password').invalid && loginForm.get('password').touched}">
-        <div *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched" class="error-message">You
-            must enter password</div>
+        <div *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched" class="error-message">
+            יש להכניס סיסמא
+        </div>
     </div>
 
     <button [disabled]="loginForm.invalid" type="submit">login</button>
@@ -21,6 +22,6 @@
 
 <div class="user-not-exit-modal" *ngIf="!userExist">
     <i class="fas fa-xmark" (click)="onCloseNotExistUserModal()"></i>
-    {{isAdmin() ? 'הינך מנסה להיכנס כמנהל, זאת כניסת משתמשים בלבד' : 
+    {{isAdmin() ? 'הינך מנסה להיכנס כמנהל, זאת כניסת משתמשים בלבד' :
     'שם המשתמש ו/או סיסמא אינם קיימים במערכת, אנא וודא שהכנסת את פרטיך באופן תקין'}}
 </div>

@@ -2,7 +2,7 @@
 
 <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
     <h1 class="headline">:כניסת מנהל</h1>
-    
+
     <div class="form-text-input">
         <label for="adminName"> שם משתמש: </label>
         <input type="text" formControlName="adminName"
@@ -22,4 +22,9 @@
     </div>
 
     <button type="submit" [disabled]="loginForm.invalid">כניסה</button>
+
+    <div class="admin-not-exist-modal" *ngIf="adminNotExist">
+        <i class="fas fa-xmark" (click)="onCloseAdminNotExistModal()"></i>
+        שם המשתמש ו/או סיסמא אינם קיימים במערכת, אנא וודא שהכנסת את פרטיך באופן תקין
+    </div>
 </form>

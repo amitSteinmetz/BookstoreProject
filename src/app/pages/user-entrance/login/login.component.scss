@@ -12,6 +12,7 @@ form {
         display: flex;
         flex-direction: column;
         margin: 0 auto 1rem;
+        direction: rtl;
 
         label {
             margin-bottom: 0.5rem;
@@ -52,8 +53,10 @@ form {
 
 .error-message {
     margin-top: 0.2rem;
+    margin-right: 0.3rem;
     color: rgb(131, 15, 15);
     font-weight: 600;
+    direction: rtl;
 }
 
 form .form-text-input .error-border {

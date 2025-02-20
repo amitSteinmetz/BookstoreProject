@@ -85,5 +85,49 @@
             font-size: 1.5rem;
             cursor: pointer;
         }
+
+        .add-to-cart-button:hover {
+            background-color: #3a665f;
+        }
+
+        .add-book-modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            min-height: 100vh;
+            background-color: rgba(0, 0, 0, 0.35);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .add-book-modal {
+                position: relative;
+                background-color: white;
+                padding: 2.5rem 1.5rem;
+                font-size: 2.5rem;
+                border-radius: 5px;
+                box-shadow: rgba(0, 0, 0, 0.25);
+                text-align: center;
+
+                .fa-xmark {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    font-size: 1.3rem;
+                    cursor: pointer;
+                }
+
+                a {
+                    text-decoration: none;
+                    color: #004d40;
+                    font-weight: 500;
+                }
+
+                a:hover {
+                    font-weight: 700;
+                }
+            }
+        }
     }
 }
