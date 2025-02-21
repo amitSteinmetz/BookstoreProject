@@ -104,8 +104,4 @@ export class BooksService {
   }
 }
 
-// http:\\localhost:4200\src\assets\books-images\עוזרת הבית.webp
-
-// src\assets\books-images\עוזרת הבית.webp
-
 

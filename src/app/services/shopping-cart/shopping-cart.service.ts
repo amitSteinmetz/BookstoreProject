@@ -6,10 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ShoppingCartService {
-  booksInCart: Book[] = [
-    // { name: "לפני החושך", author: "בראד תור", price: 59.90, id: "12345678", image: "../../assets/books-images/לפני החושך.webp" },
-    // { name: "לפני החושך", author: "בראד תור", price: 59.90, id: "12345678", image: "../../assets/books-images/לפני החושך.webp" }
-  ];
+  booksInCart: Book[] = [];
   booksInCartSubject: BehaviorSubject<Book[]> = new BehaviorSubject(this.booksInCart);
   booksInCartObservable: Observable<Book[]> = this.booksInCartSubject.asObservable();
 

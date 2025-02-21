@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   loggedUser: User;
   loggedUserSub: Subscription;
   showSettingsModal: boolean = false;
+  showMobileLinks: boolean = false;
 
   constructor(private _router: Router, private usersService: UsersService) { }
 
@@ -28,6 +29,10 @@ export class HeaderComponent implements OnInit {
 
   onUserIconClicked() {
     this.user_icon_clicked.emit();
+  }
+
+  onMobileIconClicked() {
+    this.showMobileLinks  =!this.showMobileLinks;
   }
 
   changeSettingModalDisplay() {
