@@ -26,20 +26,4 @@
     </div>
 </div>
 
-<div class="pagination">
-    <i class="fas fa-solid fa-chevron-left"></i>
-    <i class="fas fa-solid fa-chevron-left"></i>
-    <span class="pages-numbers" (click)="onPageNumberClicked(pageNumber)"
-        *ngFor="let pageNumber of relevantPagesNumbers"
-        [ngClass]="{'current-page-border': pageNumber === currentPageNumber}">
-        {{pageNumber}}
-    </span>
-    <span class="pagination-dots" *ngIf="!(currentPageNumber <= pagesAmount 
-    && currentPageNumber >= pagesAmount - 2)">
-        ...
-    </span>
-    <span [ngClass]="{'current-page-border': pagesAmount === currentPageNumber}"
-        (click)="onPageNumberClicked(pagesAmount)" class="last-page-number">{{pagesAmount}}</span>
-    <i class="fas fa-solid fa-chevron-right"></i>
-    <i class="fas fa-solid fa-chevron-right"></i>
-</div>
+<app-pagination (pageNumberChanged)="switchPage($event)"></app-pagination>

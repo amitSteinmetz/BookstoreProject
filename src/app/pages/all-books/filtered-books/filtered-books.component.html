@@ -24,6 +24,9 @@
     </div>
 </div>
 
+<app-pagination (pageNumberChanged)="switchPage($event)"></app-pagination>
+
+<!-- 
 <div class="pagination">
     <i class="fas fa-solid fa-chevron-left"></i>
     <i class="fas fa-solid fa-chevron-left"></i>
@@ -40,4 +43,4 @@
         (click)="onPageNumberClicked(pagesAmount)" class="last-page-number">{{pagesAmount}}</span>
     <i class="fas fa-solid fa-chevron-right"></i>
     <i class="fas fa-solid fa-chevron-right"></i>
-</div>
+</div> -->

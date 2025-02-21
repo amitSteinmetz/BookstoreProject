@@ -10,7 +10,7 @@ export const userGuard: CanActivateFn = (route, state) => {
   return usersService.loggedUserObs.pipe(
     take(1),
     map((loggedUser) => {
-      if (!loggedUser) 
+      if (!loggedUser)
         router.navigate(['/all-books']);
 
       return true;

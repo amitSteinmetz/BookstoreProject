@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Book } from '../../models/book.model';
+import { Component} from '@angular/core';
 import { BooksService } from '../../services/books-service/books.service';
-import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({

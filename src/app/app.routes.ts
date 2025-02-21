@@ -9,6 +9,7 @@ import { userGuard } from './guards/user-guard/user.guard';
 import { LoginAdminComponent } from './pages/admin/login-admin/login-admin.component';
 import { ControlCenterComponent } from './pages/admin/control-center/control-center.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { controlCenterGuard } from './guards/control-center.guard';
 
 export const routes: Routes = [
     { path: "", redirectTo: "all-books", pathMatch: "full" },
@@ -19,6 +20,6 @@ export const routes: Routes = [
     { path: "filtered-books", component: FilteredBooksComponent },
     { path: "user-account", component: UserAcountComponent, canActivate: [userGuard]},
     { path: "admin", component: LoginAdminComponent},
-    { path: "control-center", component: ControlCenterComponent, canActivate: [userGuard]},
+    { path: "control-center", component: ControlCenterComponent, canActivate: [controlCenterGuard]},
     { path: "**", component: PageNotFoundComponent}
 ];

@@ -7,10 +7,11 @@ import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.
 import { Router } from '@angular/router';
 import { UsersService } from '../../services/users-service/users.service';
 import { User } from '../../models/user.model';
+import { PaginationComponent } from "../../components/pagination/pagination.component";
 
 @Component({
   selector: 'app-all-books',
-  imports: [CommonModule],
+  imports: [CommonModule, PaginationComponent],
   templateUrl: './all-books.component.html',
   styleUrl: './all-books.component.scss'
 })
@@ -19,12 +20,10 @@ export class AllBooksComponent implements OnInit {
   currentPageBooks: Book[] = [];
   booksSub: Subscription;
   showBookIcons: boolean[] = [];
-  pagesAmount: number;
-  relevantPagesNumbers: number[] = [1];
-  currentPageNumber: number = 1;
   clickedBookExistInCart: boolean[] = [];
   loggedUser: User;
   loggedUserSub: Subscription;
+  currentPageNumber: number = 1;
 
   constructor(private _router: Router, private booksService: BooksService, private shoppingCartService: ShoppingCartService,
     private usersService: UsersService) { }
@@ -32,19 +31,14 @@ export class AllBooksComponent implements OnInit {
   ngOnInit(): void {
     this.booksSub = this.booksService.booksData.subscribe((books) => {
       this.allBooks = books;
-      this.pagesAmount = Math.ceil(books.length / 12);
     })
 
     this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
       this.loggedUser = loggedUser;
     })
 
-    this.currentPageBooks = this.allBooks.slice(12 * (this.currentPageNumber - 1), 12 * this.currentPageNumber);
-
-    if (this.pagesAmount >= 3) {
-      this.relevantPagesNumbers.push(2);
-    }
-
+    this.currentPageBooks = this.allBooks.slice(0, 12);
+    
     for (let i = 0; i < this.allBooks.length; i++)
       this.clickedBookExistInCart.push(false);
   }
@@ -62,24 +56,9 @@ export class AllBooksComponent implements OnInit {
     this.clickedBookExistInCart[index] = false;
   }
 
-  showPageNumber(pageNumber) {
-    if (pageNumber === this.pagesAmount)
-      return;
-
-    if ((this.currentPageNumber === 1 && (pageNumber >= 1 && pageNumber <= 3)) ||
-      (pageNumber > this.currentPageNumber - 2 && pageNumber < this.currentPageNumber + 2))
-      return pageNumber;
-  }
-
-  onPageNumberClicked(pageNumber) {
+  switchPage(pageNumber: number) {
     this.currentPageNumber = pageNumber;
-    this.currentPageBooks = this.allBooks.slice(12 * (pageNumber - 1), 12 * pageNumber);
-
-    this.relevantPagesNumbers = [];
-    for (let i = this.currentPageNumber - 1; i <= this.currentPageNumber + 1; i++) {
-      if (i >= 1 && i < this.pagesAmount)
-        this.relevantPagesNumbers.push(i)
-    }
+    this.currentPageBooks = this.allBooks.slice(12 * (this.currentPageNumber - 1), 12 * this.currentPageNumber);
   }
 
   onAddToCartIconClicked(book) {

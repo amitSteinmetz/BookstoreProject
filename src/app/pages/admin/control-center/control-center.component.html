@@ -85,8 +85,8 @@
                 </div>
 
                 <div class="edit-input" *ngIf="editFieldHasChosen">
-                    <button (click)="onConfirmFieldEdit(i, editInput)" class="confirm-edit-button">בצע</button>
-                    <input #editInput class="edit-input-text" type="text" placeholder="הכנס ערך">
+                    <button [disabled]="!editInputIsOnlyDigits" (click)="onConfirmFieldEdit(i, editInput)" class="confirm-edit-button">בצע</button>
+                    <input #editInput (input)="inputIsOnlyDigits(editInput)" class="edit-input-text" type="text" placeholder="הכנס ערך">
                 </div>
             </div>
         </div>

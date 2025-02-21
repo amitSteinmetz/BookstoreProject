@@ -19,6 +19,7 @@ export class ControlCenterComponent implements OnInit {
   showEditBookModal: boolean[] = [];
   showAddBookModal: boolean = false;
   editFieldHasChosen: boolean = false;
+  editInputIsOnlyDigits: boolean = false;
 
   isActiveField = {
     "price": false,
@@ -86,6 +87,10 @@ export class ControlCenterComponent implements OnInit {
 
     this.booksService.editBook(bookIndex, category, input.value);
     this.showEditBookModal[bookIndex] = false;
+  }
+
+  inputIsOnlyDigits(editInput) {
+    this.editInputIsOnlyDigits = /^\d+$/.test(editInput.value) ? true : false;
   }
 
   onAddBookButtonClicked() {

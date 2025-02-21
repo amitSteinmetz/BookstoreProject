@@ -305,6 +305,10 @@
                         color: #004d40;
                         margin-left: 3px;
                     }
+
+                    .confirm-edit-button:disabled {
+                        cursor: not-allowed;
+                    }
                 }
             }
         }

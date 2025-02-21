@@ -20,7 +20,7 @@ export class UsersService {
 
   admin: User = {
     name: "amit", email: "amitstein@gmail.com", password: "199288377"
-  } 
+  }
   adminSubject: BehaviorSubject<User> = new BehaviorSubject<User>(this.admin);
   adminObs: Observable<User> = this.adminSubject.asObservable();
 
@@ -37,15 +37,15 @@ export class UsersService {
   }
 
   changeUserField(category: string, newValue: string) {
-    this.users.find((user) => user.name === this.loggedUser.name)[category] = newValue;
-
-    this.loggedUser[category] = newValue;
-    this.loggedUserSub.next(this.loggedUser);
-
     if (this.loggedUser.name === this.admin.name) {
       this.admin[category] = newValue;
       this.adminSubject.next(this.admin);
     }
+
+    this.users.find((user) => user.name === this.loggedUser.name)[category] = newValue;
+
+    this.loggedUser[category] = newValue;
+    this.loggedUserSub.next(this.loggedUser);
   }
 
   logout() {
@@ -60,6 +60,6 @@ export class UsersService {
   }
 
   switchAdmin() {
-    
+
   }
 }
