@@ -5,6 +5,12 @@
     font-family: "Assistant", serif;
     min-height: calc(100vh - 9rem);
     background-color: #f3e6ce;
+    margin-top: 9rem;
+
+    @media (max-width: 800px) {
+        min-height: calc(100vh - 6rem);
+        margin-top: 6rem;
+    }
 }
 
 .account-container {
@@ -81,5 +87,16 @@
 
     .delete-account:hover {
         background-color: rgb(122, 8, 8);
+    }
+}
+
+@media (max-width: 400px) {
+    .account-container .user-field {
+        padding: 1rem 0.5rem;
+
+        .field-content .category {
+            font-size: 1rem;
+            margin-left: 0.3rem;
+        }
     }
 }

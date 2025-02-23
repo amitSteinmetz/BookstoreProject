@@ -11,6 +11,7 @@ form {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        align-items: center;
         flex-wrap: wrap;
         height: 150px;
     }
@@ -21,7 +22,6 @@ form {
         display: flex;
         flex-direction: column;
         direction: rtl;
-        margin: 0 1rem;
 
         label {
             margin-bottom: 0.5rem;

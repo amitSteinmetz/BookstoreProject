@@ -1,19 +1,20 @@
 :host {
+    display: block;
     position: relative;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: #f3e6ce;
     font-family: "Assistant", serif;
 }
 
-.logo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 20vw;
-    margin-top: -3rem;
+.logo-container {
+    height: 15rem;
+    padding-top: 5rem;
+
+    .logo {
+        display: block;
+        width: 120px;
+        margin: 0 auto;
+    }
 }
 
 form {
@@ -25,6 +26,7 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 1rem auto;
 
     .headline {
         margin: 1.5rem 0;
@@ -120,5 +122,24 @@ form {
 
     100% {
         opacity: 1;
+    }
+}
+
+@media (max-width: 550px) {
+    .logo {
+        position: static;
+        width: 40vw;
+    }
+
+    form {
+        width: 90%;
+
+        .form-text-input {
+            width: 95%;
+
+            label {
+                font-size: 1.1rem;
+            }
+        }
     }
 }

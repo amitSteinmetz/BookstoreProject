@@ -17,11 +17,12 @@
         </div>
 
         <button (click)="addBookToCart()" class="add-to-cart-button" *ngIf="loggedUser">הוסף לעגלת הקניות</button>
+        <div class="login-message" *ngIf="!loggedUser">יש להתחבר לחשבונך על מנת לצרף את הספר לעגלת הקניות</div>
 
         <div class="add-book-modal-container" *ngIf="bookAddedToCart">
             <div class="add-book-modal">
-                <i class="fas fa-xmark"></i>
-                .הספר התווסף לעגלת הקניות שלך <br>
+                <i class="fas fa-xmark" (click)="onCloseAddBookToCartModal()"></i>
+                הספר התווסף לעגלת הקניות שלך. <br>
                 למעבר לעגלה לחץ
                 <a routerLink="/shopping-cart">כאן</a>
             </div>

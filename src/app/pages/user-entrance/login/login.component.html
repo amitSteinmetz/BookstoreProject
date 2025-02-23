@@ -20,8 +20,10 @@
     <button [disabled]="loginForm.invalid" type="submit">login</button>
 </form>
 
-<div class="user-not-exit-modal" *ngIf="!userExist">
-    <i class="fas fa-xmark" (click)="onCloseNotExistUserModal()"></i>
-    {{isAdmin() ? 'הינך מנסה להיכנס כמנהל, זאת כניסת משתמשים בלבד' :
-    'שם המשתמש ו/או סיסמא אינם קיימים במערכת, אנא וודא שהכנסת את פרטיך באופן תקין'}}
+<div class="user-not-exit-modal-container" *ngIf="!userExist">
+    <div class="user-not-exit-modal">
+        <i class="fas fa-xmark" (click)="onCloseNotExistUserModal()"></i>
+        {{isAdmin() ? 'הינך מנסה להיכנס כמנהל, זאת כניסת משתמשים בלבד' :
+        'שם המשתמש ו/או סיסמא אינם קיימים במערכת, אנא וודא שהכנסת את פרטיך באופן תקין'}}
+    </div>
 </div>

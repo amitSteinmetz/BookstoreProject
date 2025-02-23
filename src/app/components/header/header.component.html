@@ -4,35 +4,37 @@
 
         <app-search-box></app-search-box>
 
-        <div class="icons">
-            <i class="fas fa-ellipsis-v" (click)="onMobileIconClicked()"></i>
+        <i class="fas fa-ellipsis-v" (click)="onMobileIconClicked()"></i>
 
-            <i class="fa-regular fa-user icon" *ngIf="!loggedUser && router.url !== '/control-center'"
-                (click)="onUserIconClicked()"></i>
+        <div class="header-links" *ngIf="showMobileLinks || !isSmallScreen">
+            <a *ngIf="!loggedUser && router.url !== '/control-center'" (click)="onUserIconClicked()">
+                <div class="mobile-link" *ngIf="showMobileLinks">כניסה לחשבונך</div>
+                <i class="fa-regular fa-user icon"></i>
+            </a>
 
             <a routerLink="/shopping-cart" *ngIf="router.url !== '/shopping-cart' && router.url !== '/control-center'">
+                <div class="mobile-link" *ngIf="showMobileLinks">עגלת הקניות</div>
                 <i class="fa-solid fa-cart-shopping icon"></i>
             </a>
 
             <a routerLink="/control-center" *ngIf="router.url !== '/all-books' && router.url !== '/control-center'">
+                <div class="mobile-link" *ngIf="showMobileLinks">עמוד הבית</div>
                 <i class="fa-solid fa-home icon"></i>
             </a>
 
-            <i (click)="changeSettingModalDisplay()" class="fa-solid fa-cog icon"
-                *ngIf="(loggedUser &&  router.url !== '/user-account')   || router.url === '/control-center'">
-            </i>
-            <div class="settings-modal" *ngIf="showSettingsModal">
-                <a (click)="changeSettingModalDisplay()" routerLink="/user-account">Your account</a>
-                <a (click)="logout()">Logout</a>
-            </div>
-        </div>
+            <div class="settings"
+                *ngIf="(loggedUser && router.url !== '/user-account') || router.url === '/control-center'">
+                <i (click)="changeSettingModalDisplay()" class="fa-solid fa-cog icon"></i>
 
-        <div class="mobile-links" *ngIf="showMobileLinks">
-            <a>כניסה לחשבונך</a>
-            <a>עגלת הקניות</a>
-            <a>עמוד הבית</a>
-            <a>פרטי חשבון</a>
-            <a>התנתקות</a>
+                <div class="settings-modal" *ngIf="showSettingsModal || showMobileLinks">
+                    <a (click)="changeSettingModalDisplay()" routerLink="/user-account">
+                        <div class="mobile-link">פרטי חשבון</div>
+                    </a>
+                    <a (click)="logout()">
+                        <div class="mobile-link">התנתקות</div>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 

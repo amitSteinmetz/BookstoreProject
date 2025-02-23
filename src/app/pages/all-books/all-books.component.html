@@ -1,7 +1,7 @@
 <h1 class="headline">הספרים שלנו</h1>
 
 <div class="books-container">
-    <div (mouseenter)="onMouseEnterBook(i)" (mouseleave)="onMouseLeaveBook(i)" class="book" *ngFor="let book of currentPageBooks,
+    <div class="book" (mouseenter)="onMouseEnterBook(i)" (mouseleave)="onMouseLeaveBook(i)" *ngFor="let book of currentPageBooks,
     let i = index">
         <img (click)="router.navigate(['/book-details', book.id])" class="book-image" src="{{book.image}}" alt="">
         <div class="book-name">{{book.name}}</div>

@@ -1,30 +1,34 @@
-<img class="logo" src="../../../../assets/logo.png" alt="">
+<div class="logo-container">
+    <img class="logo" src="../../../../assets/logo.png" alt="">
+</div>
 
-<form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
-    <h1 class="headline">:כניסת מנהל</h1>
+<div class="form-container">
+    <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+        <h1 class="headline">:כניסת מנהל</h1>
 
-    <div class="form-text-input">
-        <label for="adminName"> שם משתמש: </label>
-        <input type="text" formControlName="adminName"
-            [ngClass]="{'error-border' : loginForm.get('adminName').invalid && loginForm.get('adminName').touched}">
-        <div class="error-message" *ngIf="loginForm.get('adminName').invalid && loginForm.get('adminName').touched">
-            יש להכניס שם משתמש
+        <div class="form-text-input">
+            <label for="adminName"> שם משתמש: </label>
+            <input type="text" formControlName="adminName"
+                [ngClass]="{'error-border' : loginForm.get('adminName').invalid && loginForm.get('adminName').touched}">
+            <div class="error-message" *ngIf="loginForm.get('adminName').invalid && loginForm.get('adminName').touched">
+                יש להכניס שם משתמש
+            </div>
         </div>
-    </div>
 
-    <div class="form-text-input">
-        <label for="password">סיסמא: </label>
-        <input type="password" formControlName="password"
-            [ngClass]="{'error-border' : loginForm.get('password').invalid && loginForm.get('password').touched}">
-        <div class="error-message" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
-            יש להכניס סיסמא
+        <div class="form-text-input">
+            <label for="password">סיסמא: </label>
+            <input type="password" formControlName="password"
+                [ngClass]="{'error-border' : loginForm.get('password').invalid && loginForm.get('password').touched}">
+            <div class="error-message" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+                יש להכניס סיסמא
+            </div>
         </div>
-    </div>
 
-    <button type="submit" [disabled]="loginForm.invalid">כניסה</button>
+        <button type="submit" [disabled]="loginForm.invalid">כניסה</button>
 
-    <div class="admin-not-exist-modal" *ngIf="adminNotExist">
-        <i class="fas fa-xmark" (click)="onCloseAdminNotExistModal()"></i>
-        שם המשתמש ו/או סיסמא אינם קיימים במערכת, אנא וודא שהכנסת את פרטיך באופן תקין
-    </div>
-</form>
+        <div class="admin-not-exist-modal" *ngIf="adminNotExist">
+            <i class="fas fa-xmark" (click)="onCloseAdminNotExistModal()"></i>
+            שם המשתמש ו/או סיסמא אינם קיימים במערכת, אנא וודא שהכנסת את פרטיך באופן תקין
+        </div>
+    </form>
+</div>

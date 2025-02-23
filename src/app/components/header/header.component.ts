@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { SearchBoxComponent } from "../search-box/search-box.component";
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,12 +13,18 @@ import { User } from '../../models/user.model';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit {
-  @Output() user_icon_clicked: EventEmitter<void> = new EventEmitter();
   loggedUser: User;
   loggedUserSub: Subscription;
   showSettingsModal: boolean = false;
   showMobileLinks: boolean = false;
-
+  isSmallScreen: boolean = false;
+  
+  @Output() user_icon_clicked: EventEmitter<void> = new EventEmitter();
+  @HostListener('window:resize') 
+    checkScreenSize() {
+      this.isSmallScreen = window.innerWidth <= 800;
+    }
+  
   constructor(private _router: Router, private usersService: UsersService) { }
 
   ngOnInit(): void {
@@ -29,10 +35,11 @@ export class HeaderComponent implements OnInit {
 
   onUserIconClicked() {
     this.user_icon_clicked.emit();
+    this.showMobileLinks = false;
   }
 
   onMobileIconClicked() {
-    this.showMobileLinks  =!this.showMobileLinks;
+    this.showMobileLinks = !this.showMobileLinks;
   }
 
   changeSettingModalDisplay() {

@@ -1,5 +1,7 @@
 :host {
     width: 100%;
+    height: 100%;
+    position: relative;
 }
 
 form {
@@ -63,24 +65,33 @@ form .form-text-input .error-border {
     border: 2px solid rgb(131, 15, 15);
 }
 
-.user-not-exit-modal {
+.user-not-exit-modal-container {
     position: absolute;
-    top: 150px;
-    left: 150px;
-    padding: 2rem 2rem 1.5rem;
-    width: 300px;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    text-align: center;
-    font-weight: 700;
-    animation: show 0.3s;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    .fa-xmark {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        cursor: pointer;
+    .user-not-exit-modal {
+        position: relative;
+        padding: 2rem 2rem 1.5rem;
+        width: 300px;
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: 700;
+        animation: show 0.3s;
+    
+        .fa-xmark {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+        }
     }
 }
 
