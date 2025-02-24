@@ -5,7 +5,13 @@
         אופס, עוד לא קנית כלום... הספרים שלנו מחכים לך, אל תפספס!
     </div>
 
-    <div class="payment-box" *ngIf="booksInCart.length > 0">
+    <!-- <div class="payment-mobile-link" *ngIf="booksInCart.length > 0" (click)="onPaymentMobileLinkClicked()"> -->
+    <div class="payment-mobile-link" (click)="onPaymentMobileLinkClicked()">
+        {{showPaymentBox ? 'חזרה לעגלה' : 'מעבר לתשלום'}}
+    </div>
+
+    <!-- <div class="payment-box" *ngIf="booksInCart.length > 0 && (showPaymentBox || !isSmallScreen)"> -->
+    <div class="payment-box" *ngIf="(showPaymentBox || !isSmallScreen)">
         <h2>קופה</h2>
 
         <div class="payment-details">

@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   loggedUserSub: Subscription;
   showSettingsModal: boolean = false;
   showMobileLinks: boolean = false;
-  isSmallScreen: boolean = false;
+  isSmallScreen: boolean = window.innerWidth <= 800;
   
   @Output() user_icon_clicked: EventEmitter<void> = new EventEmitter();
   @HostListener('window:resize') 

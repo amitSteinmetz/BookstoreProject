@@ -26,9 +26,11 @@
 
         <button type="submit" [disabled]="loginForm.invalid">כניסה</button>
 
-        <div class="admin-not-exist-modal" *ngIf="adminNotExist">
-            <i class="fas fa-xmark" (click)="onCloseAdminNotExistModal()"></i>
-            שם המשתמש ו/או סיסמא אינם קיימים במערכת, אנא וודא שהכנסת את פרטיך באופן תקין
+        <div class="admin-not-exist-modal-container" *ngIf="adminNotExist">
+            <div class="admin-not-exist-modal">
+                <i class="fas fa-xmark" (click)="onCloseAdminNotExistModal()"></i>
+                שם המשתמש ו/או סיסמא אינם קיימים במערכת, אנא וודא שהכנסת את פרטיך באופן תקין
+            </div>
         </div>
     </form>
 </div>

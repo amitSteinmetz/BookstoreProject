@@ -1,7 +1,7 @@
 <h1 class="headline">:ספרי החנות</h1>
 
 <button class="add-book-button" (click)="onAddBookButtonClicked()">
-    Add book
+    <span class="add-book-button-text">הוסף ספר</span>
     <i class="fa-solid fa-plus"></i>
 </button>
 
@@ -53,7 +53,8 @@
                     יש להכניס נתיב</div>
             </div>
 
-            <button (click)="onCloseAddBookButtonClicked()" [disabled]="addBookForm.invalid" class="confirm-add-book-button">הוסף</button>
+            <button (click)="onCloseAddBookButtonClicked()" [disabled]="addBookForm.invalid"
+                class="confirm-add-book-button">הוסף</button>
         </form>
     </div>
 </div>
@@ -85,8 +86,10 @@
                 </div>
 
                 <div class="edit-input" *ngIf="editFieldHasChosen">
-                    <button [disabled]="!editInputIsOnlyDigits" (click)="onConfirmFieldEdit(i, editInput)" class="confirm-edit-button">בצע</button>
-                    <input #editInput (input)="inputIsOnlyDigits(editInput)" class="edit-input-text" type="text" placeholder="הכנס ערך">
+                    <button [disabled]="!editInputIsOnlyDigits" (click)="onConfirmFieldEdit(i, editInput)"
+                        class="confirm-edit-button">בצע</button>
+                    <input #editInput (input)="inputIsOnlyDigits(editInput)" class="edit-input-text" type="text"
+                        placeholder="הכנס ערך">
                 </div>
             </div>
         </div>
@@ -99,8 +102,10 @@
                 לא לחינם הלך הזרזיר אצל העורב. דברי חכמים בנחת נשמעים. איזהו גבור? - הכובש את
                 יצרו. לך אל נמלה עצל, ראה דרכיה וחכם.שלח לחמך על-פני המים, כי ברב הימים תמצאנו.
             </div>
-            <div class="book-price"><strong> מחיר:</strong> {{book.price}} ₪</div>
-            <div class="book-id"><strong>מק"ט:</strong> {{book.id}}</div>
+            <div class="book-numeric-categories">
+                <div class="book-id"><strong>מק"ט:</strong> {{book.id}}</div>
+                <div class="book-price"><strong> מחיר:</strong> {{book.price}} ₪</div>
+            </div>
         </div>
 
         <img class="book-image" src="{{book.image}}" alt="">

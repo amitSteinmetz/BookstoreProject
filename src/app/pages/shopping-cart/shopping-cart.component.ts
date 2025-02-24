@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Book } from '../../models/book.model';
 import { Subscription } from 'rxjs';
 import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
@@ -17,6 +17,13 @@ export class ShoppingCartComponent implements OnInit {
   bookQuantity: number[] = [];
   totalPayment: number = 0;
   paymentApproved: boolean = false;
+  showPaymentBox: boolean = false;
+  isSmallScreen: boolean = window.innerWidth <= 1100;
+
+  @HostListener('window:resize')
+  checkScreenSize() {
+    this.isSmallScreen = window.innerWidth <= 1100;
+  }
 
   constructor(private shoppingCartService: ShoppingCartService, private _router: Router) { }
 
@@ -58,5 +65,9 @@ export class ShoppingCartComponent implements OnInit {
       this.removeBookFromCart(i)
     
     this._router.navigate(["/all-books"]); 
+  }
+
+  onPaymentMobileLinkClicked() {
+    this.showPaymentBox = !this.showPaymentBox;
   }
 }
