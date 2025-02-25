@@ -1,4 +1,4 @@
-<h1 class="headline">הספרים שלנו</h1>
+<h1 class="headline">:תוצאות החיפוש</h1>
 
 <div class="books-container">
     <div class="book" *ngFor="let book of currentPageBooks,
@@ -24,10 +24,11 @@
             <div class="icon">
                 <i class="fa-solid fa-heart"></i>
 
-                <span class="icon-info">Add to favorites</span>
+                <span class="icon-info">הוסף למועדפים</span>
             </div>
         </div>
     </div>
 </div>
 
 <app-pagination (pageNumberChanged)="switchPage($event)"></app-pagination>
+

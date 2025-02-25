@@ -19,7 +19,6 @@ export class AllBooksComponent implements OnInit {
   allBooks: Book[] = [];
   currentPageBooks: Book[] = [];
   booksSub: Subscription;
-  showBookIcons: boolean[] = [];
   clickedBookExistInCart: boolean[] = [];
   loggedUser: User;
   loggedUserSub: Subscription;
@@ -45,15 +44,6 @@ export class AllBooksComponent implements OnInit {
 
   get router() {
     return this._router;
-  }
-
-  onMouseEnterBook(index) {
-    this.showBookIcons[index] = true;
-  }
-
-  onMouseLeaveBook(index) {
-    this.showBookIcons[index] = false;
-    this.clickedBookExistInCart[index] = false;
   }
 
   switchPage(pageNumber: number) {

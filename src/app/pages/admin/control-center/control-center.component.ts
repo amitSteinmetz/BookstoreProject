@@ -3,30 +3,27 @@ import { Book } from '../../../models/book.model';
 import { Subscription } from 'rxjs';
 import { BooksService } from '../../../services/books-service/books.service';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AddBookComponent } from "./add-book/add-book.component";
 
 @Component({
   selector: 'app-control-center',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, AddBookComponent],
   templateUrl: './control-center.component.html',
   styleUrl: './control-center.component.scss'
 })
 export class ControlCenterComponent implements OnInit {
-  addBookForm: FormGroup;
   allBooks: Book[];
   allBooksSub: Subscription;
   showSettingsModal: boolean[] = [];
   showEditBookModal: boolean[] = [];
-  showAddBookModal: boolean = false;
   editFieldHasChosen: boolean = false;
   editInputIsOnlyDigits: boolean = false;
-
   isActiveField = {
     "price": false,
     "id": false
   }
 
-  constructor(private booksService: BooksService, private fb: FormBuilder) { }
+  constructor(private booksService: BooksService) { }
 
   ngOnInit(): void {
     this.allBooksSub = this.booksService.booksData.subscribe((books) => {
@@ -36,14 +33,6 @@ export class ControlCenterComponent implements OnInit {
         this.showSettingsModal.push(false);
         this.showEditBookModal.push(false);
       }
-
-      this.addBookForm = this.fb.group({
-        name: [, Validators.required],
-        author: [, Validators.required],
-        price: [, Validators.required],
-        id: [, [Validators.required, this.bookIdValidator(this.allBooks)]],
-        image: [, Validators.required],
-      })
     })
   }
 
@@ -91,49 +80,5 @@ export class ControlCenterComponent implements OnInit {
 
   inputIsOnlyDigits(editInput) {
     this.editInputIsOnlyDigits = /^\d+$/.test(editInput.value) ? true : false;
-  }
-
-  onAddBookButtonClicked() {
-    this.showAddBookModal = !this.showAddBookModal;
-  }
-
-  onCloseAddBookButtonClicked() {
-    this.showAddBookModal = false;
-  }
-
-  bookIdValidator(allBooks): ValidationErrors | null {
-    return (control: AbstractControl): ValidationErrors | null => {
-      let bookId = control.value as string;
-
-      for (let book of allBooks)
-        if (book.id === bookId)
-          return { "taken": control.value }
-
-      return null;
-    }
-  }
-
-  bookIdErrorMessage() {
-    const errors = this.addBookForm.get("id")?.errors;
-
-    if (errors['required'])
-      return 'יש להכניס מק"ט';
-
-    if (errors['taken'])
-      return "הספר כבר קיים במערכת";
-
-    return "";
-  }
-
-  onSubmitAddBook() {
-    this.booksService.addBook(
-      {
-        name: this.addBookForm.get("name").value,
-        author: this.addBookForm.get("author").value,
-        price: this.addBookForm.get("price").value,
-        id: this.addBookForm.get("id").value,
-        image: this.addBookForm.get("image").value,
-      }
-    );
   }
 }

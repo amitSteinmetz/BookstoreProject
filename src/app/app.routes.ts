@@ -3,7 +3,7 @@ import { UserEntranceComponent } from './pages/user-entrance/user-entrance.compo
 import { AllBooksComponent } from './pages/all-books/all-books.component';
 import { ShoppingCartComponent } from './pages/shopping-cart/shopping-cart.component';
 import { BookDetailsComponent } from './pages/book-details/book-details.component';
-import { FilteredBooksComponent } from './pages/all-books/filtered-books/filtered-books.component';
+import { FilteredBooksComponent } from './pages/filtered-books/filtered-books.component';
 import { UserAcountComponent } from './pages/user-account/user-acount.component';
 import { userGuard } from './guards/user-guard/user.guard';
 import { LoginAdminComponent } from './pages/admin/login-admin/login-admin.component';

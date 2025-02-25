@@ -1,19 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Book } from '../../../models/book.model';
-import { BooksService } from '../../../services/books-service/books.service';
+import { Book } from '../../models/book.model';
+import { BooksService } from '../../services/books-service/books.service';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { ShoppingCartService } from '../../../services/shopping-cart/shopping-cart.service';
-import { User } from '../../../models/user.model';
-import { UsersService } from '../../../services/users-service/users.service';
-import { PaginationComponent } from "../../../components/pagination/pagination.component";
+import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
+import { User } from '../../models/user.model';
+import { UsersService } from '../../services/users-service/users.service';
+import { PaginationComponent } from "../../components/pagination/pagination.component";
 
 @Component({
   selector: 'app-filtered-books',
   imports: [CommonModule, PaginationComponent],
   templateUrl: './filtered-books.component.html',
-  styleUrl: '../all-books.component.scss'
+  styleUrl: '../all-books/all-books.component.scss'
 })
 export class FilteredBooksComponent implements OnInit {
   filteredBooks: Book[] | null;
@@ -21,7 +21,6 @@ export class FilteredBooksComponent implements OnInit {
   currentPageBooks: Book[] = [];
   currentPageNumber: number = 1;
   clickedBookExistInCart: boolean[] = [];
-  showBookIcons: boolean[] = [];
   loggedUser: User;
   loggedUserSub: Subscription;
 
@@ -46,15 +45,6 @@ export class FilteredBooksComponent implements OnInit {
     return this._router;
   }
 
-  onMouseEnterBook(index) {
-    this.showBookIcons[index] = true;
-  }
-
-  onMouseLeaveBook(index) {
-    this.showBookIcons[index] = false;
-    this.clickedBookExistInCart[index] = false;
-  }
-
   switchPage(pageNumber: number) {
     this.currentPageNumber = pageNumber;
     this.currentPageBooks = this.filteredBooks.slice(12 * (this.currentPageNumber - 1), 12 * this.currentPageNumber);
@@ -62,7 +52,7 @@ export class FilteredBooksComponent implements OnInit {
 
   onAddToCartIconClicked(book) {
     if (!this.loggedUser) return;
-  
+
     if (!this.shoppingCartService.booksInCart.includes(book))
       this.shoppingCartService.addBookToCart(book);
 
