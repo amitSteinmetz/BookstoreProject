@@ -10,7 +10,6 @@
         </div>
 
         <app-login (userLoggedIn)="closeUserEntrance()" *ngIf="isLoginEntrance"></app-login>
-
         <app-sign-up (userSignedup)="showLoginModal()" *ngIf="!isLoginEntrance"></app-sign-up>
     </div>
 </div>

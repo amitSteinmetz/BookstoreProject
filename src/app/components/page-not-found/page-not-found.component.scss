@@ -1,0 +1,11 @@
+:host {
+    min-height: calc(100vh - 9rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 4rem;
+    text-align: center;
+}

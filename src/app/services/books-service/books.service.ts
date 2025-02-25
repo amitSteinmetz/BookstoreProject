@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BooksService {
-  _books: Book[] = [
+  _books: Book[] =  JSON.parse(localStorage.getItem('allBooks')) || [
     { name: "לפני החושך", author: "בראד תור", price: 59.90, id: "1111", image: "../../assets/books-images/לפני החושך.webp" },
     { name: "הלביאות מטהראן", author: "מרג'אן כמאלי", price: 49.90, id: "1112", image: "../../assets/books-images/הלביאות מטהראן.png" },
     { name: "סולם גנבים", author: "ליאור אנגלמן", price: 49.90, id: "1113", image: "../../assets/books-images/סולם גנבים.webp" },
@@ -71,36 +71,41 @@ export class BooksService {
     { name: "צללי ברלין", author: "דיוויד גילהם", price: 49.90, id: "3130", image: "../../assets/books-images/צללי ברלין.webp" }
 
   ];
-  
-  booksSubject: BehaviorSubject<Book[]> = new BehaviorSubject(this._books);
+  booksSubject: BehaviorSubject<Book[]> = new BehaviorSubject(
+    JSON.parse(localStorage.getItem('allBooks') || JSON.stringify(this._books))
+  );
   booksData: Observable<Book[]> = this.booksSubject.asObservable();
 
   filteredBooks: Book[] | null = [];
   filteredBooksSubject: BehaviorSubject<Book[]> = new BehaviorSubject(this.filteredBooks);
   filteredBooksData: Observable<Book[]> = this.filteredBooksSubject.asObservable();
 
-  constructor() { }
-
   filterBooks(filter: string) {
     this.filteredBooks = this._books.filter((book) => book.name.includes(filter as string) ||
       book.author.includes(filter as string));
 
     this.filteredBooksSubject.next(this.filteredBooks);
+    localStorage.setItem('filteredBooks', JSON.stringify(this.filteredBooks));
   }
 
   addBook(book: Book) {
     this._books.push(book);
-    this.booksSubject.next(this._books);
+    this.updateBooks();
   }
 
   deleteBook(bookIndex: number) {
     this._books.splice(bookIndex, 1);
-    this.booksSubject.next(this._books);
+    this.updateBooks();
   }
 
   editBook(bookIndex: number, category: string, value: any) {
     this._books.at(bookIndex)[category] = value;
-    this.booksSubject.next(this._books);
+    this.updateBooks();
+  }
+
+  updateBooks() {
+    localStorage.setItem('allBooks', JSON.stringify(this._books));
+    this.booksSubject.next([...this._books]);
   }
 }
 

@@ -61,11 +61,8 @@ export class FilteredBooksComponent implements OnInit {
   }
 
   onAddToCartIconClicked(book) {
-    if (!this.loggedUser) {
-      console.log("Please login to continue");
-      return;
-    }
-
+    if (!this.loggedUser) return;
+  
     if (!this.shoppingCartService.booksInCart.includes(book))
       this.shoppingCartService.addBookToCart(book);
 

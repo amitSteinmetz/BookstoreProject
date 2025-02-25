@@ -11,15 +11,19 @@
         <div *ngIf="showBookIcons[i]" class="book-icons">
             <div class="icon">
                 <i (click)="onAddToCartIconClicked(book)" class="fa-solid fa-shopping-cart"></i>
+
                 <div *ngIf="clickedBookExistInCart[i]" class="book-exist-in-cart-modal">
-                    הספר כבר קיים בעגלה
+                    הגדל את הכמות בעגלת הקניות
                 </div>
+
                 <span *ngIf="!clickedBookExistInCart[i]" class="icon-info">
                     {{loggedUser ? 'הוסף לעגלה' : 'יש להתחבר כדי להוסיף ספר לעגלה'}}
                 </span>
             </div>
+
             <div class="icon">
                 <i class="fa-solid fa-heart"></i>
+
                 <span class="icon-info">Add to favorites</span>
             </div>
         </div>

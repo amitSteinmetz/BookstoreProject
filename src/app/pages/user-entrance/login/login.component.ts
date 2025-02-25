@@ -15,6 +15,8 @@ import { Subscription } from 'rxjs';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   userExist: boolean = true;
+  users: User[];
+  usersSub: Subscription;
   admin: User;
   adminSub: Subscription;
   @Output() userLoggedIn: EventEmitter<void> = new EventEmitter();
@@ -25,6 +27,10 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       username: [, Validators.required],
       password: [, Validators.required]
+    })
+
+    this.usersSub = this.usersService.usersObs.subscribe((users) => {
+      this.users = users;
     })
 
     this.adminSub = this.usersService.adminObs.subscribe((admin) => {
@@ -43,9 +49,9 @@ export class LoginComponent implements OnInit {
   handleSubmit() {
     this.userExist = false;
 
-    for (let i = 0; i < this.usersService.users.length; i++) 
-      if (this.usersService.users[i].name === this.loginForm.get("username").value
-        && this.usersService.users[i].password === this.loginForm.get("password").value && !this.isAdmin()) {
+    for (let i = 0; i < this.users.length; i++)
+      if (this.users[i].name === this.loginForm.get("username").value
+        && this.users[i].password === this.loginForm.get("password").value && !this.isAdmin()) {
         this.usersService.updateCurrentUser(this.loginForm.get("username").value);
         this.userLoggedIn.emit();
         this.userExist = true;

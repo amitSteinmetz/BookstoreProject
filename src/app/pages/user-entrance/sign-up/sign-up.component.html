@@ -39,4 +39,12 @@
     </div>
 
     <button [disabled]="signupForm.invalid" type="submit">register</button>
+
+    <div class="successful-signup-modal-container" *ngIf="showSuccessfullSignupModal">
+        <div class="successful-signup-modal">
+            <i class="fas fa-xmark" (click)="onCloseSuccessfulSignupModal()"></i>
+            !נרשמת בהצלחה <br>
+            יש להתחבר כדי להיכנס לאתר
+        </div>
+    </div>
 </form>

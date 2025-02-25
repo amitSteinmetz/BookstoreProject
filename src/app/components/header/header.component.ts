@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
-import { SearchBoxComponent } from "../search-box/search-box.component";
+import { SearchBoxComponent } from "./search-box/search-box.component";
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -18,13 +18,13 @@ export class HeaderComponent implements OnInit {
   showSettingsModal: boolean = false;
   showMobileLinks: boolean = false;
   isSmallScreen: boolean = window.innerWidth <= 800;
-  
+
   @Output() user_icon_clicked: EventEmitter<void> = new EventEmitter();
-  @HostListener('window:resize') 
-    checkScreenSize() {
-      this.isSmallScreen = window.innerWidth <= 800;
-    }
-  
+  @HostListener('window:resize')
+  checkScreenSize() {
+    this.isSmallScreen = window.innerWidth <= 800;
+  }
+
   constructor(private _router: Router, private usersService: UsersService) { }
 
   ngOnInit(): void {

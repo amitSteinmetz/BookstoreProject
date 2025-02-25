@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
+  showSuccessfullSignupModal: boolean = false;
   users: User[];
   usersSub: Subscription;
   @Output() userSignedup: EventEmitter<void> = new EventEmitter();
@@ -98,6 +99,11 @@ export class SignUpComponent implements OnInit {
       password: this.signupForm.get("password").value
     })
 
+    this.showSuccessfullSignupModal = true;
+  }
+
+  onCloseSuccessfulSignupModal() {
+    this.showSuccessfullSignupModal = false;
     this.userSignedup.emit();
   }
 }
