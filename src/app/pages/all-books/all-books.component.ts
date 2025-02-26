@@ -54,9 +54,10 @@ export class AllBooksComponent implements OnInit {
   onAddToCartIconClicked(book) {
     if (!this.loggedUser) return;
 
-    if (!this.shoppingCartService.booksInCart.includes(book))
-      this.shoppingCartService.addBookToCart(book);
-
+    if (!this.shoppingCartService.bookExistInCart(this.loggedUser, book)) {
+      this.shoppingCartService.addBookToCart(this.loggedUser ,book);
+    }
+    
     else this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true;
   }
 

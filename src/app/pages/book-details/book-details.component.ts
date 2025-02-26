@@ -41,7 +41,7 @@ export class BookDetailsComponent implements OnInit {
 
   addBookToCart() {
     if (this.loggedUser) {
-      this.shoppingCartService.addBookToCart(this.bookToDisplay);
+      this.shoppingCartService.addBookToCart(this.loggedUser ,this.bookToDisplay);
       this.bookAddedToCart = true;
     }
   }

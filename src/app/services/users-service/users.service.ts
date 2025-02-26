@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../../models/user.model';
+import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +22,13 @@ export class UsersService {
   adminSubject: BehaviorSubject<User> = new BehaviorSubject<User>(this.admin);
   adminObs: Observable<User> = this.adminSubject.asObservable();
 
-  constructor() { }
+  constructor(private shoppingCartService: ShoppingCartService) { }
 
   addUser(user: User) {
     this.users.push(user);
     this.usersSub.next(this.users);
     localStorage.setItem("users", JSON.stringify(this.users));
+    this.shoppingCartService.addUserCart(user);
   }
 
   updateCurrentUser(userName: string) {
@@ -45,6 +47,7 @@ export class UsersService {
 
     this.loggedUser[category] = newValue;
     this.updateLoggedUser();
+    this.shoppingCartService.editUserCart(this.loggedUser, category, newValue);
   }
 
   logout() {

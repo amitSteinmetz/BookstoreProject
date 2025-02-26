@@ -1,15 +1,15 @@
 <h1 class="headline">סל הקניות</h1>
 
 <div class="cart-container">
-    <div class="empty-cart-message" *ngIf="!(booksInCart.length > 0)">
+    <div class="empty-cart-message" *ngIf="!(userCart.books.length > 0)">
         אופס, עוד לא קנית כלום... הספרים שלנו מחכים לך, אל תפספס!
     </div>
 
-    <div class="payment-mobile-link" (click)="onPaymentMobileLinkClicked()">
+    <div class="payment-mobile-link" (click)="onPaymentMobileLinkClicked()" *ngIf="userCart.books.length > 0">
         {{showPaymentBox ? 'חזרה לעגלה' : 'מעבר לתשלום'}}
     </div>
 
-    <div class="payment-box" *ngIf="(showPaymentBox || !isSmallScreen)">
+    <div class="payment-box" *ngIf="userCart.books.length > 0 && (showPaymentBox || !isSmallScreen)">
         <h2>קופה</h2>
 
         <div class="payment-details">
@@ -20,12 +20,12 @@
 
             <div class="temp-payment">
                 <div class="temp-payment-text"> סכום ביניים:</div>
-                <div class="temp-payment-amount">{{totalPayment | number: '1.0-3'}} ₪</div>
+                <div class="temp-payment-amount">{{userCart.totalPayment | number: '1.0-3'}} ₪</div>
             </div>
 
             <div class="final-payment">
                 <div class="final-payment-text">סה"כ לתשלום: </div>
-                <div class="final-payment-amount">{{totalPayment | number: '1.0-3'}} ₪</div>
+                <div class="final-payment-amount">{{userCart.totalPayment | number: '1.0-3'}} ₪</div>
             </div>
         </div>
 
@@ -33,7 +33,7 @@
     </div>
 
     <div class="chosen-books-container">
-        <div class="book" *ngFor="let book of booksInCart, let i = index">
+        <div class="book" *ngFor="let book of userCart.books, let i = index">
             <i (click)="removeBookFromCart(i)" class="fa-solid fa-xmark">
                 <div class="remove-book-from-cart-modal">Remove from cart</div>
             </i>
@@ -42,9 +42,9 @@
                 <h3>:בחרו כמות רצויה</h3>
 
                 <div class="book-quantity-input">
-                    <button (click)="onDecreaseQuantityButtonClicked(i)" class="control-quantity-button">-</button>
-                    <div class="quantity">{{bookQuantity[i]}}</div>
-                    <button (click)="onIncreaseQuantityButtonClicked(i)" class="control-quantity-button">+</button>
+                    <button (click)="onQuantityButtonClicked(i, -1)" class="control-quantity-button">-</button>
+                    <div class="quantity">{{userCart.quantity[i]}}</div>
+                    <button (click)="onQuantityButtonClicked(i, 1)" class="control-quantity-button">+</button>
                 </div>
             </div>
 
