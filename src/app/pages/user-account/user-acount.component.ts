@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users-service/users.service';
 import { User } from '../../models/user.model';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './user-acount.component.html',
   styleUrl: './user-acount.component.scss'
 })
-export class UserAcountComponent implements OnInit {
+export class UserAcountComponent implements OnInit, OnDestroy {
   admin: User;
   adminSub: Subscription;
   loggedUser: User;
@@ -32,6 +32,11 @@ export class UserAcountComponent implements OnInit {
       this.adminSub = this.usersService.adminObs.subscribe((admin) => {
         this.admin = admin;
       })
+  }
+
+  ngOnDestroy(): void {
+      this.loggedUserSub.unsubscribe();
+      this.adminSub.unsubscribe();
   }
 
   onEditIconClicked(field) {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
 import { SearchBoxComponent } from "./search-box/search-box.component";
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,7 @@ import { User } from '../../models/user.model';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   loggedUser: User;
   loggedUserSub: Subscription;
   showSettingsModal: boolean = false;
@@ -31,6 +31,10 @@ export class HeaderComponent implements OnInit {
     this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
       this.loggedUser = loggedUser;
     })
+  }
+
+  ngOnDestroy(): void {
+      this.loggedUserSub.unsubscribe();
   }
 
   onUserIconClicked() {

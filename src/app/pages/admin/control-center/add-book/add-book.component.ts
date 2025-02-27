@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Book } from '../../../../models/book.model';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { BooksService } from '../../../../services/books-service/books.service';
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.scss'
 })
-export class AddBookComponent {
+export class AddBookComponent implements OnInit, OnDestroy {
   addBookForm: FormGroup;
   allBooks: Book[];
   allBooksSub: Subscription;
@@ -31,6 +31,10 @@ export class AddBookComponent {
         image: [, Validators.required],
       })
     })
+  }
+
+  ngOnDestroy(): void {
+      this.allBooksSub.unsubscribe();
   }
 
   onAddBookButtonClicked() {

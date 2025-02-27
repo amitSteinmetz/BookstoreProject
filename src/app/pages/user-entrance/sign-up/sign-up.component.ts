@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UsersService } from '../../../services/users-service/users.service';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss'
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
   showSuccessfullSignupModal: boolean = false;
   users: User[];
@@ -34,6 +34,10 @@ export class SignUpComponent implements OnInit {
     },
       { validators: this.notSamePasswordsValidator }
     )
+  }
+
+  ngOnDestroy(): void {
+      this.usersSub.unsubscribe();
   }
 
   takenUsernameValidator(users: User[]): ValidationErrors | null {

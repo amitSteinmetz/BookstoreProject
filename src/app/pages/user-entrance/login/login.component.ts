@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UsersService } from '../../../services/users-service/users.service';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   userExist: boolean = true;
   users: User[];
@@ -37,6 +37,11 @@ export class LoginComponent implements OnInit {
       this.admin = admin;
     })
   }
+
+  ngOnDestroy(): void {
+    this.usersSub.unsubscribe();
+    this.adminSub.unsubscribe();
+}
 
   onCloseNotExistUserModal() {
     this.userExist = true;

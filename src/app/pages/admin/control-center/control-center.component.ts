@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Book } from '../../../models/book.model';
 import { Subscription } from 'rxjs';
 import { BooksService } from '../../../services/books-service/books.service';
@@ -11,7 +11,7 @@ import { AddBookComponent } from "./add-book/add-book.component";
   templateUrl: './control-center.component.html',
   styleUrl: './control-center.component.scss'
 })
-export class ControlCenterComponent implements OnInit {
+export class ControlCenterComponent implements OnInit, OnDestroy {
   allBooks: Book[];
   allBooksSub: Subscription;
   showSettingsModal: boolean[] = [];
@@ -34,6 +34,10 @@ export class ControlCenterComponent implements OnInit {
         this.showEditBookModal.push(false);
       }
     })
+  }
+
+  ngOnDestroy(): void {
+      this.allBooksSub.unsubscribe();
   }
 
   onSettingsIconClicked(bookIndex: number) {

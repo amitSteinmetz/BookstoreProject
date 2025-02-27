@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Book } from '../../models/book.model';
 import { Subscription } from 'rxjs';
 import { BooksService } from '../../services/books-service/books.service';
@@ -15,7 +15,7 @@ import { PaginationComponent } from "../../components/pagination/pagination.comp
   templateUrl: './all-books.component.html',
   styleUrl: './all-books.component.scss'
 })
-export class AllBooksComponent implements OnInit {
+export class AllBooksComponent implements OnInit, OnDestroy {
   allBooks: Book[] = [];
   currentPageBooks: Book[] = [];
   booksSub: Subscription;
@@ -40,6 +40,11 @@ export class AllBooksComponent implements OnInit {
     
     for (let i = 0; i < this.allBooks.length; i++)
       this.clickedBookExistInCart.push(false);
+  }
+
+  ngOnDestroy(): void {
+      this.booksSub.unsubscribe();
+      this.loggedUserSub.unsubscribe();
   }
 
   get router() {

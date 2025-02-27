@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Book } from '../../models/book.model';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.scss'
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnInit, OnDestroy {
   allBooksSub: Subscription;
   filteredBooksSub: Subscription;
   allBookspagesAmount: number;
@@ -37,6 +37,11 @@ export class PaginationComponent {
       if (this.currentPagesAmount >= 3)
         this.relevantPagesNumbers.push(2);
     })
+  }
+
+  ngOnDestroy(): void {
+      this.allBooksSub.unsubscribe();
+      this.filteredBooksSub.unsubscribe();
   }
 
   onPageNumberClicked(pageNumber) {

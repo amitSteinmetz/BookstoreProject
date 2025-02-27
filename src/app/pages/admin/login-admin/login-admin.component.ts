@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../../services/users-service/users.service';
 import { User } from '../../../models/user.model';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './login-admin.component.html',
   styleUrl: './login-admin.component.scss'
 })
-export class LoginAdminComponent implements OnInit {
+export class LoginAdminComponent implements OnInit, OnDestroy {
   admin: User;
   adminSub: Subscription;
   loginForm: FormGroup;
@@ -29,6 +29,10 @@ export class LoginAdminComponent implements OnInit {
     this.adminSub = this.usersService.adminObs.subscribe((admin) => {
       this.admin = admin;
     })
+  }
+
+  ngOnDestroy(): void {
+      this.adminSub.unsubscribe();
   }
 
   onCloseAdminNotExistModal() {

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,7 @@ import { Cart } from '../../models/cart.model';
   templateUrl: './shopping-cart.component.html',
   styleUrl: './shopping-cart.component.scss'
 })
-export class ShoppingCartComponent implements OnInit {
+export class ShoppingCartComponent implements OnInit, OnDestroy {
   loggedUser: User;
   loggedUserSub: Subscription;
   userCart: Cart;
@@ -39,6 +39,11 @@ export class ShoppingCartComponent implements OnInit {
       this.userCart = usersCart.find((cart) => cart.user.name === this.loggedUser.name);
     })
   }
+
+  ngOnDestroy(): void {
+    this.userCartSub.unsubscribe();
+    this.loggedUserSub.unsubscribe();
+}
 
   onQuantityButtonClicked(bookIndex: number, amount) {
     if (this.userCart.quantity[bookIndex] === 1 && amount === -1)

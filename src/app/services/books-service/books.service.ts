@@ -80,6 +80,11 @@ export class BooksService {
   filteredBooksSubject: BehaviorSubject<Book[]> = new BehaviorSubject(this.filteredBooks);
   filteredBooksData: Observable<Book[]> = this.filteredBooksSubject.asObservable();
 
+  constructor() {
+    if (!localStorage.getItem('allBooks')) 
+      localStorage.setItem('allBooks', JSON.stringify(this._books));
+  }
+
   filterBooks(filter: string) {
     this.filteredBooks = this._books.filter((book) => book.name.includes(filter as string) ||
       book.author.includes(filter as string));

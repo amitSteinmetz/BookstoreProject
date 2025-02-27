@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BooksService } from '../../services/books-service/books.service';
 import { Book } from '../../models/book.model';
@@ -14,7 +14,7 @@ import { UsersService } from '../../services/users-service/users.service';
   templateUrl: './book-details.component.html',
   styleUrl: './book-details.component.scss'
 })
-export class BookDetailsComponent implements OnInit {
+export class BookDetailsComponent implements OnInit, OnDestroy {
   allBooks: Book[] = [];
   allBooksSub: Subscription;
   bookToDisplay: Book;
@@ -37,6 +37,11 @@ export class BookDetailsComponent implements OnInit {
     })
 
     this.bookToDisplay = this.allBooks.find((book) => book.id === bookId);
+  }
+
+  ngOnDestroy(): void {
+      this.allBooksSub.unsubscribe();
+      this.loggedUserSub.unsubscribe();
   }
 
   addBookToCart() {

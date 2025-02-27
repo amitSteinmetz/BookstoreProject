@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Book } from '../../models/book.model';
 import { BooksService } from '../../services/books-service/books.service';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,7 @@ import { PaginationComponent } from "../../components/pagination/pagination.comp
   templateUrl: './filtered-books.component.html',
   styleUrl: '../all-books/all-books.component.scss'
 })
-export class FilteredBooksComponent implements OnInit {
+export class FilteredBooksComponent implements OnInit, OnDestroy {
   filteredBooks: Book[] | null;
   filteredBooksSubscription: Subscription;
   currentPageBooks: Book[] = [];
@@ -40,6 +40,11 @@ export class FilteredBooksComponent implements OnInit {
     for (let i = 0; i < this.filteredBooks.length; i++)
       this.clickedBookExistInCart.push(false);
   }
+
+  ngOnDestroy(): void {
+    this.filteredBooksSubscription.unsubscribe();
+    this.loggedUserSub.unsubscribe();
+}
 
   get router() {
     return this._router;
