@@ -32,7 +32,9 @@ export class UsersService {
   }
 
   updateCurrentUser(userName: string) {
-    this.loggedUser = this.users.find((user) => user.name === userName);
+    this.loggedUser = (this.admin.name === userName) ?
+      this.admin : this.users.find((user) => user.name === userName);
+
     this.updateLoggedUser();
   }
 
@@ -42,10 +44,11 @@ export class UsersService {
       this.adminSubject.next(this.admin);
       localStorage.setItem("admin", JSON.stringify(this.admin));
     }
+    else {
+      this.users.find((user) => user.name === this.loggedUser.name)[category] = newValue;
 
-    this.users.find((user) => user.name === this.loggedUser.name)[category] = newValue;
+    }
 
-    this.loggedUser[category] = newValue;
     this.updateLoggedUser();
     this.shoppingCartService.editUserCart(this.loggedUser, category, newValue);
   }
