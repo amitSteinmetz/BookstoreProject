@@ -3,9 +3,9 @@
 <div class="books-container">
     <div class="book" *ngFor="let book of currentPageBooks,
     let i = index">
-        <img (click)="router.navigate(['/book-details', book.id])" class="book-image" src="{{book.image}}" alt="">
+        <img (click)="router.navigate(['/book-details', book.id])" class="book-image" src="{{book.imgPath}}" alt="">
         <div class="book-name">{{book.name}}</div>
-        <div class="book-author">{{book.author}}</div>
+        <div class="book-author">{{book.authorName}}</div>
         <div class="book-price">₪ {{book.price}} <strong> :מחיר</strong></div>
 
         <div class="book-icons">

@@ -26,14 +26,14 @@ export class ControlCenterComponent implements OnInit, OnDestroy {
   constructor(private booksService: BooksService) { }
 
   ngOnInit(): void {
-    this.allBooksSub = this.booksService.booksData.subscribe((books) => {
-      this.allBooks = books;
+    // this.allBooksSub = this.booksService.booksData.subscribe((books) => {
+    //   this.allBooks = books;
 
-      for (let i = 0; i < this.allBooks.length; i++) {
-        this.showSettingsModal.push(false);
-        this.showEditBookModal.push(false);
-      }
-    })
+    //   for (let i = 0; i < this.allBooks.length; i++) {
+    //     this.showSettingsModal.push(false);
+    //     this.showEditBookModal.push(false);
+    //   }
+    // })
   }
 
   ngOnDestroy(): void {

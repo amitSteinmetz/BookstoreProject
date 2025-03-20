@@ -17,8 +17,8 @@ import { PaginationComponent } from "../../components/pagination/pagination.comp
 })
 export class AllBooksComponent implements OnInit, OnDestroy {
   allBooks: Book[] = [];
+  allBooksSubscription: Subscription;
   currentPageBooks: Book[] = [];
-  booksSub: Subscription;
   clickedBookExistInCart: boolean[] = [];
   loggedUser: User;
   loggedUserSub: Subscription;
@@ -28,27 +28,24 @@ export class AllBooksComponent implements OnInit, OnDestroy {
     private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.booksSub = this.booksService.booksData.subscribe((books) => {
-      this.allBooks = books;
-    })
-
     this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
       this.loggedUser = loggedUser;
     })
 
-    this.currentPageBooks = this.allBooks.slice(0, 12);
-    
-    for (let i = 0; i < this.allBooks.length; i++)
-      this.clickedBookExistInCart.push(false);
+    this.allBooksSubscription = this.booksService.getAllBooks().subscribe({
+      next: (books) => {
+        this.allBooks = books;
+        this.currentPageBooks = this.allBooks.slice(0, 12);
+
+        for (let i = 0; i < this.allBooks.length; i++)
+          this.clickedBookExistInCart.push(false);
+      },
+      error: (err) => { console.log(err) }
+    })
   }
 
   ngOnDestroy(): void {
-      this.booksSub.unsubscribe();
-      this.loggedUserSub.unsubscribe();
-  }
-
-  get router() {
-    return this._router;
+    this.loggedUserSub.unsubscribe();
   }
 
   switchPage(pageNumber: number) {
@@ -60,13 +57,17 @@ export class AllBooksComponent implements OnInit, OnDestroy {
     if (!this.loggedUser) return;
 
     if (!this.shoppingCartService.bookExistInCart(this.loggedUser, book)) {
-      this.shoppingCartService.addBookToCart(this.loggedUser ,book);
+      this.shoppingCartService.addBookToCart(this.loggedUser, book);
     }
-    
+
     else this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true;
   }
 
   filterBooks(filter: string) {
-    return this.allBooks.filter((book) => book.name.includes(filter) || book.author.includes(filter));
+    // return this.allBooks.filter((book) => book.name.includes(filter) || book.author.includes(filter));
+  }
+
+  get router() {
+    return this._router;
   }
 }

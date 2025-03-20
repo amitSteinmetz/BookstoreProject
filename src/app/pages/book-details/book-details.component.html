@@ -1,14 +1,10 @@
-<div class="book-container">
+<div class="book-container" *ngIf="bookToDisplay">
     <div class="book-details">
         <div class="book-name">{{bookToDisplay.name}}</div>
-        <div class="book-author">{{bookToDisplay.author}}</div>
+        <div class="book-author">{{bookToDisplay.authorName}}</div>
         <div class="book-preview">
             <h2>:על הספר</h2>
-            <div class="book-preview-text">לא לחינם הלך הזרזיר אצל העורב. דברי חכמים בנחת נשמעים. איזהו גבור? - הכובש את
-                יצרו. לך אל נמלה עצל, ראה דרכיה וחכם.שלח לחמך על-פני המים, כי ברב הימים תמצאנו. לך אל נמלה עצל, ראה
-                דרכיה וחכם.אתר יויו האתר שיש בו הכל, אפילו יוצר משפטים. בור ששתית ממנו - אל תזרוק בו אבן. איזהו גבור? -
-                הכובש את יצרו. לך אל נמלה עצל, ראה דרכיה וחכם.בור ששתית ממנו - אל תזרוק בו אבן. לא הבישן למד, ולא הקפדן
-                מלמד. לא לחינם הלך הזרזיר אצל העורב. איזהו גבור? - הכובש את יצרו. לא לחינם הלך הזרזיר אצל העורב.</div>
+            <div class="book-preview-text">{{bookToDisplay.description}}</div>
         </div>
         <div class="book-id">{{bookToDisplay.id}} :מק"ט</div>
         <div class="book-price">
@@ -29,5 +25,5 @@
         </div>
     </div>
 
-    <img src="{{bookToDisplay.image}}" alt="">
+    <img src="{{bookToDisplay.imgPath}}" alt="">
 </div>

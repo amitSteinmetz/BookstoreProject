@@ -15,38 +15,36 @@ import { UsersService } from '../../services/users-service/users.service';
   styleUrl: './book-details.component.scss'
 })
 export class BookDetailsComponent implements OnInit, OnDestroy {
-  allBooks: Book[] = [];
-  allBooksSub: Subscription;
   bookToDisplay: Book;
   bookAddedToCart: boolean = false;
   loggedUser: User;
   loggedUserSub: Subscription;
 
   constructor(private router: ActivatedRoute, private booksService: BooksService,
-    private shoppingCartService: ShoppingCartService, private usersService: UsersService) { }
+    private shoppingCartService: ShoppingCartService, private usersService: UsersService) {
+  }
 
   ngOnInit(): void {
-    const bookId = this.router.snapshot.paramMap.get('id');
-
-    this.allBooksSub = this.booksService.booksData.subscribe((allBooks) => {
-      this.allBooks = allBooks;
-    })
-
     this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
       this.loggedUser = loggedUser;
     })
 
-    this.bookToDisplay = this.allBooks.find((book) => book.id === bookId);
+    const bookId = this.router.snapshot.paramMap.get('id');
+    this.booksService.getBookById(bookId).subscribe({
+      next: (book) => {
+        this.bookToDisplay = book;
+      },
+      error: (err) => { console.log(err) }
+    });
   }
 
   ngOnDestroy(): void {
-      this.allBooksSub.unsubscribe();
-      this.loggedUserSub.unsubscribe();
+    this.loggedUserSub.unsubscribe();
   }
 
   addBookToCart() {
     if (this.loggedUser) {
-      this.shoppingCartService.addBookToCart(this.loggedUser ,this.bookToDisplay);
+      this.shoppingCartService.addBookToCart(this.loggedUser, this.bookToDisplay);
       this.bookAddedToCart = true;
     }
   }

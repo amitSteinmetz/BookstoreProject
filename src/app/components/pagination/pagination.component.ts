@@ -24,24 +24,27 @@ export class PaginationComponent implements OnInit, OnDestroy {
   constructor(private booksService: BooksService, private _router: Router) { }
 
   ngOnInit(): void {
-    this.allBooksSub = this.booksService.booksData.subscribe((books) => {
-      this.allBookspagesAmount = Math.ceil(books.length / 12);
-    })
+    this.allBooksSub = this.booksService.getAllBooks().subscribe({
+      next: (books) => {
+        this.allBookspagesAmount = Math.ceil(books.length / 12);
 
-    this.filteredBooksSub = this.booksService.filteredBooksData.subscribe((books) => {
-      this.filteredBookspagesAmount = Math.ceil(books.length / 12);
-      this.currentPageNumber = 1;
-      this.currentPagesAmount = (this._router.url === '/all-books') ? this.allBookspagesAmount : this.filteredBookspagesAmount;
-      this.relevantPagesNumbers = [1];
-      
-      if (this.currentPagesAmount >= 3)
-        this.relevantPagesNumbers.push(2);
+        this.filteredBooksSub = this.booksService.filteredBooksData.subscribe((books) => {
+          this.filteredBookspagesAmount = Math.ceil(books.length / 12);
+          this.currentPageNumber = 1;
+          this.currentPagesAmount = (this._router.url === '/all-books') ? this.allBookspagesAmount : this.filteredBookspagesAmount;
+          this.relevantPagesNumbers = [1];
+
+          if (this.currentPagesAmount >= 3)
+            this.relevantPagesNumbers.push(2);
+        })
+      },
+      error: (err) => { console.log(err) }
     })
   }
 
   ngOnDestroy(): void {
-      this.allBooksSub.unsubscribe();
-      this.filteredBooksSub.unsubscribe();
+    this.allBooksSub.unsubscribe();
+    this.filteredBooksSub.unsubscribe();
   }
 
   onPageNumberClicked(pageNumber) {

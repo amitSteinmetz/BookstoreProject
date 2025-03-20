@@ -20,17 +20,17 @@ export class AddBookComponent implements OnInit, OnDestroy {
   constructor(private booksService: BooksService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.allBooksSub = this.booksService.booksData.subscribe((books) => {
-      this.allBooks = books;
+    // this.allBooksSub = this.booksService.booksData.subscribe((books) => {
+    //   this.allBooks = books;
 
-      this.addBookForm = this.fb.group({
-        name: [, Validators.required],
-        author: [, Validators.required],
-        price: [, Validators.required],
-        id: [, [Validators.required, this.bookIdValidator(this.allBooks)]],
-        image: [, Validators.required],
-      })
-    })
+    //   this.addBookForm = this.fb.group({
+    //     name: [, Validators.required],
+    //     author: [, Validators.required],
+    //     price: [, Validators.required],
+    //     id: [, [Validators.required, this.bookIdValidator(this.allBooks)]],
+    //     image: [, Validators.required],
+    //   })
+    // })
   }
 
   ngOnDestroy(): void {
@@ -70,14 +70,14 @@ export class AddBookComponent implements OnInit, OnDestroy {
   }
 
   onSubmitAddBook() {
-    this.booksService.addBook(
-      {
-        name: this.addBookForm.get("name").value,
-        author: this.addBookForm.get("author").value,
-        price: this.addBookForm.get("price").value,
-        id: this.addBookForm.get("id").value,
-        image: this.addBookForm.get("image").value,
-      }
-    );
+    // this.booksService.addBook(
+    //   {
+    //     name: this.addBookForm.get("name").value,
+    //     author: this.addBookForm.get("author").value,
+    //     price: this.addBookForm.get("price").value,
+    //     id: this.addBookForm.get("id").value,
+    //     image: this.addBookForm.get("image").value,
+    //   }
+    // );
   }
 }

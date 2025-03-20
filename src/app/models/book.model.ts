@@ -1,7 +1,8 @@
 export interface Book {
+    id: number,
     name: string,
-    author: string,
+    authorName: string,
+    description: string,
     price: number,
-    id: string,
-    image: string
+    imgPath: string
 }
