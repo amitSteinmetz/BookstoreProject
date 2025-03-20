@@ -1,41 +1,40 @@
 <div class="account-container">
-    <h1 class="headline" *ngIf="loggedUser !== admin">פרטי {{(loggedUser.name !== admin.name ? 'החשבון שלך' : 'מנהל')}}
-    </h1>
+    <h1 class="headline">פרטי {{(isAdmin() ? 'מנהל' : 'החשבון שלך')}}</h1>
 
     <div class="user-field">
         <div class="field-content">
-            <span class="category"> שם משתמש:</span>
-            <span class="value" *ngIf="!editIconClicked[loggedUser.name]">{{loggedUser.name}}</span>
+            <span class="category"> שם:</span>
+            <span class="value" *ngIf="!editIconClicked.name">{{loggedUser.name}}</span>
             <input (keyup.enter)="onEnterNewValue('name', $event)" class="edit-value" type="text"
-                *ngIf="editIconClicked[loggedUser.name]" placeholder="הכנס ערך..">
+                *ngIf="editIconClicked.name" placeholder="הכנס ערך..">
         </div>
 
-        <i (click)="onEditIconClicked(loggedUser.name)" class="far fa-edit"></i>
+        <i (click)="onEditIconClicked('name')" class="far fa-edit"></i>
     </div>
 
     <div class="user-field">
         <div class="field-content">
             <span class="category"> אימייל:</span>
-            <span class="value" *ngIf="!editIconClicked[loggedUser.email]">{{loggedUser.email}}</span>
+            <span class="value" *ngIf="!editIconClicked.email">{{loggedUser.email}}</span>
             <input (keyup.enter)="onEnterNewValue('email', $event)" class="edit-value" type="text"
-                *ngIf="editIconClicked[loggedUser.email]" placeholder="הכנס ערך..">
+                *ngIf="editIconClicked.email" placeholder="הכנס ערך..">
         </div>
 
-        <i (click)="onEditIconClicked(loggedUser.email)" class="far fa-edit"></i>
+        <i (click)="onEditIconClicked('email')" class="far fa-edit"></i>
     </div>
 
     <div class="user-field">
         <div class="field-content">
             <span class="category"> סיסמא:</span>
-            <span class="value" *ngIf="!editIconClicked[loggedUser.password]">{{loggedUser.password}}</span>
+            <span class="value" *ngIf="!editIconClicked.password">xxxxxxxxxxxxxxx</span>
             <input (keyup.enter)="onEnterNewValue('password', $event)" class="edit-value" type="text"
-                *ngIf="editIconClicked[loggedUser.password]" placeholder="הכנס ערך..">
+                *ngIf="editIconClicked.password" placeholder="הכנס ערך..">
         </div>
 
-        <i (click)="onEditIconClicked(loggedUser.password)" class="far fa-edit"></i>
+        <i (click)="onEditIconClicked('password')" class="far fa-edit"></i>
     </div>
 
-    <button (click)="onDeleteAccountButtonClicked()" class="delete-account" *ngIf="loggedUser.name !== admin.name">
+    <button (click)="onDeleteAccountButtonClicked()" class="delete-account" *ngIf="!isAdmin()">
         מחק חשבון
     </button>
 </div>

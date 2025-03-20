@@ -1,10 +1,10 @@
 <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
     <div class="form-text-input">
-        <label for="username">שם משתמש: </label>
-        <input type="text" formControlName="username"
-            [ngClass]="{'error-border' : loginForm.get('username').invalid && loginForm.get('username').touched}">
-        <div *ngIf="loginForm.get('username').invalid && loginForm.get('username').touched" class="error-message">
-            יש להכניס שם משתמש
+        <label for="email">אימייל: </label>
+        <input type="text" formControlName="email"
+            [ngClass]="{'error-border' : loginForm.get('email').invalid && loginForm.get('email').touched}">
+        <div *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched" class="error-message">
+            יש להכניס אימייל
         </div>
     </div>
 
@@ -23,7 +23,6 @@
 <div class="user-not-exit-modal-container" *ngIf="!userExist">
     <div class="user-not-exit-modal">
         <i class="fas fa-xmark" (click)="onCloseNotExistUserModal()"></i>
-        {{isAdmin() ? 'הינך מנסה להיכנס כמנהל, זאת כניסת משתמשים בלבד' :
-        'שם המשתמש ו/או סיסמא אינם קיימים במערכת, אנא וודא שהכנסת את פרטיך באופן תקין'}}
+        כתובת המייל ו/או סיסמא אינם קיימים במערכת או שהינך מנסה להיכנס כמנהל, אנא וודא שהכנסת את פרטיך באופן תקין
     </div>
 </div>

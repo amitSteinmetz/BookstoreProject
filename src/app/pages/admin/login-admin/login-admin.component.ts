@@ -25,10 +25,6 @@ export class LoginAdminComponent implements OnInit, OnDestroy {
       adminName: [, Validators.required],
       password: [, Validators.required]
     })
-
-    this.adminSub = this.usersService.adminObs.subscribe((admin) => {
-      this.admin = admin;
-    })
   }
 
   ngOnDestroy(): void {
@@ -40,11 +36,11 @@ export class LoginAdminComponent implements OnInit, OnDestroy {
   }
 
   handleSubmit() {
-    if (this.admin.name === this.loginForm.get("adminName").value &&
-      this.admin.password === this.loginForm.get("password").value) {
-      this.usersService.updateCurrentUser(this.admin.name);
-      this.router.navigate(["/control-center"]);
-    }
+    // if (this.admin.name === this.loginForm.get("adminName").value &&
+    //   this.admin.password === this.loginForm.get("password").value) {
+    //   this.usersService.updateCurrentUser(this.admin.name);
+    //   this.router.navigate(["/control-center"]);
+    // }
 
     this.adminNotExist = true;
   }

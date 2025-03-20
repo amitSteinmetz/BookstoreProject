@@ -1,11 +1,11 @@
 <form [formGroup]="signupForm" (ngSubmit)="handleSubmit()">
     <div class="form-text-inputs">
         <div class="form-text-input">
-            <label for="username">שם משתמש: </label>
-            <input type="text" formControlName="username"
-                [ngClass]="{'error-border' : signupForm.get('username').invalid && signupForm.get('username').touched}">
-            <div *ngIf="signupForm.get('username').invalid && signupForm.get('username').touched" class="error-message">
-                {{usernameErrorMessage()}}
+            <label for="name">שם משתמש: </label>
+            <input type="text" formControlName="name"
+                [ngClass]="{'error-border' : signupForm.get('name').invalid && signupForm.get('name').touched}">
+            <div *ngIf="signupForm.get('name').invalid && signupForm.get('name').touched" class="error-message">
+                יש להכניס שם משתמש
             </div>
         </div>
 
@@ -28,12 +28,12 @@
         </div>
 
         <div class="form-text-input">
-            <label for="repeat-password">סיסמא חוזרת: </label>
-            <input type="password" formControlName="repeatPassword"
-                [ngClass]="{'error-border' : (signupForm.get('repeatPassword').invalid || signupForm.invalid) && signupForm.get('repeatPassword').touched}">
-            <div *ngIf="(signupForm.get('repeatPassword').invalid || signupForm.invalid) && signupForm.get('repeatPassword').touched"
+            <label for="confirm-password">סיסמא חוזרת: </label>
+            <input type="password" formControlName="confirmPassword"
+                [ngClass]="{'error-border' : (signupForm.get('confirmPassword').invalid || signupForm.invalid) && signupForm.get('confirmPassword').touched}">
+            <div *ngIf="(signupForm.get('confirmPassword').invalid || signupForm.invalid) && signupForm.get('confirmPassword').touched"
                 class="error-message">
-                {{repeatPasswordErrorMessage()}}
+                {{confirmPasswordErrorMessage()}}
             </div>
         </div>
     </div>

@@ -1,72 +1,76 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 import { User } from '../../models/user.model';
 import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
+import { Signup } from '../../models/signup.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { Login } from '../../models/login.model';
+import { LoggedUser } from '../../models/loggedUser.model';
+import { Router } from '@angular/router';
+import { UpdatedUser } from '../../models/updatedUser.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  users: User[] = JSON.parse(localStorage.getItem("users")) || [];
 
-  usersSub: BehaviorSubject<User[]> = new BehaviorSubject<User[]>(this.users);
-  usersObs: Observable<User[]> = this.usersSub.asObservable();
+  loggedUserSub: BehaviorSubject<LoggedUser> = new BehaviorSubject(
+    JSON.parse(localStorage.getItem('loggedUser') || null)
+  );
+  loggedUserObs: Observable<LoggedUser> = this.loggedUserSub.asObservable();
 
-  loggedUser: User = JSON.parse(localStorage.getItem("loggedUser")) || null;
-  loggedUserSub: BehaviorSubject<User> = new BehaviorSubject<User>(this.loggedUser);
-  loggedUserObs: Observable<User> = this.loggedUserSub.asObservable();
+  constructor(private http: HttpClient, private route: Router) { }
 
-  admin: User = JSON.parse(localStorage.getItem("admin")) || {
-    name: "amit", email: "amitstein@gmail.com", password: "199288377"
-  }
-  adminSubject: BehaviorSubject<User> = new BehaviorSubject<User>(this.admin);
-  adminObs: Observable<User> = this.adminSubject.asObservable();
-
-  constructor(private shoppingCartService: ShoppingCartService) { }
-
-  addUser(user: User) {
-    this.users.push(user);
-    this.usersSub.next(this.users);
-    localStorage.setItem("users", JSON.stringify(this.users));
-    this.shoppingCartService.addUserCart(user);
+  signup(signupModel: Signup) {
+    return this.http.post<string>(`${environment.apiUrl}/Account/signup`, signupModel)
   }
 
-  updateCurrentUser(userName: string) {
-    this.loggedUser = (this.admin.name === userName) ?
-      this.admin : this.users.find((user) => user.name === userName);
+  login(loginModel: Login) {
+    return this.http.post<LoggedUser>(`${environment.apiUrl}/Account/login`, loginModel).pipe(
+      tap((loggedUser) => {
+        if (this.route.url !== "/admin" && loggedUser.role == "Admin") {
+          throw new Error("כניסה למשתמשים רגילים בלבד")
+        }
 
-    this.updateLoggedUser();
-  }
-
-  changeUserField(category: string, newValue: string) {
-    if (this.loggedUser.name === this.admin.name) {
-      this.admin[category] = newValue;
-      this.adminSubject.next(this.admin);
-      localStorage.setItem("admin", JSON.stringify(this.admin));
-    }
-    else {
-      this.users.find((user) => user.name === this.loggedUser.name)[category] = newValue;
-
-    }
-
-    this.updateLoggedUser();
-    this.shoppingCartService.editUserCart(this.loggedUser, category, newValue);
+        localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
+        this.loggedUserSub.next(loggedUser);
+      })
+    )
   }
 
   logout() {
-    this.loggedUser = null;
-    this.updateLoggedUser();
+    localStorage.setItem('loggedUser', null);
+    this.loggedUserSub.next(null);
   }
 
-  deleteUser(user: User) {
-    this.users.splice(this.users.indexOf(user, 1));
-    this.usersSub.next(this.users);
-    localStorage.setItem("users", JSON.stringify(this.users));
-    this.logout();
+  setUserField(category: string, newValue: string) {
+    const methodName: string = `set-${category}`;
+    const headers = { 'Authorization': `Bearer ${this.loggedUserSub.value.token}` };
+
+    let updatedUser: UpdatedUser = {
+      name: this.loggedUserSub.value.name,
+      email: this.loggedUserSub.value.email,
+      password: ""
+    }
+    updatedUser[category] = newValue;
+
+    return this.http.patch<UpdatedUser>(`${environment.apiUrl}/Account/${methodName}`, updatedUser, { headers }).subscribe({
+      next: (updatedUser) => {
+        console.log("request successeded")
+        if (category !== "password") {
+          const loggedUser: LoggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+          loggedUser[category] = updatedUser[category];
+          localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
+          this.loggedUserSub.next(loggedUser);
+        }
+      },
+      error: (err) => { console.log(err) }
+    })
   }
 
-  updateLoggedUser() {
-    this.loggedUserSub.next(this.loggedUser);
-    localStorage.setItem("loggedUser", JSON.stringify(this.loggedUser));
+  deleteUser() {
+    const headers = { 'Authorization': `Bearer ${this.loggedUserSub.value.token}` };
+    return this.http.delete<void>(`${environment.apiUrl}/Account`, { headers })
   }
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UsersService } from '../../../services/users-service/users.service';
 import { User } from '../../../models/user.model';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss'
 })
-export class SignUpComponent implements OnInit, OnDestroy {
+export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
   showSuccessfullSignupModal: boolean = false;
   users: User[];
@@ -22,64 +22,32 @@ export class SignUpComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.usersSub = this.usersService.usersObs.subscribe((users) => {
-      this.users = users;
-    })
-
     this.signupForm = this.fb.group({
-      username: [, [Validators.required, this.takenUsernameValidator(this.users)]],
+      name: [, Validators.required],
       email: [, [Validators.required, Validators.email]],
       password: [, Validators.required],
-      repeatPassword: [, Validators.required]
+      confirmPassword: [, Validators.required]
     },
       { validators: this.notSamePasswordsValidator }
     )
   }
 
-  ngOnDestroy(): void {
-      this.usersSub.unsubscribe();
-  }
-
-  takenUsernameValidator(users: User[]): ValidationErrors | null {
-    return (control: AbstractControl): ValidationErrors | null => {
-      let username = control.value as string;
-
-      for (let user of users)
-        if (user.name === username)
-          return { "taken": control.value }
-
-      return null;
-    }
-  }
-
   notSamePasswordsValidator(control: FormGroup): ValidationErrors | null {
     const password = control.get("password")?.value as string;
-    const repeatPassword = control.get("repeatPassword")?.value as string;
+    const confirmPassword = control.get("confirmPassword")?.value as string;
 
-    return (password !== repeatPassword) ? { "notSame": true } : null;
+    return (password !== confirmPassword) ? { "notSame": true } : null;
   }
 
-  repeatPasswordErrorMessage() {
+  confirmPasswordErrorMessage() {
     const formErrors = this.signupForm.errors;
-    const errors = this.signupForm.get("repeatPassword").errors;
+    const errors = this.signupForm.get("confirmPassword").errors;
 
     if (errors?.['required'])
       return "יש להכניס סיסמא";
 
     if (formErrors["notSame"])
       return "הסיסמאות אינן זהות";
-
-    return "";
-  }
-
-  usernameErrorMessage() {
-    const errors = this.signupForm.get("username").errors;
-
-    if (errors?.['required'])
-      return "יש להכניס שם משתמש";
-
-    if (errors?.['taken'])
-      return "שם זה כבר קיים במערכת";
 
     return "";
   }
@@ -97,13 +65,17 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   handleSubmit() {
-    this.usersService.addUser({
-      name: this.signupForm.get("username").value,
-      email: this.signupForm.get("email").value,
-      password: this.signupForm.get("password").value
+    this.usersService.signup({
+      name: this.signupForm.get("name").value as string,
+      email: this.signupForm.get("email").value as string,
+      password: this.signupForm.get("password").value as string,
+      confirmPassword: this.signupForm.get("confirmPassword").value as string
+    }).subscribe({
+      next: () => {
+        this.showSuccessfullSignupModal = true;
+      },
+      error: (error) => console.log(error)
     })
-
-    this.showSuccessfullSignupModal = true;
   }
 
   onCloseSuccessfulSignupModal() {

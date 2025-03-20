@@ -4,6 +4,8 @@ import { User } from '../../models/user.model';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { LoggedUser } from '../../models/loggedUser.model';
+import { UpdatedUser } from '../../models/updatedUser.model';
 
 @Component({
   selector: 'app-user-acount',
@@ -12,44 +14,47 @@ import { Router } from '@angular/router';
   styleUrl: './user-acount.component.scss'
 })
 export class UserAcountComponent implements OnInit, OnDestroy {
-  admin: User;
-  adminSub: Subscription;
-  loggedUser: User;
+
+  loggedUser: LoggedUser;
   loggedUserSub: Subscription;
   editIconClicked = {
-    "username": false,
+    "name": false,
     "email": false,
     "password": false
   }
 
-  constructor(private usersService: UsersService, private router: Router) {}
+  constructor(private usersService: UsersService, private router: Router) { }
 
   ngOnInit(): void {
-      this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
-        this.loggedUser = loggedUser;
-      })
-
-      this.adminSub = this.usersService.adminObs.subscribe((admin) => {
-        this.admin = admin;
-      })
+    this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
+      this.loggedUser = loggedUser;
+    })
   }
 
   ngOnDestroy(): void {
-      this.loggedUserSub.unsubscribe();
-      this.adminSub.unsubscribe();
+    this.loggedUserSub.unsubscribe();
   }
 
-  onEditIconClicked(field) {
+  isAdmin() {
+    return this.loggedUser?.role == "Admin";
+  }
+
+  onEditIconClicked(field: string) {
     this.editIconClicked[field] = !this.editIconClicked[field];
   }
 
   onEnterNewValue(category: string, event) {
-    this.usersService.changeUserField(category, event.target.value);
+    this.usersService.setUserField(category, event.target.value as string);
+    this.onEditIconClicked(category);
   }
 
   onDeleteAccountButtonClicked() {
-    let userToDelete: User = this.usersService.users.find((user) => user.name === this.loggedUser.name);
-    this.usersService.deleteUser(userToDelete);
-    this.router.navigate(["/all-books"]);
+    this.usersService.deleteUser().subscribe({
+      next: () => {
+        this.usersService.logout();
+        this.router.navigate(["/all-books"]);
+      },
+      error: (err) => { console.log(err) }
+    })
   }
 }

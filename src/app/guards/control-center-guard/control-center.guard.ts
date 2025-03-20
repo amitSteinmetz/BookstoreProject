@@ -10,7 +10,7 @@ export const controlCenterGuard: CanActivateFn = (route, state) => {
   return usersService.loggedUserObs.pipe(
     take(1),
     map((loggedUser) => {
-      if (!loggedUser || loggedUser.name !== usersService.admin.name)
+      if (!loggedUser || loggedUser.role !== "Admin")
         router.navigate(['/all-books']);
 
       return true;

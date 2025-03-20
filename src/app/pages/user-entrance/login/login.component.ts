@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UsersService } from '../../../services/users-service/users.service';
-import { User } from '../../../models/user.model';
-import { Subscription } from 'rxjs';
+import { LoggedUser } from '../../../models/loggedUser.model';
 
 @Component({
   selector: 'app-login',
@@ -12,54 +11,36 @@ import { Subscription } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   userExist: boolean = true;
-  users: User[];
-  usersSub: Subscription;
-  admin: User;
-  adminSub: Subscription;
+  userRole: string;
   @Output() userLoggedIn: EventEmitter<void> = new EventEmitter();
 
   constructor(private fb: FormBuilder, private usersService: UsersService) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      username: [, Validators.required],
+      email: [, [Validators.required, Validators.email]],
       password: [, Validators.required]
     })
-
-    this.usersSub = this.usersService.usersObs.subscribe((users) => {
-      this.users = users;
-    })
-
-    this.adminSub = this.usersService.adminObs.subscribe((admin) => {
-      this.admin = admin;
-    })
   }
-
-  ngOnDestroy(): void {
-    this.usersSub.unsubscribe();
-    this.adminSub.unsubscribe();
-}
 
   onCloseNotExistUserModal() {
     this.userExist = true;
   }
 
-  isAdmin() {
-    return this.loginForm.get("username").value === this.admin.name;
-  }
-
   handleSubmit() {
-    this.userExist = false;
-
-    for (let i = 0; i < this.users.length; i++)
-      if (this.users[i].name === this.loginForm.get("username").value
-        && this.users[i].password === this.loginForm.get("password").value && !this.isAdmin()) {
-        this.usersService.updateCurrentUser(this.loginForm.get("username").value);
+    this.usersService.login({
+      email: this.loginForm.get("email").value as string,
+      password: this.loginForm.get("password").value as string
+    }).subscribe({
+      next: () => {
         this.userLoggedIn.emit();
-        this.userExist = true;
+      },
+      error: () => {
+        this.userExist = false;
       }
+    })
   }
 }
