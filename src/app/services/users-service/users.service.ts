@@ -29,8 +29,11 @@ export class UsersService {
   login(loginModel: Login) {
     return this.http.post<LoggedUser>(`${environment.apiUrl}/Account/login`, loginModel).pipe(
       tap((loggedUser) => {
-        if (this.route.url !== "/admin" && loggedUser.role == "Admin") {
+        if (this.route.url !== "/admin" && loggedUser.role === "Admin") {
           throw new Error("כניסה למשתמשים רגילים בלבד")
+        }
+        else if (this.route.url === "/admin" && loggedUser.role !== "Admin") {
+          throw new Error("כניסה למנהלים בלבד")
         }
 
         localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
