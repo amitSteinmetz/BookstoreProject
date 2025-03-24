@@ -5,26 +5,27 @@ import { environment } from '../../../environments/environment';
 import { UsersService } from '../users-service/users.service';
 import { Subscription } from 'rxjs';
 import { LoggedUser } from '../../models/loggedUser.model';
+import { Book } from '../../models/book.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ControlCenterService {
-  // loggedUserSubscription: Subscription;
 
-  constructor(private usersService: UsersService, private http: HttpClient) {
-    // this.loggedUserSubscription = this.usersService.loggedUserObs.subscribe((loggedUser) => {
-    //   if (loggedUser) this.headers.Authorization = `Bearer ${loggedUser.token}`;
-    // })
-  }
+  constructor(private http: HttpClient) { }
 
   createBook(newBook: NewBook) {
     return this.http.post<void>(`${environment.apiUrl}/ControlCenter/create-book`,
       newBook, { headers: this.getHeaders() });
   }
 
+  deleteBook(bookId: number) {
+    return this.http.delete<Book[]>(`${environment.apiUrl}/ControlCenter/delete-book/${bookId}`,
+      { headers: this.getHeaders() });
+  }
+
   getHeaders() {
     let loggedUser: LoggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-    return { 'Authorization': loggedUser.token }
+    return { 'Authorization': "Bearer " + loggedUser.token }
   }
 }
