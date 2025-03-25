@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../../models/book.model';
-import { Subscription } from 'rxjs';
-import { User } from '../../models/user.model';
 import { ShoppingCart } from '../../models/ShoppingCart.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { UsersService } from '../users-service/users.service';
 import { cartBook } from '../../models/cartBook.model';
 import { LoggedUser } from '../../models/loggedUser.model';
 
@@ -18,6 +15,7 @@ export class ShoppingCartService {
 
   getHeaders() {
     let loggedUser: LoggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+
     return { 'Authorization': "Bearer " + loggedUser.token }
   }
 
@@ -39,32 +37,8 @@ export class ShoppingCartService {
 
   updateBookQuantity(book: Book, newQuantity: number) {
     let bookInCart: cartBook = { book, quantity: newQuantity }
+
     return this.http.patch<ShoppingCart>(`${environment.apiUrl}/ShoppingCart/change-quantity`,
       bookInCart, { headers: this.getHeaders() })
-  }
-
-  addUserCart(user: User) {
-    // this.usersCart.push({
-    //   user, books: [], quantity: [], totalPayment: 0
-    // })
-    // this.updateUsersCart();
-  }
-
-  deleteUserCart(user: User) {
-    // this.usersCart.splice(
-    //   this.usersCart.indexOf(this.usersCart.find((cart) => cart.user.name === user.name)), 1
-    // )
-    // this.updateUsersCart();
-  }
-
-  editUserCart(user: User, category: string, newValue: string) {
-    // let userCart = this.usersCart.find((cart) => cart.user.name === user.name);
-    // userCart.user[category] = newValue;
-    // this.updateUsersCart();
-  }
-
-  updateUsersCart() {
-    // this.usersCartSubject.next(this.usersCart);
-    // localStorage.setItem("usersCart", JSON.stringify(this.usersCart));
   }
 }

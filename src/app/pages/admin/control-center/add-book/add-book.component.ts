@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { Book } from '../../../../models/book.model';
-import { Subscription } from 'rxjs';
-import { BooksService } from '../../../../services/books-service/books.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ControlCenterService } from '../../../../services/control-center/control-center.service';
 
 @Component({
   selector: 'app-add-book',
@@ -11,30 +9,34 @@ import { BooksService } from '../../../../services/books-service/books.service';
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.scss'
 })
-export class AddBookComponent implements OnInit, OnDestroy {
+export class AddBookComponent implements OnInit {
   addBookForm: FormGroup;
-  allBooks: Book[];
-  allBooksSub: Subscription;
   showAddBookModal: boolean = false;
+  isInvalidAuthorId: boolean = false;
+  @Output() new_book_added: EventEmitter<void> = new EventEmitter();
 
-  constructor(private booksService: BooksService, private fb: FormBuilder) { }
+  constructor(private controlCenterService: ControlCenterService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    // this.allBooksSub = this.booksService.booksData.subscribe((books) => {
-    //   this.allBooks = books;
-
-    //   this.addBookForm = this.fb.group({
-    //     name: [, Validators.required],
-    //     author: [, Validators.required],
-    //     price: [, Validators.required],
-    //     id: [, [Validators.required, this.bookIdValidator(this.allBooks)]],
-    //     image: [, Validators.required],
-    //   })
-    // })
+    this.addBookForm = this.fb.group({
+      name: [, Validators.required],
+      authorId: [, Validators.required],
+      description: [, Validators.required],
+      price: [, [Validators.required, Validators.pattern('^[0-9]+$')]],
+      imgPath: [, Validators.required],
+    })
   }
 
-  ngOnDestroy(): void {
-      this.allBooksSub.unsubscribe();
+  priceErrorMessage() {
+    const errors = this.addBookForm.get("price").errors;
+
+    if (errors?.['required'])
+      return "יש להכניס מחיר";
+
+    if (errors?.['pattern'])
+      return "יש להכניס מספרים בלבד";
+
+    return "";
   }
 
   onAddBookButtonClicked() {
@@ -45,39 +47,23 @@ export class AddBookComponent implements OnInit, OnDestroy {
     this.showAddBookModal = false;
   }
 
-  bookIdValidator(allBooks): ValidationErrors | null {
-    return (control: AbstractControl): ValidationErrors | null => {
-      let bookId = control.value as string;
-
-      for (let book of allBooks)
-        if (book.id === bookId)
-          return { "taken": control.value }
-
-      return null;
-    }
-  }
-
-  bookIdErrorMessage() {
-    const errors = this.addBookForm.get("id")?.errors;
-
-    if (errors['required'])
-      return 'יש להכניס מק"ט';
-
-    if (errors['taken'])
-      return "הספר כבר קיים במערכת";
-
-    return "";
+  onCloseAuthorErrorModalButtonClicked() {
+    this.isInvalidAuthorId = false;
   }
 
   onSubmitAddBook() {
-    // this.booksService.addBook(
-    //   {
-    //     name: this.addBookForm.get("name").value,
-    //     author: this.addBookForm.get("author").value,
-    //     price: this.addBookForm.get("price").value,
-    //     id: this.addBookForm.get("id").value,
-    //     image: this.addBookForm.get("image").value,
-    //   }
-    // );
+    this.controlCenterService.createBook({
+      name: this.addBookForm.get("name").value,
+      authorId: this.addBookForm.get("authorId").value,
+      description: this.addBookForm.get("description").value,
+      price: this.addBookForm.get("price").value,
+      imgPath: this.addBookForm.get("imgPath").value,
+    }).subscribe({
+      next: () => {
+        this.showAddBookModal = false;
+        this.new_book_added.emit();
+      },
+      error: () => { this.isInvalidAuthorId = true; }
+    })
   }
 }

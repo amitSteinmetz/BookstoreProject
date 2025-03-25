@@ -11,14 +11,16 @@ import { ControlCenterComponent } from './pages/admin/control-center/control-cen
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { controlCenterGuard } from './guards/control-center-guard/control-center.guard';
 import { adminGuard } from './guards/admin-guard/admin.guard';
+import { LoginComponent } from './pages/user-entrance/login/login.component';
 
 export const routes: Routes = [
-    { path: "", redirectTo: "all-books", pathMatch: "full" },
-    { path: "all-books", component: AllBooksComponent, canActivate: [adminGuard] },
+    { path: "", redirectTo: "books", pathMatch: "full" },
+    { path: "books", component: AllBooksComponent, canActivate: [adminGuard] },
     { path: "shopping-cart", component: ShoppingCartComponent, canActivate: [userGuard, adminGuard] },
     { path: "book-details/:id", component: BookDetailsComponent, canActivate: [adminGuard] },
-    { path: "filtered-books", component: FilteredBooksComponent, canActivate: [adminGuard] },
+    { path: "books/:query", component: FilteredBooksComponent, canActivate: [adminGuard] },
     { path: "user-account", component: UserAcountComponent, canActivate: [userGuard] },
+    { path: "user-entrance", component: UserEntranceComponent },
     { path: "admin", component: LoginAdminComponent },
     { path: "control-center", component: ControlCenterComponent, canActivate: [controlCenterGuard] },
     { path: "**", component: PageNotFoundComponent }

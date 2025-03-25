@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BooksService } from '../../../services/books-service/books.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,11 +9,11 @@ import { Router } from '@angular/router';
 })
 export class SearchBoxComponent {
 
-  constructor(private booksService: BooksService, private router: Router) { }
+  constructor(private router: Router) { }
 
   onSearchIconClicked(input) {
-    this.booksService.filterBooks(input.value);
+    let query = input.value as string;
     input.value = "";
-    this.router.navigate(["/filtered-books"]);
+    this.router.navigate(['/books', query]);
   }
 }

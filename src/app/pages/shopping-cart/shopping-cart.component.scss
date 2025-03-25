@@ -119,12 +119,23 @@
                         border-radius: 50%;
                         background-color: #f3e6ce;
                     }
+
+                    .quantity {
+                        width: 25%;
+                        text-align: center;
+                        border: none;
+                    }
+
+                    .quantity::placeholder {
+                        color: black;
+                    }
                 }
             }
         }
 
         .book:hover {
-            transform: scale(1.1);
+            outline: 1px solid black;
+            border-radius: 0%;
         }
     }
 

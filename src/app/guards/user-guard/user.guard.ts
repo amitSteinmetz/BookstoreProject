@@ -11,10 +11,8 @@ export const userGuard: CanActivateFn = (route, state) => {
     take(1),
     map((loggedUser) => {
       if (!loggedUser)
-        router.navigate(['/all-books']);
-      else if (loggedUser.role === "Admin")
-        router.navigate(['/control-center']);
-
+        router.navigate(['/books']);
+  
       return true;
     })
   );

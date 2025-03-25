@@ -13,7 +13,7 @@ export class UserEntranceComponent {
   @Output() close_user_entrance: EventEmitter<void> = new EventEmitter();
   isLoginEntrance: boolean = true;
 
-  closeUserEntrance() {
+  onCloseUserEntrance() {
     this.close_user_entrance.emit();
   }
 

@@ -7,15 +7,13 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const usersService = inject(UsersService);
   const router = inject(Router);
 
-  return true;
+  return usersService.loggedUserObs.pipe(
+    take(1),
+    map((loggedUser) => {
+      if (loggedUser?.role === "Admin")
+        router.navigate(['/control-center']);
 
-  // return usersService.loggedUserObs.pipe(
-  //   take(1),
-  //   map((loggedUser) => {
-  //     if (loggedUser?.name === usersService.admin.name)
-  //       router.navigate(['/control-center']);
-
-  //     return true;
-  //   })
-  // );
+      return true;
+    })
+  );
 };

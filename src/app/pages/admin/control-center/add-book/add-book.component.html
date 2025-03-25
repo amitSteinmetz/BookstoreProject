@@ -19,11 +19,11 @@
             </div>
 
             <div class="add-book-modal-input">
-                <label class="add-book-label" for="author">מחבר:</label>
-                <input class="add-book-input-content" type="text" formControlName="author">
+                <label class="add-book-label" for="authorId">מק"ט מחבר:</label>
+                <input class="add-book-input-content" type="text" formControlName="authorId">
                 <div class="add-book-error-message"
-                    *ngIf="addBookForm.get('author').invalid && addBookForm.get('author').touched">
-                    יש להכניס את שם המחבר</div>
+                    *ngIf="addBookForm.get('authorId').invalid && addBookForm.get('authorId').touched">
+                    יש להכניס מק"ט המחבר</div>
             </div>
 
             <div class="add-book-modal-input">
@@ -31,28 +31,31 @@
                 <input class="add-book-input-content" type="text" formControlName="price">
                 <div class="add-book-error-message"
                     *ngIf="addBookForm.get('price').invalid && addBookForm.get('price').touched">
-                    יש להכניס מחיר
+                    {{priceErrorMessage()}}
                 </div>
             </div>
 
             <div class="add-book-modal-input">
-                <label class="add-book-label" for="id">מק"ט:</label>
-                <input class="add-book-input-content" type="text" formControlName="id">
-                <div class="add-book-error-message"
-                    *ngIf="addBookForm.get('id').invalid && addBookForm.get('id').touched">
-                    {{bookIdErrorMessage()}}</div>
+                <label class="add-book-label" for="description">תיאור:</label>
+                <input class="add-book-input-content" type="text" formControlName="description">
             </div>
 
             <div class="add-book-modal-input">
-                <label class="add-book-label" for="image">תמונה:</label>
-                <input class="add-book-input-content" type="text" formControlName="image">
+                <label class="add-book-label" for="imgPath">תמונה:</label>
+                <input class="add-book-input-content" type="text" formControlName="imgPath">
                 <div class="add-book-error-message"
-                    *ngIf="addBookForm.get('image').invalid && addBookForm.get('image').touched">
+                    *ngIf="addBookForm.get('imgPath').invalid && addBookForm.get('imgPath').touched">
                     יש להכניס נתיב</div>
             </div>
 
-            <button (click)="onCloseAddBookButtonClicked()" [disabled]="addBookForm.invalid"
-                class="confirm-add-book-button">הוסף</button>
+            <button [disabled]="addBookForm.invalid" class="confirm-add-book-button">הוסף</button>
         </form>
+
+        <div class="submit-error-modal-container" *ngIf="isInvalidAuthorId">
+            <div class="submit-error-modal">
+                <i (click)="onCloseAuthorErrorModalButtonClicked()" class="fas fa-xmark"></i>
+                .לא קיים סופר עם המק"ט המצוין
+            </div>
+        </div>
     </div>
 </div>

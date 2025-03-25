@@ -56,15 +56,10 @@ export class AllBooksComponent implements OnInit, OnDestroy {
   onAddToCartIconClicked(book) {
     if (!this.loggedUser) return;
 
-    if (!this.shoppingCartService.bookExistInCart(this.loggedUser, book)) {
-      this.shoppingCartService.addBookToCart(this.loggedUser, book);
-    }
-
-    else this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true;
-  }
-
-  filterBooks(filter: string) {
-    // return this.allBooks.filter((book) => book.name.includes(filter) || book.author.includes(filter));
+    this.shoppingCartService.addBookToCart(book.id).subscribe({
+      next: () => { this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true; },
+      error: (err) => { console.log(err) }
+    })
   }
 
   get router() {

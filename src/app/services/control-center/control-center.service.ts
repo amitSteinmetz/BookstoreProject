@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NewBook } from '../../models/newBook.model';
 import { environment } from '../../../environments/environment';
-import { UsersService } from '../users-service/users.service';
-import { Subscription } from 'rxjs';
 import { LoggedUser } from '../../models/loggedUser.model';
 import { Book } from '../../models/book.model';
 
@@ -22,6 +20,11 @@ export class ControlCenterService {
   deleteBook(bookId: number) {
     return this.http.delete<Book[]>(`${environment.apiUrl}/ControlCenter/delete-book/${bookId}`,
       { headers: this.getHeaders() });
+  }
+
+  updateBookPrice(book: Book) {
+    return this.http.patch<Book[]>(`${environment.apiUrl}/ControlCenter/update-book-price/${book.id}`,
+      book, { headers: this.getHeaders() });
   }
 
   getHeaders() {

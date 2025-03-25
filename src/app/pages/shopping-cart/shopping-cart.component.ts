@@ -5,7 +5,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 import { UsersService } from '../../services/users-service/users.service';
-import { Cart } from '../../models/cart.model';
+import { ShoppingCart } from '../../models/ShoppingCart.model';
+import { Book } from '../../models/book.model';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -16,7 +17,7 @@ import { Cart } from '../../models/cart.model';
 export class ShoppingCartComponent implements OnInit, OnDestroy {
   loggedUser: User;
   loggedUserSub: Subscription;
-  userCart: Cart;
+  userCart: ShoppingCart;
   userCartSub: Subscription;
   paymentApproved: boolean = false;
   showPaymentBox: boolean = false;
@@ -28,34 +29,49 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   }
 
   constructor(private shoppingCartService: ShoppingCartService, private _router: Router,
-    private usersService: UsersService) { }
+    private usersService: UsersService) {
+    this.userCart = {
+      books: [],
+      totalPayment: 0
+    };
+  }
 
   ngOnInit(): void {
     this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
       this.loggedUser = loggedUser;
     })
 
-    this.userCartSub = this.shoppingCartService.usersCartObservable.subscribe((usersCart) => {
-      this.userCart = usersCart.find((cart) => cart.user.name === this.loggedUser.name);
+    this.userCartSub = this.shoppingCartService.getCart().subscribe({
+      next: (cart) => {
+        this.userCart = cart;
+      },
+      error: (err) => { console.log(err) }
     })
   }
 
   ngOnDestroy(): void {
     this.userCartSub.unsubscribe();
     this.loggedUserSub.unsubscribe();
-}
-
-  onQuantityButtonClicked(bookIndex: number, amount) {
-    if (this.userCart.quantity[bookIndex] === 1 && amount === -1)
-      return;
-
-    this.shoppingCartService.updateBookQuantity(
-      this.userCart, bookIndex ,this.userCart.quantity[bookIndex] + amount
-    );
   }
 
-  removeBookFromCart(bookIndex: number) {
-    this.shoppingCartService.removeBookFromCart(this.userCart.user, bookIndex);
+  onQuantityButtonClicked(book: Book, newQuantity: number | HTMLInputElement) {
+    let quantity: number = (typeof newQuantity === "number") ? newQuantity : parseInt(newQuantity.value)
+    this.shoppingCartService.updateBookQuantity(book, quantity).subscribe({
+      next: (cart) => {
+        this.userCart = cart;
+      },
+      error: () => {
+        if (!(typeof newQuantity === "number")) newQuantity.value = "";
+      }
+    })
+  }
+
+  removeBookFromCart(book: Book) {
+    this.shoppingCartService.removeBookFromCart(book.id).subscribe({
+      next: (cart) => {
+        this.userCart = cart;
+      }
+    })
   }
 
   onApprovePayment() {
@@ -63,10 +79,10 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   }
 
   onCloseApprovePaymentModal() {
-    for (let i = this.userCart.books.length - 1; i >= 0; i--)
-      this.removeBookFromCart(i)
-
-    this._router.navigate(["/all-books"]);
+    this.shoppingCartService.removeAllBooksFromCart().subscribe({
+      next: () => { this._router.navigate(["/books"]); },
+      error: (err) => { console.log(err) }
+    })
   }
 
   onPaymentMobileLinkClicked() {

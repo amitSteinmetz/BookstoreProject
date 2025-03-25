@@ -4,7 +4,7 @@
         <input type="text" formControlName="email"
             [ngClass]="{'error-border' : loginForm.get('email').invalid && loginForm.get('email').touched}">
         <div *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched" class="error-message">
-            יש להכניס אימייל
+            {{emailErrorMessage()}}
         </div>
     </div>
 

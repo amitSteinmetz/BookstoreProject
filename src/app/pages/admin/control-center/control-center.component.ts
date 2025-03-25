@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { BooksService } from '../../../services/books-service/books.service';
 import { CommonModule } from '@angular/common';
 import { AddBookComponent } from "./add-book/add-book.component";
+import { ControlCenterService } from '../../../services/control-center/control-center.service';
 
 @Component({
   selector: 'app-control-center',
@@ -14,39 +15,80 @@ import { AddBookComponent } from "./add-book/add-book.component";
 export class ControlCenterComponent implements OnInit, OnDestroy {
   allBooks: Book[];
   allBooksSub: Subscription;
-  showSettingsModal: boolean[] = [];
-  showEditBookModal: boolean[] = [];
-  editFieldHasChosen: boolean = false;
+  showSettingsModal: boolean[];
+  showEditBookModal: boolean[];
+  readMoreButtonClicked: boolean[];
   editInputIsOnlyDigits: boolean = false;
-  isActiveField = {
-    "price": false,
-    "id": false
-  }
-
-  constructor(private booksService: BooksService) { }
+  
+  constructor(private booksService: BooksService, private controlCenterService: ControlCenterService) { }
 
   ngOnInit(): void {
-    // this.allBooksSub = this.booksService.booksData.subscribe((books) => {
-    //   this.allBooks = books;
-
-    //   for (let i = 0; i < this.allBooks.length; i++) {
-    //     this.showSettingsModal.push(false);
-    //     this.showEditBookModal.push(false);
-    //   }
-    // })
+    this.allBooksSub = this.booksService.getAllBooks().subscribe({
+      next: (books) => {
+        this.allBooks = books;
+        this.resetClassArrays();
+      },
+      error: (err) => { console.log(err) }
+    })
   }
 
   ngOnDestroy(): void {
-      this.allBooksSub.unsubscribe();
+    this.allBooksSub.unsubscribe();
+  }
+
+  resetClassArrays() {
+    this.showSettingsModal = [];
+    this.showEditBookModal = [];
+    this.readMoreButtonClicked = [];
+
+    for (let i = 0; i < this.allBooks.length; i++) {
+      this.showSettingsModal.push(false);
+      this.showEditBookModal.push(false);
+      this.readMoreButtonClicked.push(false);
+    }
+  }
+
+  onDeleteOptionClicked(bookIndex: number, bookId: number) {
+    this.controlCenterService.deleteBook(bookId).subscribe({
+      next: (books) => {
+        this.showSettingsModal[bookIndex] = false;
+        this.allBooks = books;
+        this.resetClassArrays();
+      },
+      error: (err) => { console.log(err) }
+    })
+  }
+
+  onAddedNewBook() {
+    this.allBooksSub = this.booksService.getAllBooks().subscribe({
+      next: (books) => {
+        this.allBooks = books;
+        this.resetClassArrays();
+      },
+      error: (err) => { console.log(err) }
+    })
+  }
+
+  onReadMoreButtonClicked(index: number) {
+    this.readMoreButtonClicked[index] = !this.readMoreButtonClicked[index];
+  }
+
+  updateBookPrice(bookIndex: number, priceInput: HTMLInputElement, book: Book) {
+    let updatedPrice = priceInput.value;
+    book.price = Number(updatedPrice);
+
+    this.controlCenterService.updateBookPrice(book).subscribe({
+      next: (books) => {
+        this.allBooks = books;
+        this.resetClassArrays();
+        this.showEditBookModal[bookIndex] = false;
+      },
+      error: (err) => { console.log(err) }
+    })
   }
 
   onSettingsIconClicked(bookIndex: number) {
     this.showSettingsModal[bookIndex] = !this.showSettingsModal[bookIndex];
-  }
-
-  onDeleteOptionClicked(bookIndex: number) {
-    this.booksService.deleteBook(bookIndex);
-    this.showSettingsModal[bookIndex] = false;
   }
 
   onEditOptionClicked(bookIndex: number) {
@@ -55,30 +97,6 @@ export class ControlCenterComponent implements OnInit, OnDestroy {
   }
 
   onCloseEditBookIconClicked(bookIndex: number) {
-    this.showEditBookModal[bookIndex] = false;
-    this.editFieldHasChosen = false;
-
-    for (let field in this.isActiveField)
-      this.isActiveField[field] = false;
-  }
-
-  onChoosingFieldToEdit(category: string) {
-    this.editFieldHasChosen = true;
-
-    for (let field in this.isActiveField)
-      this.isActiveField[field] = false;
-
-    this.isActiveField[category] = true;
-  }
-
-  onConfirmFieldEdit(bookIndex: number, input) {
-    let category;
-
-    for (let field in this.isActiveField)
-      if (this.isActiveField[field])
-        category = field;
-
-    this.booksService.editBook(bookIndex, category, input.value);
     this.showEditBookModal[bookIndex] = false;
   }
 

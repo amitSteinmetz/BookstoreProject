@@ -11,7 +11,7 @@ export const controlCenterGuard: CanActivateFn = (route, state) => {
     take(1),
     map((loggedUser) => {
       if (!loggedUser || loggedUser.role !== "Admin")
-        router.navigate(['/all-books']);
+        router.navigate(['/books']);
 
       return true;
     })

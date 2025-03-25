@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../../services/users-service/users.service';
-import { User } from '../../../models/user.model';
-import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,36 +10,49 @@ import { Router } from '@angular/router';
   templateUrl: './login-admin.component.html',
   styleUrl: './login-admin.component.scss'
 })
-export class LoginAdminComponent implements OnInit, OnDestroy {
-  admin: User;
-  adminSub: Subscription;
+export class LoginAdminComponent implements OnInit {
   loginForm: FormGroup;
-  adminNotExist: boolean = false;
+  invalidLogin = {
+    adminNotExist: false,
+    isUser: false
+  }
 
   constructor(private fb: FormBuilder, private usersService: UsersService, private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      adminName: [, Validators.required],
+      email: [, [Validators.required, Validators.email]],
       password: [, Validators.required]
     })
   }
 
-  ngOnDestroy(): void {
-      this.adminSub.unsubscribe();
+  emailErrorMessage() {
+    const errors = this.loginForm.get("email").errors;
+
+    if (errors?.['required'])
+      return "יש להכניס אימייל";
+
+    if (errors?.['email'])
+      return "אימייל בפורמט לא חוקי";
+
+    return "";
   }
 
   onCloseAdminNotExistModal() {
-    this.adminNotExist = false;
+    this.invalidLogin.adminNotExist = false;
+    this.invalidLogin.isUser = false;
   }
 
   handleSubmit() {
-    // if (this.admin.name === this.loginForm.get("adminName").value &&
-    //   this.admin.password === this.loginForm.get("password").value) {
-    //   this.usersService.updateCurrentUser(this.admin.name);
-    //   this.router.navigate(["/control-center"]);
-    // }
-
-    this.adminNotExist = true;
+    this.usersService.login({
+      email: this.loginForm.get("email").value as string,
+      password: this.loginForm.get("password").value as string
+    }).subscribe({
+      next: () => { this.router.navigate(["/control-center"]); },
+      error: (err) => {
+        if (err.message == "כניסה למנהלים בלבד") this.invalidLogin.isUser = true;
+        else this.invalidLogin.adminNotExist = true;
+      }
+    })
   }
 }

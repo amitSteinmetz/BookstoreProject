@@ -24,7 +24,8 @@ form {
         direction: rtl;
 
         label {
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            margin-bottom: 0.1rem;
         }
 
         input {
@@ -56,6 +57,7 @@ form {
 }
 
 .error-message {
+    line-height: 1;
     position: absolute;
     top: 63px;
     right: 5px;

@@ -33,8 +33,8 @@
     </div>
 
     <div class="chosen-books-container">
-        <div class="book" *ngFor="let book of userCart.books, let i = index">
-            <i (click)="removeBookFromCart(i)" class="fa-solid fa-xmark">
+        <div class="book" *ngFor="let cartBook of userCart.books, let i = index">
+            <i (click)="removeBookFromCart(cartBook.book)" class="fa-solid fa-xmark">
                 <div class="remove-book-from-cart-modal">Remove from cart</div>
             </i>
 
@@ -42,21 +42,24 @@
                 <h3>:בחרו כמות רצויה</h3>
 
                 <div class="book-quantity-input">
-                    <button (click)="onQuantityButtonClicked(i, -1)" class="control-quantity-button">-</button>
-                    <div class="quantity">{{userCart.quantity[i]}}</div>
-                    <button (click)="onQuantityButtonClicked(i, 1)" class="control-quantity-button">+</button>
+                    <button (click)="onQuantityButtonClicked(cartBook.book, cartBook.quantity - 1)"
+                        class="control-quantity-button">-</button>
+                    <input #input (keyup.enter)="onQuantityButtonClicked(cartBook.book, input)" type="text" class="quantity"
+                        placeholder="{{cartBook.quantity}}">
+                    <button (click)="onQuantityButtonClicked(cartBook.book, cartBook.quantity + 1)"
+                        class="control-quantity-button">+</button>
                 </div>
             </div>
 
             <div class="book-details">
-                <div class="book-name">{{book.name}}</div>
-                <div class="book-author">{{book.author}}</div>
-                <div class="book-price">₪ {{book.price}} <strong>:מחיר</strong>
+                <div class="book-name">{{cartBook.book.name}}</div>
+                <div class="book-author">{{cartBook.book.authorName}}</div>
+                <div class="book-price">₪ {{cartBook.book.price}} <strong>:מחיר</strong>
                 </div>
-                <div class="book-id">{{book.id}} :מק"ט</div>
+                <div class="book-id">{{cartBook.book.id}} :מק"ט</div>
             </div>
 
-            <img src="{{book.image}}" alt="">
+            <img src="{{cartBook.book.imgPath}}" alt="">
         </div>
     </div>
 </div>

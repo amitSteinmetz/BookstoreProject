@@ -1,56 +1,50 @@
 <h1 class="headline">:ספרי החנות</h1>
 
-<app-add-book></app-add-book>
+<app-add-book (new_book_added)="onAddedNewBook()"></app-add-book>
 
 <div class="books-container">
     <div class="book" *ngFor="let book of allBooks, let i = index">
         <i (click)="onSettingsIconClicked(i)" class="fas fa-ellipsis-v"></i>
 
         <div class="settings-modal" *ngIf="showSettingsModal[i]">
-            <div (click)="onEditOptionClicked(i)" class="settings-modal-option">עריכה</div>
-            <div (click)="onDeleteOptionClicked(i)" class="settings-modal-option">מחיקה</div>
+            <div (click)="onEditOptionClicked(i)" class="settings-modal-option">עריכת מחיר</div>
+            <div (click)="onDeleteOptionClicked(i, book.id)" class="settings-modal-option">מחיקה</div>
         </div>
 
         <div class="edit-book-modal-container" *ngIf="showEditBookModal[i]">
             <div class="edit-book-modal">
                 <i class="fa-solid fa-xmark" (click)="onCloseEditBookIconClicked(i)"></i>
 
-                <h3 class="edit-headline">?איזה שדה ברצונך לערוך</h3>
-
-                <div class="edit-categories">
-                    <div class="edit-category" (click)="onChoosingFieldToEdit('price')"
-                        [ngClass]="{'active-category': isActiveField['price']}">
-                        מחיר
-                    </div>
-                    <div class="edit-category" (click)="onChoosingFieldToEdit('id')"
-                        [ngClass]="{'active-category': isActiveField['id']}">
-                        מק"ט
-                    </div>
-                </div>
-
-                <div class="edit-input" *ngIf="editFieldHasChosen">
-                    <button [disabled]="!editInputIsOnlyDigits" (click)="onConfirmFieldEdit(i, editInput)"
+                <div class="edit-book-modal-title">:הכנס מחיר</div>
+                <div class="edit-input">
+                    <button [disabled]="!editInputIsOnlyDigits" (click)="updateBookPrice(i, priceInput, book)"
                         class="confirm-edit-button">בצע</button>
-                    <input #editInput (input)="inputIsOnlyDigits(editInput)" class="edit-input-text" type="text"
-                        placeholder="הכנס ערך">
+                    <input #priceInput (input)="inputIsOnlyDigits(priceInput)" class="edit-input-text" type="text">
                 </div>
             </div>
         </div>
 
         <div class="book-details">
             <div class="book-name">{{book.name}}</div>
-            <div class="book-author">{{book.author}}</div>
+            <div class="book-author">{{book.authorName}}</div>
             <div class="book-preview">
-                <div class="preview-headline"> <strong>תיאור הספר:</strong></div>
-                לא לחינם הלך הזרזיר אצל העורב. דברי חכמים בנחת נשמעים. איזהו גבור? - הכובש את
-                יצרו. לך אל נמלה עצל, ראה דרכיה וחכם.שלח לחמך על-פני המים, כי ברב הימים תמצאנו.
+                <div class="book-preview-headline"> <strong>תיאור הספר:</strong></div>
+
+                <div #bookDescription class="book-preview-content" [ngClass]="{ 'expand-preview' : readMoreButtonClicked[i] }">
+                    {{book.description}}
+                </div>
+
+                <button (click)="onReadMoreButtonClicked(i)" class="read-more-btn">
+                    {{readMoreButtonClicked[i] ? "קרא פחות.." : "קרא עוד.."}}
+                </button>
             </div>
+
             <div class="book-numeric-categories">
                 <div class="book-id"><strong>מק"ט:</strong> {{book.id}}</div>
                 <div class="book-price"><strong> מחיר:</strong> {{book.price}} ₪</div>
             </div>
         </div>
 
-        <img class="book-image" src="{{book.image}}" alt="">
+        <img class="book-image" src="{{book.imgPath}}" alt="">
     </div>
 </div>

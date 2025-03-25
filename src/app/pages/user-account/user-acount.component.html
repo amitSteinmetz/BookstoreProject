@@ -37,4 +37,17 @@
     <button (click)="onDeleteAccountButtonClicked()" class="delete-account" *ngIf="!isAdmin()">
         מחק חשבון
     </button>
+
+    <div class="invalid-format-modal-container" *ngIf="invalidFields.emailFormat || invalidFields.emailTaken ||
+        invalidFields.passwordFormat">
+        <div class="invalid-format-modal">
+            <i (click)="onCloseInvalidFormatModal()" class="fas fa-xmark"></i>
+            <div *ngIf="!invalidFields.emailTaken">
+                הכנסת {{invalidFields.emailFormat ? "כתובת מייל" : "סיסמא"}} בפורמט לא חוקי, נסה שוב
+            </div>
+            <div *ngIf="invalidFields.emailTaken">
+                כתובת המייל כבר קיימת במערכת, אנא בחר כתובת אחרת.
+            </div>
+        </div>
+    </div>
 </div>

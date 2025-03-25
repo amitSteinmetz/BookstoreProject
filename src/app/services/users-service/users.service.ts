@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
-import { User } from '../../models/user.model';
-import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Signup } from '../../models/signup.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -36,15 +34,13 @@ export class UsersService {
           throw new Error("כניסה למנהלים בלבד")
         }
 
-        localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
-        this.loggedUserSub.next(loggedUser);
+        this.updateLoggedUser(loggedUser);
       })
     )
   }
 
   logout() {
-    localStorage.setItem('loggedUser', null);
-    this.loggedUserSub.next(null);
+    this.updateLoggedUser(null);
   }
 
   setUserField(category: string, newValue: string) {
@@ -58,22 +54,16 @@ export class UsersService {
     }
     updatedUser[category] = newValue;
 
-    return this.http.patch<UpdatedUser>(`${environment.apiUrl}/Account/${methodName}`, updatedUser, { headers }).subscribe({
-      next: (updatedUser) => {
-        console.log("request successeded")
-        if (category !== "password") {
-          const loggedUser: LoggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-          loggedUser[category] = updatedUser[category];
-          localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
-          this.loggedUserSub.next(loggedUser);
-        }
-      },
-      error: (err) => { console.log(err) }
-    })
+    return this.http.patch<LoggedUser>(`${environment.apiUrl}/Account/${methodName}`, updatedUser, { headers });
   }
 
   deleteUser() {
     const headers = { 'Authorization': `Bearer ${this.loggedUserSub.value.token}` };
     return this.http.delete<void>(`${environment.apiUrl}/Account`, { headers })
+  }
+
+  updateLoggedUser(loggedUser: LoggedUser) {
+    localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
+    this.loggedUserSub.next(loggedUser);
   }
 }

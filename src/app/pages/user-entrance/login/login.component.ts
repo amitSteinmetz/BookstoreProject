@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UsersService } from '../../../services/users-service/users.service';
-import { LoggedUser } from '../../../models/loggedUser.model';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +16,25 @@ export class LoginComponent implements OnInit {
   userRole: string;
   @Output() userLoggedIn: EventEmitter<void> = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private usersService: UsersService) { }
+  constructor(private fb: FormBuilder, private usersService: UsersService, private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: [, [Validators.required, Validators.email]],
       password: [, Validators.required]
     })
+  }
+
+  emailErrorMessage() {
+    const errors = this.loginForm.get("email").errors;
+
+    if (errors?.['required'])
+      return "יש להכניס אימייל";
+
+    if (errors?.['email'])
+      return "אימייל בפורמט לא חוקי";
+
+    return "";
   }
 
   onCloseNotExistUserModal() {
@@ -36,11 +47,12 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.get("password").value as string
     }).subscribe({
       next: () => {
+        if (this.router.url === "/user-entrance") {
+          this.router.navigate(["/books"]);
+        }
         this.userLoggedIn.emit();
       },
-      error: () => {
-        this.userExist = false;
-      }
+      error: () => { this.userExist = false; }
     })
   }
 }

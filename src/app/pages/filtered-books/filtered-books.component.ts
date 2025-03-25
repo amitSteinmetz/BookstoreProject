@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Book } from '../../models/book.model';
 import { BooksService } from '../../services/books-service/books.service';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.service';
 import { User } from '../../models/user.model';
 import { UsersService } from '../../services/users-service/users.service';
@@ -24,27 +24,34 @@ export class FilteredBooksComponent implements OnInit, OnDestroy {
   loggedUser: User;
   loggedUserSub: Subscription;
 
-  constructor(private _router: Router, private booksService: BooksService, private shoppingCartService: ShoppingCartService,
+  constructor(private _router: Router, private activatedRoute: ActivatedRoute, private booksService: BooksService, private shoppingCartService: ShoppingCartService,
     private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.filteredBooksSubscription = this.booksService.filteredBooksData.subscribe((books) => {
-      this.filteredBooks = books;
-      this.currentPageBooks = this.filteredBooks.slice(0, 12);
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const query = params.get('query');
+
+      this.filteredBooksSubscription = this.booksService.getBooksByQuery(query).subscribe({
+        next: (filteredBooks) => {
+          this.filteredBooks = filteredBooks;
+          this.currentPageBooks = this.filteredBooks.slice(0, 12);
+
+          for (let i = 0; i < this.filteredBooks.length; i++)
+            this.clickedBookExistInCart.push(false);
+        },
+        error: (err) => { console.log(err) }
+      })
     })
 
     this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
       this.loggedUser = loggedUser;
     })
-
-    for (let i = 0; i < this.filteredBooks.length; i++)
-      this.clickedBookExistInCart.push(false);
   }
 
   ngOnDestroy(): void {
     this.filteredBooksSubscription.unsubscribe();
     this.loggedUserSub.unsubscribe();
-}
+  }
 
   get router() {
     return this._router;
@@ -58,10 +65,9 @@ export class FilteredBooksComponent implements OnInit, OnDestroy {
   onAddToCartIconClicked(book) {
     if (!this.loggedUser) return;
 
-    if (this.shoppingCartService.bookExistInCart(this.loggedUser, book))
-      this.shoppingCartService.addBookToCart(this.loggedUser ,book);
-
-    else
-      this.clickedBookExistInCart[this.filteredBooks.indexOf(book)] = true;
+    this.shoppingCartService.addBookToCart(book.id).subscribe({
+      next: () => { console.log("book added to cart") },
+      error: () => { this.clickedBookExistInCart[this.filteredBooks.indexOf(book)] = true; }
+    })
   }
 }

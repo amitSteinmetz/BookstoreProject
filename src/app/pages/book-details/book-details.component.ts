@@ -7,6 +7,7 @@ import { ShoppingCartService } from '../../services/shopping-cart/shopping-cart.
 import { CommonModule } from '@angular/common';
 import { User } from '../../models/user.model';
 import { UsersService } from '../../services/users-service/users.service';
+import { ShoppingCart } from '../../models/ShoppingCart.model';
 
 @Component({
   selector: 'app-book-details',
@@ -16,17 +17,30 @@ import { UsersService } from '../../services/users-service/users.service';
 })
 export class BookDetailsComponent implements OnInit, OnDestroy {
   bookToDisplay: Book;
-  bookAddedToCart: boolean = false;
+  showAddedBookModal: boolean = false;
+  bookExistInCart: boolean;
   loggedUser: User;
   loggedUserSub: Subscription;
+  userCartSub: Subscription;
+  userCart: ShoppingCart;
 
   constructor(private router: ActivatedRoute, private booksService: BooksService,
     private shoppingCartService: ShoppingCartService, private usersService: UsersService) {
+    this.userCart = { books: [], totalPayment: 0 }
+    this.bookToDisplay = { id: 0, name: "", price: 0, imgPath: "", authorName: "", description: "" }
   }
 
   ngOnInit(): void {
     this.loggedUserSub = this.usersService.loggedUserObs.subscribe((loggedUser) => {
       this.loggedUser = loggedUser;
+    })
+
+    this.userCartSub = this.shoppingCartService.getCart().subscribe({
+      next: (cart) => {
+        this.userCart = cart;
+        this.bookExistInCart = this.isBookExistInCart();
+      },
+      error: (err) => { console.log(err) }
     })
 
     const bookId = this.router.snapshot.paramMap.get('id');
@@ -42,14 +56,25 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
     this.loggedUserSub.unsubscribe();
   }
 
+  isBookExistInCart() {
+    return !!this.userCart.books.find(cb => cb.book.id === this.bookToDisplay.id);
+  }
+
   addBookToCart() {
     if (this.loggedUser) {
-      this.shoppingCartService.addBookToCart(this.loggedUser, this.bookToDisplay);
-      this.bookAddedToCart = true;
+      const bookId = this.router.snapshot.paramMap.get('id');
+
+      this.shoppingCartService.addBookToCart(bookId).subscribe({
+        next: () => {
+          this.showAddedBookModal = true;
+        },
+        error: (err) => { console.log(err) }
+      })
     }
   }
 
   onCloseAddBookToCartModal() {
-    this.bookAddedToCart = false;
+    this.showAddedBookModal = false;
+    this.bookExistInCart = true;
   }
 }

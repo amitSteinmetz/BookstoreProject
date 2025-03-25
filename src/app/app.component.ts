@@ -14,8 +14,8 @@ export class AppComponent {
   title = 'bookstore-project';
   closeEntranceModal: boolean = false;
 
-  constructor(private _router: Router) {}
-  
+  constructor(private _router: Router) { }
+
   onUserEntranceIconClicked() {
     this.closeEntranceModal = true;
   }

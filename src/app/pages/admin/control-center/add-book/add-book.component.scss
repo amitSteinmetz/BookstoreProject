@@ -52,14 +52,15 @@
                 padding: 0.4rem;
 
                 .add-book-label {
+                    text-wrap: nowrap;
                     font-weight: 600;
                     font-size: 1.2rem;
                 }
 
                 .add-book-input-content {
+                    width: 100%;
                     font-size: 1.1rem;
-                    width: 75%;
-                    margin-right: 5%;
+                    margin-right: 2%;
                     border-radius: 5px;
                     padding: 0.2rem;
                     border: none;
@@ -96,6 +97,34 @@
                 background-color: #004d40;
             }
         }
+
+        .submit-error-modal-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.4);
+
+            .submit-error-modal {
+                position: relative;
+                background-color: rgb(184, 65, 65);
+                border-radius: 10px;
+                padding: 1.5rem;
+                font-size: 1.2rem;
+                font-weight: 700;
+                box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+
+                .fa-xmark {
+                    position: absolute;
+                    top: 5px;
+                    left: 5px;
+                    font-size: 1rem;
+                }
+            }
+        }
     }
 }
 
@@ -128,7 +157,7 @@
     .add-book-button .add-book-button-text {
         display: none;
     }
-    
+
     .add-book-modal-container .add-book-modal form {
         width: 85%;
     }

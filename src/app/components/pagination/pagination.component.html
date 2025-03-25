@@ -8,13 +8,13 @@
         {{pageNumber}}
     </span>
 
-    <span class="pagination-dots" *ngIf="currentPageNumber < currentPagesAmount - 2">
+    <span class="pagination-dots" *ngIf="currentPageNumber < pagesAmount - 2">
         ...
     </span>
 
-    <span [ngClass]="{'current-page-border': currentPagesAmount === currentPageNumber}" 
-        *ngIf="currentPagesAmount > 1"
-        (click)="onPageNumberClicked(currentPagesAmount)" class="last-page-number">{{currentPagesAmount}}
+    <span [ngClass]="{'current-page-border': pagesAmount === currentPageNumber}" 
+        *ngIf="pagesAmount > 1"
+        (click)="onPageNumberClicked(pagesAmount)" class="last-page-number">{{pagesAmount}}
     </span>
 
     <i class="fas fa-solid fa-chevron-right"></i>

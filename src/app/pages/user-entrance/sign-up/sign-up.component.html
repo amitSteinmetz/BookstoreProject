@@ -23,7 +23,7 @@
             <input type="password" formControlName="password"
                 [ngClass]="{'error-border' : signupForm.get('password').invalid && signupForm.get('password').touched}">
             <div *ngIf="signupForm.get('password').invalid && signupForm.get('password').touched" class="error-message">
-                יש להכניס סיסמא
+                {{invalidPasswordMessage()}}
             </div>
         </div>
 

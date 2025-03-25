@@ -53,7 +53,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout() {
     this.usersService.logout();
     this.showSettingsModal = false;
-    this.router.navigate(["/all-books"]);
+    this.router.navigate(["/books"]);
   }
 
   get router() {

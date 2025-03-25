@@ -25,7 +25,8 @@ export class SignUpComponent implements OnInit {
     this.signupForm = this.fb.group({
       name: [, Validators.required],
       email: [, [Validators.required, Validators.email]],
-      password: [, Validators.required],
+      password: [, [Validators.required,
+      Validators.pattern('^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')]],
       confirmPassword: [, Validators.required]
     },
       { validators: this.notSamePasswordsValidator }
@@ -37,6 +38,22 @@ export class SignUpComponent implements OnInit {
     const confirmPassword = control.get("confirmPassword")?.value as string;
 
     return (password !== confirmPassword) ? { "notSame": true } : null;
+  }
+
+  invalidPasswordMessage() {
+    const password = this.signupForm.get("password").value;
+    const errors = this.signupForm.get("password").errors;
+
+    if (errors?.['required'])
+      return "יש להכניס סיסמא";
+
+    if (errors["pattern"]) {
+      if (!/[A-Z]/.test(password)) return "הסיסמה חייבת להכיל לפחות אות גדולה אחת";
+      if (!/\d/.test(password)) return "הסיסמה חייבת להכיל לפחות ספרה אחת";
+      if (!/[@$!%*?&]/.test(password)) return "הסיסמה חייבת להכיל לפחות תו מיוחד אחד (@$!%*?&)";
+    }
+
+    return "";
   }
 
   confirmPasswordErrorMessage() {
@@ -71,9 +88,7 @@ export class SignUpComponent implements OnInit {
       password: this.signupForm.get("password").value as string,
       confirmPassword: this.signupForm.get("confirmPassword").value as string
     }).subscribe({
-      next: () => {
-        this.showSuccessfullSignupModal = true;
-      },
+      next: () => { this.showSuccessfullSignupModal = true; },
       error: (error) => console.log(error)
     })
   }
