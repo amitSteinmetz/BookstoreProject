@@ -1,7 +1,7 @@
 <form [formGroup]="signupForm" (ngSubmit)="handleSubmit()">
     <div class="form-text-inputs">
         <div class="form-text-input">
-            <label for="name">שם משתמש: </label>
+            <label for="name">שם: </label>
             <input type="text" formControlName="name"
                 [ngClass]="{'error-border' : signupForm.get('name').invalid && signupForm.get('name').touched}">
             <div *ngIf="signupForm.get('name').invalid && signupForm.get('name').touched" class="error-message">
@@ -40,11 +40,18 @@
 
     <button [disabled]="signupForm.invalid" type="submit">register</button>
 
-    <div class="successful-signup-modal-container" *ngIf="showSuccessfullSignupModal">
-        <div class="successful-signup-modal">
-            <i class="fas fa-xmark" (click)="onCloseSuccessfulSignupModal()"></i>
-            !נרשמת בהצלחה <br>
-            יש להתחבר כדי להיכנס לאתר
+    <div class="signup-modal-container" *ngIf="signupModal.successfull || signupModal.error">
+        <div class="signup-modal">
+            <i class="fas fa-xmark" (click)="onCloseSignupModal()"></i>
+
+            <div class="signup-successfull-message" *ngIf="signupModal.successfull">
+                !נרשמת בהצלחה <br>
+                יש להתחבר כדי להיכנס לאתר
+            </div>
+
+            <div class="signup-error-message" *ngIf="signupModal.error">
+                .כתובת האימייל שהכנסת כבר קיימת במערכת
+            </div>
         </div>
     </div>
 </form>

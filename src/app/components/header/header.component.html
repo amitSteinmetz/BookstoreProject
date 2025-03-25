@@ -12,12 +12,13 @@
                 <i class="fa-regular fa-user icon"></i>
             </a>
 
-            <a routerLink="/shopping-cart" *ngIf="router.url !== '/shopping-cart' && router.url !== '/control-center'">
+            <a routerLink="/shopping-cart" *ngIf="loggedUser && loggedUser.role !== 'Admin' 
+            && router.url !== '/shopping-cart'">
                 <div class="mobile-link" *ngIf="showMobileLinks">עגלת הקניות</div>
                 <i class="fa-solid fa-cart-shopping icon"></i>
             </a>
 
-            <a routerLink="/control-center" *ngIf="router.url !== '/all-books' && router.url !== '/control-center'">
+            <a routerLink="/control-center" *ngIf="router.url !== '/books' && router.url !== '/control-center'">
                 <div class="mobile-link" *ngIf="showMobileLinks">עמוד הבית</div>
                 <i class="fa-solid fa-home icon"></i>
             </a>

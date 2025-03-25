@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { UsersService } from '../../services/users-service/users.service';
-import { User } from '../../models/user.model';
+import { LoggedUser } from '../../models/loggedUser.model';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +13,7 @@ import { User } from '../../models/user.model';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  loggedUser: User;
+  loggedUser: LoggedUser;
   loggedUserSub: Subscription;
   showSettingsModal: boolean = false;
   showMobileLinks: boolean = false;

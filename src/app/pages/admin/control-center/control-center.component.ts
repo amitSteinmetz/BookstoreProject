@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Book } from '../../../models/book.model';
 import { Subscription } from 'rxjs';
 import { BooksService } from '../../../services/books-service/books.service';
@@ -19,7 +19,8 @@ export class ControlCenterComponent implements OnInit, OnDestroy {
   showEditBookModal: boolean[];
   readMoreButtonClicked: boolean[];
   editInputIsOnlyDigits: boolean = false;
-  
+  @ViewChildren('bookDescription') descriptions: QueryList<ElementRef>;
+
   constructor(private booksService: BooksService, private controlCenterService: ControlCenterService) { }
 
   ngOnInit(): void {
@@ -31,6 +32,12 @@ export class ControlCenterComponent implements OnInit, OnDestroy {
       error: (err) => { console.log(err) }
     })
   }
+ 
+//  ngAfterViewChecked(): void {
+//     if (this.descriptions.length > 0) {
+//       this.isReadMore = this.descriptions.toArray().map(el => el.nativeElement.scrollHeight > 60);
+//     }
+//   }
 
   ngOnDestroy(): void {
     this.allBooksSub.unsubscribe();

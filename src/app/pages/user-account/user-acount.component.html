@@ -27,7 +27,7 @@
         <div class="field-content">
             <span class="category"> סיסמא:</span>
             <span class="value" *ngIf="!editIconClicked.password">xxxxxxxxxxxxxxx</span>
-            <input (keyup.enter)="onEnterNewValue('password', $event)" class="edit-value" type="text"
+            <input (keyup.enter)="onEnterNewValue('password', $event)" class="edit-value" type="password"
                 *ngIf="editIconClicked.password" placeholder="הכנס ערך..">
         </div>
 

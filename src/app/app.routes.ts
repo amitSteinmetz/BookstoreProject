@@ -11,7 +11,6 @@ import { ControlCenterComponent } from './pages/admin/control-center/control-cen
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { controlCenterGuard } from './guards/control-center-guard/control-center.guard';
 import { adminGuard } from './guards/admin-guard/admin.guard';
-import { LoginComponent } from './pages/user-entrance/login/login.component';
 
 export const routes: Routes = [
     { path: "", redirectTo: "books", pathMatch: "full" },

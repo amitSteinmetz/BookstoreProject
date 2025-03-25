@@ -47,7 +47,7 @@ export class UserAcountComponent implements OnInit, OnDestroy {
   }
 
   isValidPasswordFormat(password: string) {
-    return (/^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$/.test(password))
+    return (/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password))
   }
 
   onEditIconClicked(field: string) {
@@ -67,6 +67,7 @@ export class UserAcountComponent implements OnInit, OnDestroy {
     this.usersService.setUserField(category, newValue).subscribe({
       next: (loggedUser) => {
         this.usersService.updateLoggedUser(loggedUser);
+        this.editIconClicked[category] = !this.editIconClicked[category];
       },
       error: () => {
         if (category === "email") {

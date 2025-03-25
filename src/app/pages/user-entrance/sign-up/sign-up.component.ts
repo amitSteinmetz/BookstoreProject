@@ -14,7 +14,10 @@ import { Subscription } from 'rxjs';
 })
 export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
-  showSuccessfullSignupModal: boolean = false;
+  signupModal = {
+    successfull: false,
+    error: false
+  }
   users: User[];
   usersSub: Subscription;
   @Output() userSignedup: EventEmitter<void> = new EventEmitter();
@@ -25,7 +28,7 @@ export class SignUpComponent implements OnInit {
     this.signupForm = this.fb.group({
       name: [, Validators.required],
       email: [, [Validators.required, Validators.email]],
-      password: [, [Validators.required,
+      password: [, [Validators.required, Validators.minLength(8),
       Validators.pattern('^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')]],
       confirmPassword: [, Validators.required]
     },
@@ -46,6 +49,9 @@ export class SignUpComponent implements OnInit {
 
     if (errors?.['required'])
       return "יש להכניס סיסמא";
+
+    if (errors?.['minlength'])
+      return "הסיסמא חייבת להיות באורך של לפחות 8 תווים"
 
     if (errors["pattern"]) {
       if (!/[A-Z]/.test(password)) return "הסיסמה חייבת להכיל לפחות אות גדולה אחת";
@@ -88,13 +94,13 @@ export class SignUpComponent implements OnInit {
       password: this.signupForm.get("password").value as string,
       confirmPassword: this.signupForm.get("confirmPassword").value as string
     }).subscribe({
-      next: () => { this.showSuccessfullSignupModal = true; },
-      error: (error) => console.log(error)
+      next: () => { this.signupModal.successfull = true; },
+      error: () => { this.signupModal.error = true; }
     })
   }
 
-  onCloseSuccessfulSignupModal() {
-    this.showSuccessfullSignupModal = false;
-    this.userSignedup.emit();
+  onCloseSignupModal() {
+    if (this.signupModal.successfull) this.userSignedup.emit();
+    else this.signupModal.error = false;
   }
 }
