@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { cartBook } from '../../models/cartBook.model';
 import { LoggedUser } from '../../models/loggedUser.model';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class ShoppingCartService {
   }
 
   getCart() {
+    if (!JSON.parse(localStorage.getItem("loggedUser"))) return of(null);
     return this.http.get<ShoppingCart>(`${environment.apiUrl}/ShoppingCart`, { headers: this.getHeaders() });
   }
 

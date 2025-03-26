@@ -13,7 +13,7 @@
     </span>
 
     <span [ngClass]="{'current-page-border': pagesAmount === currentPageNumber}" 
-        *ngIf="pagesAmount > 1"
+        *ngIf="pagesAmount >= 1"
         (click)="onPageNumberClicked(pagesAmount)" class="last-page-number">{{pagesAmount}}
     </span>
 

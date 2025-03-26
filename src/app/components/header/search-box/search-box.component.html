@@ -1,4 +1,4 @@
 <div class="search-box">
-    <input #input class="search-box-input" type="text" placeholder="Search book...">
+    <input #input (keyup.enter)="onSearchIconClicked(input)" class="search-box-input" type="text" placeholder="Search book...">
     <i (click)="onSearchIconClicked(input)" class="fa-solid fa-magnifying-glass"></i>
 </div>

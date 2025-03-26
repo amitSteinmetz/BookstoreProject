@@ -49,7 +49,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
     this.relevantPagesNumbers = [];
 
     for (let i = this.currentPageNumber - 1; i <= this.currentPageNumber + 1; i++) {
-      if (i >= 1 && i < this.pagesAmount)
+      if (i >= 1 && i < this.pagesAmount) 
         this.relevantPagesNumbers.push(i)
     }
   }

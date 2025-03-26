@@ -30,11 +30,11 @@
             <div class="book-preview">
                 <div class="book-preview-headline"> <strong>תיאור הספר:</strong></div>
 
-                <div class="book-preview-content" [ngClass]="{ 'expand-preview' : readMoreButtonClicked[i] }">
+                <div class="book-preview-content" [ngClass]="{ 'expand-preview' : readMoreButtonClicked[i] || !isSmallScreen }">
                     {{book.description}}
                 </div>
 
-                <button (click)="onReadMoreButtonClicked(i)" class="read-more-btn">
+                <button *ngIf="isSmallScreen" (click)="onReadMoreButtonClicked(i)" class="read-more-btn">
                     {{readMoreButtonClicked[i] ? "קרא פחות.." : "קרא עוד.."}}
                 </button>
             </div>

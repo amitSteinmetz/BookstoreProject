@@ -57,7 +57,7 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
   }
 
   isBookExistInCart() {
-    return !!this.userCart.books.find(cb => cb.book.id === this.bookToDisplay.id);
+    return !!this.userCart?.books.find(cb => cb.book.id === this.bookToDisplay.id);
   }
 
   addBookToCart() {

@@ -169,6 +169,10 @@
             .book-preview {
                 width: 50vw;
             }
+
+            .adding-disable-message {
+                width: 55%;
+            }
         }
 
         .add-to-cart-button {
@@ -177,7 +181,7 @@
 
         img {
             position: absolute;
-            top: 100px;
+            top: 80px;
             left: 10vw;
             width: 220px;
         }
@@ -220,6 +224,10 @@
 
             .login-message {
                 width: 80%;
+            }
+
+            .adding-disable-message {
+                width: 70%;
             }
         }
 

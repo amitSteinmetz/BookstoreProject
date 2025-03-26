@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Book } from '../../../models/book.model';
 import { Subscription } from 'rxjs';
 import { BooksService } from '../../../services/books-service/books.service';
@@ -19,7 +19,12 @@ export class ControlCenterComponent implements OnInit, OnDestroy {
   showEditBookModal: boolean[];
   readMoreButtonClicked: boolean[];
   editInputIsOnlyDigits: boolean = false;
-  @ViewChildren('bookDescription') descriptions: QueryList<ElementRef>;
+  isSmallScreen: boolean = window.innerWidth <= 600;
+ 
+   @HostListener('window:resize')
+   checkScreenSize() {
+     this.isSmallScreen = window.innerWidth <= 600;
+   }
 
   constructor(private booksService: BooksService, private controlCenterService: ControlCenterService) { }
 
@@ -32,12 +37,6 @@ export class ControlCenterComponent implements OnInit, OnDestroy {
       error: (err) => { console.log(err) }
     })
   }
- 
-//  ngAfterViewChecked(): void {
-//     if (this.descriptions.length > 0) {
-//       this.isReadMore = this.descriptions.toArray().map(el => el.nativeElement.scrollHeight > 60);
-//     }
-//   }
 
   ngOnDestroy(): void {
     this.allBooksSub.unsubscribe();
