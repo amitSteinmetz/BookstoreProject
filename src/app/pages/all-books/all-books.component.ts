@@ -46,6 +46,7 @@ export class AllBooksComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.loggedUserSub.unsubscribe();
+    this.allBooksSubscription.unsubscribe();
   }
 
   switchPage(pageNumber: number) {
@@ -58,7 +59,7 @@ export class AllBooksComponent implements OnInit, OnDestroy {
 
     this.shoppingCartService.addBookToCart(book.id).subscribe({
       next: () => { this.clickedBookExistInCart[this.allBooks.indexOf(book)] = true; },
-      error: (err) => { console.log(err) }
+      error: () => {}
     })
   }
 

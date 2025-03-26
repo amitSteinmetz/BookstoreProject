@@ -23,7 +23,6 @@ export class UsersService {
   signup(signupModel: Signup) {
     return this.http.post<string>(`${environment.apiUrl}/Account/signup`, signupModel)
   }
-
   login(loginModel: Login) {
     return this.http.post<LoggedUser>(`${environment.apiUrl}/Account/login`, loginModel).pipe(
       tap((loggedUser) => {
@@ -38,11 +37,9 @@ export class UsersService {
       })
     )
   }
-
   logout() {
     this.updateLoggedUser(null);
   }
-
   setUserField(category: string, newValue: string) {
     const methodName: string = `set-${category}`;
     const headers = { 'Authorization': `Bearer ${this.loggedUserSub.value.token}` };
@@ -56,12 +53,10 @@ export class UsersService {
 
     return this.http.patch<LoggedUser>(`${environment.apiUrl}/Account/${methodName}`, updatedUser, { headers });
   }
-
   deleteUser() {
     const headers = { 'Authorization': `Bearer ${this.loggedUserSub.value.token}` };
     return this.http.delete<void>(`${environment.apiUrl}/Account`, { headers })
   }
-
   updateLoggedUser(loggedUser: LoggedUser) {
     localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
     this.loggedUserSub.next(loggedUser);
